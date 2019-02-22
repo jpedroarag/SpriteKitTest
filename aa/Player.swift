@@ -1,0 +1,96 @@
+//
+//  Player.swift
+//  Sprite
+//
+//  Created by Gustavo Portela Chaves on 20/02/19.
+//  Copyright © 2019 Gustavo Portela Chaves. All rights reserved.
+//
+
+import Foundation
+import SpriteKit
+
+class Player: SKNode, Updatable{
+    
+    var sprite = SKSpriteNode()
+    var isWalking = false
+    
+    var isDashing = false {
+        didSet {
+            if isDashing {
+                Timer.scheduledTimer(withTimeInterval: 0.1, repeats: false) { _ in
+                    self.physicsBody?.velocity.dx = self.lastSpeed * self.lastDirection.dx
+                    self.physicsBody?.fieldBitMask = BitMasks.gravity
+                    self.isDashing = false
+                    self.isInDashCooldown = true
+                }
+            }
+        }
+    }
+    
+    var isInDashCooldown = false {
+        didSet {
+            if isInDashCooldown {
+                Timer.scheduledTimer(withTimeInterval: 0, repeats: false) { _ in
+                    self.isInDashCooldown = false
+                }
+            }
+        }
+    }
+    
+    var lastDirection = CGVector(dx: 1, dy: 1)
+    var lastSpeed = CGFloat(0)
+    
+    override init() {
+        super.init()
+        self.sprite = SKSpriteNode(color: .black, size: CGSize(width: 20, height: 20))
+        self.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 20, height: 20))
+        self.physicsBody?.friction = 0
+        self.physicsBody?.allowsRotation = false
+        self.physicsBody?.restitution = 0
+        self.physicsBody?.fieldBitMask = BitMasks.gravity
+        self.physicsBody?.categoryBitMask = BitMasks.player
+        self.addChild(sprite)
+        
+    }
+    
+    func update(currentTime: TimeInterval) {
+        // your logic goes here
+        
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func startWalking(direction: CGPoint, withVelocity velocity: CGFloat = 300){
+        self.physicsBody?.velocity.dx = direction.x * velocity
+        self.lastSpeed = velocity
+        self.isWalking = true
+        self.lastDirection.dx = direction.x
+    }
+    
+    func stopWalking() {
+        self.physicsBody?.velocity.dx = 0
+        self.lastSpeed = 0
+        self.isWalking = false
+    }
+    
+    func jump(){
+        self.physicsBody?.applyForce(CGVector.up * CGFloat(600))
+    }
+    
+    func dash() {
+        if !self.isDashing && !self.isInDashCooldown {
+            let direction = CGVector(dx: lastDirection.dx * 15, dy: 0)
+            self.physicsBody?.applyImpulse(direction)
+            self.physicsBody?.fieldBitMask = BitMasks.none
+            self.physicsBody?.velocity.dy = 0
+            self.isDashing = true
+        }
+    }
+    
+}
+
+
+
+typealias Vector2D = CGVector
