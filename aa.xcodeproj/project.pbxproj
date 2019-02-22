@@ -19,6 +19,7 @@
 		3C77F879221F054000905D25 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C77F871221F053F00905D25 /* Player.swift */; };
 		3C77F87A221F054000905D25 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C77F872221F053F00905D25 /* GameViewController.swift */; };
 		3C77F87B221F054000905D25 /* Updatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C77F873221F053F00905D25 /* Updatable.swift */; };
+		3C77F88122206E0300905D25 /* PhysicsDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C77F88022206E0300905D25 /* PhysicsDetection.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		3C77F871221F053F00905D25 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		3C77F872221F053F00905D25 /* GameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		3C77F873221F053F00905D25 /* Updatable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Updatable.swift; sourceTree = "<group>"; };
+		3C77F88022206E0300905D25 /* PhysicsDetection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhysicsDetection.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +74,7 @@
 				3C77F86D221F053F00905D25 /* CGPoint+Extensions.swift */,
 				3C77F870221F053F00905D25 /* CGVector+Extensions.swift */,
 				3C77F86F221F053F00905D25 /* GameScene.swift */,
+				3C77F88022206E0300905D25 /* PhysicsDetection.swift */,
 				3C77F872221F053F00905D25 /* GameViewController.swift */,
 				3C77F86C221F053F00905D25 /* InputController.swift */,
 				3C77F871221F053F00905D25 /* Player.swift */,
@@ -161,6 +164,7 @@
 				3C77F878221F054000905D25 /* CGVector+Extensions.swift in Sources */,
 				3C77F87B221F054000905D25 /* Updatable.swift in Sources */,
 				3C77F876221F054000905D25 /* VirtualButton.swift in Sources */,
+				3C77F88122206E0300905D25 /* PhysicsDetection.swift in Sources */,
 				3C77F87A221F054000905D25 /* GameViewController.swift in Sources */,
 				3C77F879221F054000905D25 /* Player.swift in Sources */,
 				3C77F875221F054000905D25 /* CGPoint+Extensions.swift in Sources */,

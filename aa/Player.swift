@@ -12,14 +12,44 @@ import SpriteKit
 class Player: SKNode, Updatable{
     
     var sprite = SKSpriteNode()
+    var checkFloor = SKSpriteNode()
     var isWalking = false
+    
+    var lastDirection = CGVector(dx: 1, dy: 1)
+    var lastSpeed = CGFloat(0)
+    
+    var maxNJumps = 2
+    var nJumps = 0{
+        didSet{
+            if(nJumps>=maxNJumps){
+                canJump = false
+            }
+        }
+    }
+    
+    var grounded = true{
+        didSet{
+            if(grounded){
+                canJump = true
+            }
+            
+        }
+    }
+    
+    var canJump = true{
+        didSet{
+            if(canJump){
+                nJumps = 0
+            }
+        }
+    }
     
     var isDashing = false {
         didSet {
             if isDashing {
                 Timer.scheduledTimer(withTimeInterval: 0.1, repeats: false) { _ in
                     self.physicsBody?.velocity.dx = self.lastSpeed * self.lastDirection.dx
-                    self.physicsBody?.fieldBitMask = BitMasks.gravity
+                    self.physicsBody?.fieldBitMask = ColliderType.gravity
                     self.isDashing = false
                     self.isInDashCooldown = true
                 }
@@ -37,9 +67,6 @@ class Player: SKNode, Updatable{
         }
     }
     
-    var lastDirection = CGVector(dx: 1, dy: 1)
-    var lastSpeed = CGFloat(0)
-    
     override init() {
         super.init()
         self.sprite = SKSpriteNode(color: .black, size: CGSize(width: 20, height: 20))
@@ -47,8 +74,8 @@ class Player: SKNode, Updatable{
         self.physicsBody?.friction = 0
         self.physicsBody?.allowsRotation = false
         self.physicsBody?.restitution = 0
-        self.physicsBody?.fieldBitMask = BitMasks.gravity
-        self.physicsBody?.categoryBitMask = BitMasks.player
+        self.physicsBody?.fieldBitMask = ColliderType.gravity
+        self.physicsBody?.categoryBitMask = ColliderType.player
         self.addChild(sprite)
         
     }
@@ -76,14 +103,18 @@ class Player: SKNode, Updatable{
     }
     
     func jump(){
-        self.physicsBody?.applyForce(CGVector.up * CGFloat(600))
+        if self.canJump {
+            nJumps = nJumps + 1
+            self.physicsBody?.velocity.dy = 0
+            self.physicsBody?.applyForce(CGVector.up * CGFloat(600))
+        }
     }
     
     func dash() {
         if !self.isDashing && !self.isInDashCooldown {
             let direction = CGVector(dx: lastDirection.dx * 15, dy: 0)
             self.physicsBody?.applyImpulse(direction)
-            self.physicsBody?.fieldBitMask = BitMasks.none
+            self.physicsBody?.fieldBitMask = ColliderType.none
             self.physicsBody?.velocity.dy = 0
             self.isDashing = true
         }

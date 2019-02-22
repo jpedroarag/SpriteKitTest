@@ -9,16 +9,11 @@
 import Foundation
 import SpriteKit
 
-struct BitMasks {
-    static let none      : UInt32 = 0
-    static let all       : UInt32 = UInt32.max
-    static let gravity   : UInt32 = 0b1
-    static let player    : UInt32 = 0b10
-}
-
 class GameScene: SKScene {
+    
     let player = Player()
     private var updatables = [Updatable]()
+    let physicsDelegate = PhysicsDetection()
     var inputController: InputController!
     
     
@@ -27,6 +22,7 @@ class GameScene: SKScene {
             inputController = InputController(view: view, player: player, addTo: scene)
         }
         
+        physicsWorld.contactDelegate = physicsDelegate
         addGravity()
 
         // 2
@@ -35,8 +31,7 @@ class GameScene: SKScene {
         // 3
         player.position = CGPoint(x: 0, y: 0)
         // 4
-        createFloor(view: view)
-        createWalls(view: view)
+        createSandbox(view: view)
 
         updatables.append(player)
         addChild(player)
@@ -47,23 +42,26 @@ class GameScene: SKScene {
         let vector = vector_float3(0, -1, 0)
         let gravity = SKFieldNode.linearGravityField(withVector: vector)
         gravity.strength = 9.8
-        gravity.categoryBitMask = BitMasks.gravity
+        gravity.categoryBitMask = ColliderType.gravity
         addChild(gravity)
     }
     
-    func createFloor(view: SKView) {
+    func createSandbox(view: SKView) {
+        
         let floor = SKSpriteNode(color: .blue, size: CGSize(width: view.bounds.width, height: 20))
         
         floor.position.y = view.bounds.height/2 * -1
         floor.position.x = 0
         floor.physicsBody = SKPhysicsBody(rectangleOf: floor.size)
         floor.physicsBody?.isDynamic = false
-        floor.physicsBody?.restitution = 0
         
-        addChild(floor)
-    }
-    
-    func createWalls(view: SKView) {
+        floor.physicsBody?.restitution = 0
+        floor.physicsBody?.categoryBitMask = ColliderType.ground
+        floor.physicsBody?.contactTestBitMask = ColliderType.player
+        floor.name = "Ground"
+        
+        self.addChild(floor)
+        
         let leftWall = SKSpriteNode(color: .red, size: CGSize(width: 20, height: view.bounds.height))
         
         leftWall.position.x = (view.bounds.width/2 * -1) - leftWall.size.width/2
@@ -93,7 +91,6 @@ class GameScene: SKScene {
         ceiling.physicsBody?.restitution = 0
         
         addChild(ceiling)
-        
     }
     
     override func sceneDidLoad() {

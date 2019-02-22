@@ -37,17 +37,19 @@ class InputController {
             tapWalkRight.position.x += size.width + 8
             tapWalkRight.alpha = 0.5
             
-            tapJump = VirtualButton(color: .gray, size: size, addTo: scene)
+            tapJump = VirtualButton(color: .purple, size: size, addTo: scene)
             tapJump.addAction(action: { player.jump() }, type: .began)
+//            tapJump.position = tapWalkLeft.position
+//            tapJump.position.x += size.width/2 + 4
+//            tapJump.position.y += size.height + 8
             tapJump.position = tapWalkLeft.position
-            tapJump.position.x += size.width/2 + 4
-            tapJump.position.y += size.height + 8
+            tapJump.position.x *= -1
             tapJump.alpha = 0.5
             
             tapDash = VirtualButton(color: .red, size: size, addTo: scene)
             tapDash.addAction(action: { player.dash() }, type: .began)
-            tapDash.position = tapWalkLeft.position
-            tapDash.position.x = tapWalkLeft.position.x * -1
+            tapDash.position = tapWalkRight.position
+            tapDash.position.x *= -1
             tapDash.alpha = 0.5
         }
     }
