@@ -15,8 +15,12 @@ class Player: SKNode, Updatable{
     var checkFloor = SKSpriteNode()
     var isWalking = false
     
-    var lastDirection = CGVector(dx: 1, dy: 1)
     var lastSpeed = CGFloat(0)
+    var lastDirection = CGVector(dx: 1, dy: 1) {
+        didSet {
+            self.sprite.xScale *= -1
+        }
+    }
     
     var maxNJumps = 2
     var nJumps = 0{
@@ -69,8 +73,9 @@ class Player: SKNode, Updatable{
     
     override init() {
         super.init()
-        self.sprite = SKSpriteNode(color: .black, size: CGSize(width: 20, height: 20))
-        self.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 20, height: 20))
+        let playerTexture = SKTexture(imageNamed: "player")
+        self.sprite = SKSpriteNode(texture: playerTexture, color: .black, size: CGSize(width: 20, height: 30))
+        self.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 20, height: 30))
         self.physicsBody?.friction = 0
         self.physicsBody?.allowsRotation = false
         self.physicsBody?.restitution = 0
@@ -93,7 +98,7 @@ class Player: SKNode, Updatable{
         self.physicsBody?.velocity.dx = direction.x * velocity
         self.lastSpeed = velocity
         self.isWalking = true
-        self.lastDirection.dx = direction.x
+        if lastDirection.dx != direction.x { self.lastDirection.dx = direction.x }
     }
     
     func stopWalking() {
