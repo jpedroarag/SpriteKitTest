@@ -64,7 +64,7 @@ class Player: SKNode, Updatable{
     var isInDashCooldown = false {
         didSet {
             if isInDashCooldown {
-                Timer.scheduledTimer(withTimeInterval: 0, repeats: false) { _ in
+                Timer.scheduledTimer(withTimeInterval: 0.1, repeats: false) { _ in
                     self.isInDashCooldown = false
                 }
             }
@@ -94,7 +94,7 @@ class Player: SKNode, Updatable{
         fatalError("init(coder:) has not been implemented")
     }
     
-    func startWalking(direction: CGPoint, withVelocity velocity: CGFloat = 300){
+    func startWalking(direction: CGPoint, withVelocity velocity: CGFloat = 300) {
         self.physicsBody?.velocity.dx = direction.x * velocity
         self.lastSpeed = velocity
         self.isWalking = true
@@ -107,7 +107,7 @@ class Player: SKNode, Updatable{
         self.isWalking = false
     }
     
-    func jump(){
+    func jump() {
         if self.canJump {
             nJumps = nJumps + 1
             self.physicsBody?.velocity.dy = 0
