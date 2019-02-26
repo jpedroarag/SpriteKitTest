@@ -60,7 +60,7 @@ class GameScene: SKScene {
         floor.physicsBody?.contactTestBitMask = ColliderType.player
         floor.name = "Ground"
         
-        self.addChild(floor)
+        addChild(floor)
         
         let leftWall = SKSpriteNode(color: .red, size: CGSize(width: 20, height: view.bounds.height))
         
@@ -68,7 +68,10 @@ class GameScene: SKScene {
         leftWall.position.y = 0
         leftWall.physicsBody = SKPhysicsBody(rectangleOf: leftWall.size)
         leftWall.physicsBody?.isDynamic = false
+        
         leftWall.physicsBody?.restitution = 0
+        leftWall.physicsBody?.categoryBitMask = ColliderType.wall
+        leftWall.physicsBody?.contactTestBitMask = ColliderType.player
         
         addChild(leftWall)
         
@@ -78,7 +81,10 @@ class GameScene: SKScene {
         rightWall.position.y = 0
         rightWall.physicsBody = SKPhysicsBody(rectangleOf: rightWall.size)
         rightWall.physicsBody?.isDynamic = false
+        
         rightWall.physicsBody?.restitution = 0
+        rightWall.physicsBody?.categoryBitMask = ColliderType.wall
+        rightWall.physicsBody?.contactTestBitMask = ColliderType.player
         
         addChild(rightWall)
         
@@ -98,6 +104,7 @@ class GameScene: SKScene {
     }
     
     override func update(_ currentTime: TimeInterval) {
+        inputController.joystick.update(currentTime)
         updatables.forEach { $0.update(currentTime: currentTime) }
     }
     

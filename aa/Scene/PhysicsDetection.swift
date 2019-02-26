@@ -17,6 +17,7 @@ struct ColliderType {
     static let ground: UInt32 = 0x1 << 1 // 000000010 = 2 // 000000100 = 4
     static let checkGround: UInt32 = 0x1 << 2
     static let gravity: UInt32 = 0x1 << 3
+    static let wall: UInt32 = 0x1 << 4
 }
 
 class PhysicsDetection: NSObject, SKPhysicsContactDelegate {
@@ -31,12 +32,26 @@ class PhysicsDetection: NSObject, SKPhysicsContactDelegate {
         if collision == ColliderType.player | ColliderType.ground {
             if let player = contact.bodyA.node as? Player {
                 player.grounded = true
-            }else if let player = contact.bodyB.node as? Player{
+            } else if let player = contact.bodyB.node as? Player{
                 player.grounded = true
             }
             print("Chao")
-            
         }
+        
+        if collision == ColliderType.player | ColliderType.wall {
+            if let player = contact.bodyA.node as? Player,
+                let wall = contact.bodyB.node as? SKSpriteNode {
+                player.isWallJumping = true
+                player.xScale *= -1
+                wall.physicsBody?.friction = 0.5
+            } else if let player = contact.bodyB.node as? Player,
+                      let wall = contact.bodyA.node as? SKSpriteNode {
+                player.isWallJumping = true
+                wall.physicsBody?.friction = 0.5
+                player.xScale *= -1
+            }
+        }
+        
         if collision == ColliderType.player | ColliderType.player {
             print("collision between players")
         }

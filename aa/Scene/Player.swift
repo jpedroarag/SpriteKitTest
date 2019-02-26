@@ -9,29 +9,31 @@
 import Foundation
 import SpriteKit
 
-class Player: SKNode, Updatable{
+class Player: SKNode, Updatable, MoveControllable {
     
     var sprite = SKSpriteNode()
     var checkFloor = SKSpriteNode()
     var isWalking = false
     
-    var lastSpeed = CGFloat(0)
-    var lastDirection = CGVector(dx: 1, dy: 1) {
+    var isWallJumping = false {
         didSet {
-            self.sprite.xScale *= -1
+            if isWallJumping { canJump = true }
         }
     }
     
+    var lastSpeed = CGFloat(0)
+    var lastDirection = CGVector(dx: 1, dy: 0)
+    
     var maxNJumps = 2
     var nJumps = 0{
-        didSet{
+        didSet {
             if(nJumps>=maxNJumps){
                 canJump = false
             }
         }
     }
     
-    var grounded = true{
+    var grounded = true {
         didSet{
             if(grounded){
                 canJump = true
@@ -40,7 +42,7 @@ class Player: SKNode, Updatable{
         }
     }
     
-    var canJump = true{
+    var canJump = true {
         didSet{
             if(canJump){
                 nJumps = 0
@@ -52,7 +54,7 @@ class Player: SKNode, Updatable{
         didSet {
             if isDashing {
                 Timer.scheduledTimer(withTimeInterval: 0.1, repeats: false) { _ in
-                    self.physicsBody?.velocity.dx = self.lastSpeed * self.lastDirection.dx
+                    if self.lastDirection.dy >= 0 { self.physicsBody?.velocity = self.lastDirection.normalized() * self.lastSpeed }
                     self.physicsBody?.fieldBitMask = ColliderType.gravity
                     self.isDashing = false
                     self.isInDashCooldown = true
@@ -64,7 +66,7 @@ class Player: SKNode, Updatable{
     var isInDashCooldown = false {
         didSet {
             if isInDashCooldown {
-                Timer.scheduledTimer(withTimeInterval: 0.1, repeats: false) { _ in
+                Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { _ in
                     self.isInDashCooldown = false
                 }
             }
@@ -94,35 +96,65 @@ class Player: SKNode, Updatable{
         fatalError("init(coder:) has not been implemented")
     }
     
-    func startWalking(direction: CGPoint, withVelocity velocity: CGFloat = 300) {
+    func startWalking(direction: CGPoint, withVelocity velocity: CGFloat = 5) {
         self.physicsBody?.velocity.dx = direction.x * velocity
+        let xScale = direction.x > 0 ? 1 : -1
+        self.sprite.xScale = CGFloat(xScale)
         self.lastSpeed = velocity
         self.isWalking = true
-        if lastDirection.dx != direction.x { self.lastDirection.dx = direction.x }
+        if lastDirection != direction { self.lastDirection = CGVector(dx: direction.x, dy: direction.y) }
     }
     
     func stopWalking() {
         self.physicsBody?.velocity.dx = 0
+        self.lastDirection.dy = 0
         self.lastSpeed = 0
         self.isWalking = false
     }
     
     func jump() {
         if self.canJump {
-            nJumps = nJumps + 1
             self.physicsBody?.velocity.dy = 0
-            self.physicsBody?.applyForce(CGVector.up * CGFloat(600))
+            self.physicsBody?.applyForce(CGVector.up * CGFloat(800))
+            if !isWallJumping {
+                nJumps = nJumps + 1
+            } else {
+                nJumps = 2
+                isWallJumping = false
+            }
         }
+    }
+    
+    func pointOfDashImpulse() -> CGPoint {
+        let minX = self.position.x - self.sprite.frame.width/2
+        let minY = self.position.y - self.sprite.frame.height/2
+        let maxX = self.position.x + self.sprite.frame.width/2
+        let maxY = self.position.y + self.sprite.frame.height/2
+        
+        let x = lastDirection.dx > 0 ? minX : maxX
+        let y = lastDirection.dy > 0 ? minY : maxY
+        
+        return CGPoint(x: x, y: y)
     }
     
     func dash() {
         if !self.isDashing && !self.isInDashCooldown {
-            let direction = CGVector(dx: lastDirection.dx * 15, dy: 0)
-            self.physicsBody?.applyImpulse(direction)
+            let impulseVector = lastDirection.normalized() * 1400
+            self.physicsBody?.applyForce(impulseVector, at: pointOfDashImpulse())
             self.physicsBody?.fieldBitMask = ColliderType.none
-            self.physicsBody?.velocity.dy = 0
+            if lastDirection.dy >= 0 { self.physicsBody?.velocity.dy = 0 }
             self.isDashing = true
         }
+    }
+    
+    func move(for velocity: CGPoint) {
+        if !self.isDashing {
+            self.startWalking(direction: velocity)
+        }
+    }
+    
+    func stopMoving() {
+        self.stopWalking()
     }
     
 }

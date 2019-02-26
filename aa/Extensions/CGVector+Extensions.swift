@@ -187,3 +187,7 @@ public func /= (vector: inout CGVector, scalar: CGFloat) {
 public func lerp(start: CGVector, end: CGVector, t: CGFloat) -> CGVector {
     return start + (end - start) * t
 }
+
+public func != (left: CGVector, right: CGPoint) -> Bool {
+    return left.dx != right.x && left.dy != right.y
+}

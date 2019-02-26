@@ -11,10 +11,9 @@ import SpriteKit
 import UIKit
 
 class InputController {
-    var tapWalkLeft: VirtualButton!
-    var tapWalkRight: VirtualButton!
     var tapJump: VirtualButton!
     var tapDash: VirtualButton!
+    var joystick: Joystick!
     
     init(view: SKView, player: Player, buttonsSize: CGSize = .init(width: 80, height: 80), addTo scene: SKScene) {
         createMovementButtons(view: view, player: player, withSize: buttonsSize, addTo: scene)
@@ -24,33 +23,24 @@ class InputController {
         if let scene = view.scene {
             let viewSize = -view.frame.size/2
             
-            tapWalkLeft = VirtualButton(color: .gray, size: size, addTo: scene)
-            tapWalkLeft.addAction(action: { player.startWalking(direction: CGPoint.left) }, type: .began)
-            tapWalkLeft.addAction(action: { player.stopWalking() }, type: .ended)
-            tapWalkLeft.position = CGPoint(fromSize: viewSize + size)
-            tapWalkLeft.alpha = 0.5
-            
-            tapWalkRight = VirtualButton(color: .gray, size: size, addTo: scene)
-            tapWalkRight.addAction(action: { player.startWalking(direction: CGPoint.right) }, type: .began)
-            tapWalkRight.addAction(action: { player.stopWalking() }, type: .ended)
-            tapWalkRight.position = tapWalkLeft.position
-            tapWalkRight.position.x += size.width + 8
-            tapWalkRight.alpha = 0.5
+            joystick = Joystick()
+            joystick.position = CGPoint(fromSize: viewSize + size)
+            joystick.attach(moveControllable: player)
+            scene.addChild(joystick)
             
             tapJump = VirtualButton(color: .purple, size: size, addTo: scene)
             tapJump.addAction(action: { player.jump() }, type: .began)
-//            tapJump.position = tapWalkLeft.position
-//            tapJump.position.x += size.width/2 + 4
-//            tapJump.position.y += size.height + 8
-            tapJump.position = tapWalkLeft.position
+            tapJump.position = joystick.position
             tapJump.position.x *= -1
             tapJump.alpha = 0.5
             
             tapDash = VirtualButton(color: .red, size: size, addTo: scene)
             tapDash.addAction(action: { player.dash() }, type: .began)
-            tapDash.position = tapWalkRight.position
+            tapDash.position = joystick.position
             tapDash.position.x *= -1
+            tapDash.position.x -= size.width + 4
             tapDash.alpha = 0.5
+            
         }
     }
 }

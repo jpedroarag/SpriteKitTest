@@ -20,6 +20,10 @@
 		3C77F87A221F054000905D25 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C77F872221F053F00905D25 /* GameViewController.swift */; };
 		3C77F87B221F054000905D25 /* Updatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C77F873221F053F00905D25 /* Updatable.swift */; };
 		3C77F88122206E0300905D25 /* PhysicsDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C77F88022206E0300905D25 /* PhysicsDetection.swift */; };
+		3C77F88D2225743C00905D25 /* Joystick.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C77F8892225743C00905D25 /* Joystick.swift */; };
+		3C77F89322257BC700905D25 /* MoveControllable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C77F89022257BC700905D25 /* MoveControllable.swift */; };
+		3C77F89422257BC700905D25 /* RotateControllable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C77F89122257BC700905D25 /* RotateControllable.swift */; };
+		3C77F89522257BC700905D25 /* Controllable2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C77F89222257BC700905D25 /* Controllable2D.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +42,10 @@
 		3C77F872221F053F00905D25 /* GameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		3C77F873221F053F00905D25 /* Updatable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Updatable.swift; sourceTree = "<group>"; };
 		3C77F88022206E0300905D25 /* PhysicsDetection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhysicsDetection.swift; sourceTree = "<group>"; };
+		3C77F8892225743C00905D25 /* Joystick.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Joystick.swift; sourceTree = "<group>"; };
+		3C77F89022257BC700905D25 /* MoveControllable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoveControllable.swift; sourceTree = "<group>"; };
+		3C77F89122257BC700905D25 /* RotateControllable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RotateControllable.swift; sourceTree = "<group>"; };
+		3C77F89222257BC700905D25 /* Controllable2D.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Controllable2D.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,22 +78,66 @@
 		3C77F853221F052300905D25 /* aa */ = {
 			isa = PBXGroup;
 			children = (
+				3C77F886222573BC00905D25 /* Controls */,
+				3C77F884222573A600905D25 /* Controller */,
+				3C77F8832225739700905D25 /* Scene */,
+				3C77F8822225738B00905D25 /* Extensions */,
 				3C77F854221F052300905D25 /* AppDelegate.swift */,
-				3C77F86D221F053F00905D25 /* CGPoint+Extensions.swift */,
-				3C77F870221F053F00905D25 /* CGVector+Extensions.swift */,
-				3C77F86F221F053F00905D25 /* GameScene.swift */,
-				3C77F88022206E0300905D25 /* PhysicsDetection.swift */,
-				3C77F872221F053F00905D25 /* GameViewController.swift */,
-				3C77F86C221F053F00905D25 /* InputController.swift */,
-				3C77F871221F053F00905D25 /* Player.swift */,
-				3C77F873221F053F00905D25 /* Updatable.swift */,
-				3C77F86E221F053F00905D25 /* VirtualButton.swift */,
 				3C77F85E221F052300905D25 /* Main.storyboard */,
 				3C77F861221F052500905D25 /* Assets.xcassets */,
 				3C77F863221F052500905D25 /* LaunchScreen.storyboard */,
 				3C77F866221F052500905D25 /* Info.plist */,
 			);
 			path = aa;
+			sourceTree = "<group>";
+		};
+		3C77F8822225738B00905D25 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				3C77F86D221F053F00905D25 /* CGPoint+Extensions.swift */,
+				3C77F870221F053F00905D25 /* CGVector+Extensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		3C77F8832225739700905D25 /* Scene */ = {
+			isa = PBXGroup;
+			children = (
+				3C77F88022206E0300905D25 /* PhysicsDetection.swift */,
+				3C77F871221F053F00905D25 /* Player.swift */,
+				3C77F86F221F053F00905D25 /* GameScene.swift */,
+				3C77F873221F053F00905D25 /* Updatable.swift */,
+			);
+			path = Scene;
+			sourceTree = "<group>";
+		};
+		3C77F884222573A600905D25 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				3C77F872221F053F00905D25 /* GameViewController.swift */,
+				3C77F86C221F053F00905D25 /* InputController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		3C77F886222573BC00905D25 /* Controls */ = {
+			isa = PBXGroup;
+			children = (
+				3C77F86E221F053F00905D25 /* VirtualButton.swift */,
+				3C77F8872225743C00905D25 /* Joystick */,
+			);
+			path = Controls;
+			sourceTree = "<group>";
+		};
+		3C77F8872225743C00905D25 /* Joystick */ = {
+			isa = PBXGroup;
+			children = (
+				3C77F8892225743C00905D25 /* Joystick.swift */,
+				3C77F89222257BC700905D25 /* Controllable2D.swift */,
+				3C77F89022257BC700905D25 /* MoveControllable.swift */,
+				3C77F89122257BC700905D25 /* RotateControllable.swift */,
+			);
+			path = Joystick;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -160,14 +212,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				3C77F877221F054000905D25 /* GameScene.swift in Sources */,
+				3C77F89422257BC700905D25 /* RotateControllable.swift in Sources */,
 				3C77F874221F054000905D25 /* InputController.swift in Sources */,
 				3C77F878221F054000905D25 /* CGVector+Extensions.swift in Sources */,
 				3C77F87B221F054000905D25 /* Updatable.swift in Sources */,
 				3C77F876221F054000905D25 /* VirtualButton.swift in Sources */,
+				3C77F89322257BC700905D25 /* MoveControllable.swift in Sources */,
 				3C77F88122206E0300905D25 /* PhysicsDetection.swift in Sources */,
 				3C77F87A221F054000905D25 /* GameViewController.swift in Sources */,
 				3C77F879221F054000905D25 /* Player.swift in Sources */,
+				3C77F89522257BC700905D25 /* Controllable2D.swift in Sources */,
 				3C77F875221F054000905D25 /* CGPoint+Extensions.swift in Sources */,
+				3C77F88D2225743C00905D25 /* Joystick.swift in Sources */,
 				3C77F855221F052300905D25 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
