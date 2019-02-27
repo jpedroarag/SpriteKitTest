@@ -24,6 +24,14 @@
 		3C77F89322257BC700905D25 /* MoveControllable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C77F89022257BC700905D25 /* MoveControllable.swift */; };
 		3C77F89422257BC700905D25 /* RotateControllable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C77F89122257BC700905D25 /* RotateControllable.swift */; };
 		3C77F89522257BC700905D25 /* Controllable2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C77F89222257BC700905D25 /* Controllable2D.swift */; };
+		ECFA3F03222718BF007E846E /* CGSize+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECFA3F02222718BF007E846E /* CGSize+Extensions.swift */; };
+		ECFA3F0922271903007E846E /* CGFloat+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECFA3F0422271903007E846E /* CGFloat+Extensions.swift */; };
+		ECFA3F0A22271903007E846E /* Pool.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECFA3F0522271903007E846E /* Pool.swift */; };
+		ECFA3F0B22271903007E846E /* Arm.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECFA3F0622271903007E846E /* Arm.swift */; };
+		ECFA3F0C22271903007E846E /* Sword.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECFA3F0722271903007E846E /* Sword.swift */; };
+		ECFA3F0D22271903007E846E /* PhysicsDetection2.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECFA3F0822271903007E846E /* PhysicsDetection2.swift */; };
+		ECFA3F0F22271915007E846E /* Player2.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECFA3F0E22271915007E846E /* Player2.swift */; };
+		ECFA3F112227192F007E846E /* GameScene2.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECFA3F102227192F007E846E /* GameScene2.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +54,14 @@
 		3C77F89022257BC700905D25 /* MoveControllable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoveControllable.swift; sourceTree = "<group>"; };
 		3C77F89122257BC700905D25 /* RotateControllable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RotateControllable.swift; sourceTree = "<group>"; };
 		3C77F89222257BC700905D25 /* Controllable2D.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Controllable2D.swift; sourceTree = "<group>"; };
+		ECFA3F02222718BF007E846E /* CGSize+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGSize+Extensions.swift"; sourceTree = "<group>"; };
+		ECFA3F0422271903007E846E /* CGFloat+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGFloat+Extensions.swift"; sourceTree = "<group>"; };
+		ECFA3F0522271903007E846E /* Pool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pool.swift; sourceTree = "<group>"; };
+		ECFA3F0622271903007E846E /* Arm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Arm.swift; sourceTree = "<group>"; };
+		ECFA3F0722271903007E846E /* Sword.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sword.swift; sourceTree = "<group>"; };
+		ECFA3F0822271903007E846E /* PhysicsDetection2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhysicsDetection2.swift; sourceTree = "<group>"; };
+		ECFA3F0E22271915007E846E /* Player2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player2.swift; sourceTree = "<group>"; };
+		ECFA3F102227192F007E846E /* GameScene2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene2.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +80,12 @@
 			children = (
 				3C77F853221F052300905D25 /* aa */,
 				3C77F852221F052300905D25 /* Products */,
+				ECFA3F0622271903007E846E /* Arm.swift */,
+				ECFA3F0822271903007E846E /* PhysicsDetection2.swift */,
+				ECFA3F0522271903007E846E /* Pool.swift */,
+				ECFA3F0722271903007E846E /* Sword.swift */,
+				ECFA3F0E22271915007E846E /* Player2.swift */,
+				ECFA3F102227192F007E846E /* GameScene2.swift */,
 			);
 			sourceTree = "<group>";
 		};
@@ -94,8 +116,10 @@
 		3C77F8822225738B00905D25 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				ECFA3F0422271903007E846E /* CGFloat+Extensions.swift */,
 				3C77F86D221F053F00905D25 /* CGPoint+Extensions.swift */,
 				3C77F870221F053F00905D25 /* CGVector+Extensions.swift */,
+				ECFA3F02222718BF007E846E /* CGSize+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -213,6 +237,9 @@
 			files = (
 				3C77F877221F054000905D25 /* GameScene.swift in Sources */,
 				3C77F89422257BC700905D25 /* RotateControllable.swift in Sources */,
+				ECFA3F0C22271903007E846E /* Sword.swift in Sources */,
+				ECFA3F0B22271903007E846E /* Arm.swift in Sources */,
+				ECFA3F0F22271915007E846E /* Player2.swift in Sources */,
 				3C77F874221F054000905D25 /* InputController.swift in Sources */,
 				3C77F878221F054000905D25 /* CGVector+Extensions.swift in Sources */,
 				3C77F87B221F054000905D25 /* Updatable.swift in Sources */,
@@ -224,6 +251,11 @@
 				3C77F89522257BC700905D25 /* Controllable2D.swift in Sources */,
 				3C77F875221F054000905D25 /* CGPoint+Extensions.swift in Sources */,
 				3C77F88D2225743C00905D25 /* Joystick.swift in Sources */,
+				ECFA3F112227192F007E846E /* GameScene2.swift in Sources */,
+				ECFA3F0D22271903007E846E /* PhysicsDetection2.swift in Sources */,
+				ECFA3F03222718BF007E846E /* CGSize+Extensions.swift in Sources */,
+				ECFA3F0922271903007E846E /* CGFloat+Extensions.swift in Sources */,
+				ECFA3F0A22271903007E846E /* Pool.swift in Sources */,
 				3C77F855221F052300905D25 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -371,7 +403,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 6H6ZL3JRAS;
+				DEVELOPMENT_TEAM = 89JG34L8Z2;
 				INFOPLIST_FILE = aa/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -389,7 +421,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 6H6ZL3JRAS;
+				DEVELOPMENT_TEAM = 89JG34L8Z2;
 				INFOPLIST_FILE = aa/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
