@@ -24,7 +24,7 @@ class PhysicsDetection: NSObject, SKPhysicsContactDelegate {
     //var player: CharacterNode?
     
     func didBegin(_ contact: SKPhysicsContact) {
-        print("bodyA:", contact.bodyA.node?.name ?? "nil", "bodyB: ", contact.bodyB.node?.name ?? "nil")
+//        print("bodyA:", contact.bodyA.node?.name ?? "nil", "bodyB: ", contact.bodyB.node?.name ?? "nil")
         
         let collision: UInt32 = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
         
@@ -35,20 +35,20 @@ class PhysicsDetection: NSObject, SKPhysicsContactDelegate {
             } else if let player = contact.bodyB.node as? Player{
                 player.grounded = true
             }
-            print("Chao")
         }
         
+        let wallJump = { (player: Player, wall: SKSpriteNode) in
+            player.wallJump()
+            wall.physicsBody?.friction = 1
+        }
+    
         if collision == ColliderType.player | ColliderType.wall {
             if let player = contact.bodyA.node as? Player,
-                let wall = contact.bodyB.node as? SKSpriteNode {
-                player.isWallJumping = true
-                player.xScale *= -1
-                wall.physicsBody?.friction = 0.5
+               let wall = contact.bodyB.node as? SKSpriteNode {
+                wallJump(player,wall)
             } else if let player = contact.bodyB.node as? Player,
                       let wall = contact.bodyA.node as? SKSpriteNode {
-                player.isWallJumping = true
-                wall.physicsBody?.friction = 0.5
-                player.xScale *= -1
+                wallJump(player,wall)
             }
         }
         
@@ -63,4 +63,9 @@ class PhysicsDetection: NSObject, SKPhysicsContactDelegate {
     
     
     
+}
+
+enum JumpDirection {
+    case left
+    case right
 }

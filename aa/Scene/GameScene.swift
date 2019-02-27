@@ -14,6 +14,7 @@ class GameScene: SKScene {
     let player = Player()
     private var updatables = [Updatable]()
     let physicsDelegate = PhysicsDetection()
+    var gravityField: SKFieldNode!
     var inputController: InputController!
     
     
@@ -40,10 +41,10 @@ class GameScene: SKScene {
     func addGravity() {
         physicsWorld.gravity = .zero
         let vector = vector_float3(0, -1, 0)
-        let gravity = SKFieldNode.linearGravityField(withVector: vector)
-        gravity.strength = 9.8
-        gravity.categoryBitMask = ColliderType.gravity
-        addChild(gravity)
+        gravityField = SKFieldNode.linearGravityField(withVector: vector)
+        gravityField.strength = 9.8
+        gravityField.categoryBitMask = ColliderType.gravity
+        addChild(gravityField)
     }
     
     func createSandbox(view: SKView) {
