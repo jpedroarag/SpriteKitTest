@@ -13,6 +13,8 @@ class Joystick: SKNode {
     
     // MARK: - Properties
     
+    var forceTouchAction: ((UITouch) -> Void)?
+    
     let kThumbSpringBackDuration: Double =  0.3
     private let backdropNode, thumbNode: SKSpriteNode
     
@@ -118,6 +120,13 @@ class Joystick: SKNode {
             self.velocity = CGPoint(x: ((self.thumbNode.position.x - self.anchorPoint.x)), y: ((self.thumbNode.position.y - self.anchorPoint.y)))
             self.angularVelocity = -atan2(self.thumbNode.position.x - self.anchorPoint.x, self.thumbNode.position.y - self.anchorPoint.y)
         }
+        
+        for touch in touches {
+            if touch.force > 6.66 {
+                forceTouchAction?(touch)
+            }
+        }
+        
     }
     
     

@@ -136,22 +136,26 @@ class GameScene: SKScene {
         //inputController.joystick.update(currentTime)
         updatables.forEach { $0.update(currentTime: currentTime) }
     }
-        override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
     
-            //player.aim(direction: (touches.first?.location(in: player))!)
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+
+        //player.aim(direction: (touches.first?.location(in: player))!)
+
+    }
     
-        }
-        override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-            //player.aim(direction: (touches.first?.location(in: player))!)
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        //player.aim(direction: (touches.first?.location(in: player))!)
+        
+    }
     
-        }
-        override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+
+        ///player.cancelAim()
+    }
+
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+
+        //player.cancelAim()
+    }
     
-            ///player.cancelAim()
-        }
-    
-        override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-    
-            //player.cancelAim()
-        }
 }

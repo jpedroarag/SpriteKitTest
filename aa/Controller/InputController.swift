@@ -17,7 +17,7 @@ class InputController: Updatable {
     }
     
     var tapJump: VirtualButton!
-    var tapDash: VirtualButton!
+//    var tapDash: VirtualButton!
     var joystick: Joystick!
     var joystickShoot: Joystick!
     
@@ -31,9 +31,10 @@ class InputController: Updatable {
             
             joystick = Joystick()
             joystick.position = CGPoint(fromSize: viewSize + size)
-            joystick.position.x += 20
-            joystick.position.y += 20
+            joystick.position.x += 36
+            joystick.position.y += 36
             joystick.attach(moveControllable: player)
+            joystick.forceTouchAction = { _ in player.dash() }
             scene.addChild(joystick)
             
             joystickShoot = Joystick()
@@ -42,20 +43,19 @@ class InputController: Updatable {
             joystickShoot.attach(rotateControllable: player)
             scene.addChild(joystickShoot)
             
-            tapJump = VirtualButton(color: .purple, size: size/2, addTo: scene)
+            let texture = SKTexture(imageNamed: "Jump")
+            tapJump = VirtualButton(texture: texture, size: size, addTo: scene)
             tapJump.addAction(action: { player.jump() }, type: .began)
             tapJump.position = joystickShoot.position
-            tapJump.position.x -= 60
-            tapJump.position.y += 0
-            tapJump.alpha = 0.5
+            tapJump.position.x -= joystick.dpadSize.width/2 + tapJump.size.width/2 + 8
             
-            tapDash = VirtualButton(color: .red, size: size/2, addTo: scene)
-            tapDash.addAction(action: { player.dash() }, type: .began)
-            tapDash.position = joystickShoot.position
-            tapDash.position.x -= 0
-//            tapDash.position.x -= size.width + 4
-            tapDash.position.y += 60
-            tapDash.alpha = 0.5
+//            tapDash = VirtualButton(color: .red, size: size/2, addTo: scene)
+//            tapDash.addAction(action: { player.dash() }, type: .began)
+//            tapDash.position = joystickShoot.position
+//            tapDash.position.x -= 0
+////            tapDash.position.x -= size.width + 4
+//            tapDash.position.y += 60
+//            tapDash.alpha = 0.5
             
         }
     }
