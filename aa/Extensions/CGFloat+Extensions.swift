@@ -16,6 +16,10 @@ public extension CGFloat{
     static var radiansToDegrees: CGFloat{
         return 180 / CGFloat.pi
     }
+    
+    static var zero: CGFloat{
+        return CGFloat(integerLiteral: 0)
+    }
 }
 
 

@@ -28,6 +28,7 @@ class GameScene: SKScene {
         if let scene = view.scene {
             inputController = InputController(view: view, player: player, addTo: scene)
         }
+        updatables.append(inputController)
         // 2
         anchorPoint = CGPoint(x: 0.5, y: 0.5)
         backgroundColor = SKColor.white
@@ -132,25 +133,25 @@ class GameScene: SKScene {
     }
     
     override func update(_ currentTime: TimeInterval) {
-        inputController.joystick.update(currentTime)
+        //inputController.joystick.update(currentTime)
         updatables.forEach { $0.update(currentTime: currentTime) }
     }
         override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
     
-            player.aim(direction: (touches.first?.location(in: player))!)
+            //player.aim(direction: (touches.first?.location(in: player))!)
     
         }
         override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-            player.aim(direction: (touches.first?.location(in: player))!)
+            //player.aim(direction: (touches.first?.location(in: player))!)
     
         }
         override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
     
-            player.cancelAim()
+            ///player.cancelAim()
         }
     
         override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
     
-            player.cancelAim()
+            //player.cancelAim()
         }
 }

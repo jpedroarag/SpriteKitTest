@@ -30,6 +30,9 @@ public extension CGPoint {
     public init(vector: CGVector) {
         self.init(x: vector.dx, y: vector.dy)
     }
+    init(fromSize size: CGSize) {
+        self.init(x: size.width, y: size.height)
+    }
     
     /**
      * Given an angle in radians, creates a vector of length 1.0 and returns the

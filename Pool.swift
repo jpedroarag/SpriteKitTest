@@ -27,12 +27,11 @@ class Pool<T> where T: SKNode {
         var obj: T?
         for obj in objsPool{
             if(obj.parent == nil){
-                print("get obj")
                 return obj
             }
         }
         if(canGrow){
-            obj = type.copy() as! T
+            obj = (type.copy() as! T)
             objsPool.append(obj!)
         }
         

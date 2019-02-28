@@ -30,8 +30,8 @@ class Joystick: SKNode {
         return .zero
     }
     
-    let thumbSize = CGSize(width: 60, height: 60)
-    let dpadSize = CGSize(width: 120, height: 120)
+    let thumbSize = CGSize(width: 40, height: 40)
+    let dpadSize = CGSize(width: 160, height: 160)
     
     private(set) var moveControllable: MoveControllable?
     private(set) var rotateControllable: RotateControllable?
@@ -54,6 +54,9 @@ class Joystick: SKNode {
         self.addChild(self.backdropNode)
         self.addChild(self.thumbNode)
         
+        
+        thumbNode.alpha = 0.5
+        backdropNode.alpha = 0.5
         self.isUserInteractionEnabled = true
     }
     
@@ -80,6 +83,11 @@ class Joystick: SKNode {
             if self.isTracking == false, self.thumbNode.frame.contains(touchPoint) {
                 self.isTracking = true
             }
+            if self.isTracking == false, self.backdropNode.frame.contains(touchPoint) {
+                
+                self.isTracking = true
+                touchesMoved(touches, with: event)
+            }
         }
     }
     
@@ -91,7 +99,7 @@ class Joystick: SKNode {
             let powy = pow((Double(touchPoint.y) - Double(self.thumbNode.position.y)), 2)
             let isInCircle = sqrt(powx + powy)
             
-            if self.isTracking == true, isInCircle < Double(self.thumbNode.size.width) {
+            if self.isTracking == true, isInCircle < Double(self.backdropNode.size.width) {
                 
                 if sqrtf(powf((Float(touchPoint.x) - Float(self.anchorPoint.x)), 2) + powf((Float(touchPoint.y) - Float(self.anchorPoint.y)), 2)) <= Float(self.thumbNode.size.width) {
                     let moveDifference: CGPoint = CGPoint(x: touchPoint.x - self.anchorPoint.x, y: touchPoint.y - self.anchorPoint.y)
@@ -140,7 +148,7 @@ class Joystick: SKNode {
     private func resetVelocity() {
         self.isTracking = false
         self.velocity = .zero
-        
+        self.angularVelocity = .zero
         let easeOut: SKAction = SKAction.move(to: anchorPoint, duration: kThumbSpringBackDuration)
         easeOut.timingMode = SKActionTimingMode.easeOut
         self.thumbNode.run(easeOut)

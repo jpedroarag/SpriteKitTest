@@ -9,7 +9,18 @@
 import Foundation
 import SpriteKit
 
-class Player: SKNode, Updatable, MoveControllable {
+class Player: SKNode, Updatable, MoveControllable, RotateControllable {
+    
+    func rotate(for angularVelocity: CGFloat) {
+        if(angularVelocity.magnitude < 0){
+            return
+        }
+        
+        let direction = CGPoint(angle: angularVelocity + 90 * CGFloat.degreesToRadians)
+        aim(direction: direction)
+        print(angularVelocity)
+    }
+    
     
     var pool: Pool<Sword>!
     

@@ -13,6 +13,14 @@ import UIKit
 
 // MARK: - Methods
 public extension CGSize {
+    static func /(lhs: CGSize, rhs: CGFloat) -> CGSize {
+        return CGSize(width: lhs.width/rhs, height: lhs.height/rhs)
+    }
+    
+    
+    static prefix func -(lhs: CGSize) -> CGSize {
+        return CGSize(width: -lhs.width, height: -lhs.height)
+    }
     
     /// SwifterSwift: Aspect fit CGSize.
     ///
