@@ -31,7 +31,7 @@ class Pool<T> where T: SKNode {
             }
         }
         if(canGrow){
-            obj = (type.copy() as! T)
+            obj = type.copy() as? T
             objsPool.append(obj!)
         }
         

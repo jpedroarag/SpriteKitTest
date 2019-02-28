@@ -38,7 +38,7 @@ class Player: SKNode, Updatable, MoveControllable, RotateControllable {
     var isWalking = false
     
     var lastSpeed = CGFloat(0)
-    var lastDirection = CGVector(dx: 1, dy: 0)
+    var lastDirection = CGVector(dx: 30, dy: 0)
     
     var maxNJumps = 2
     var nJumps = 0 {
@@ -72,6 +72,8 @@ class Player: SKNode, Updatable, MoveControllable, RotateControllable {
         didSet {
             if !isWallJumping { isFallingFromWallJump = false }
             if isFallingFromWallJump {
+                isWallJumping = false
+                physicsBody?.velocity.dx = lastSpeed
                 let scene = self.scene as? GameScene
                 scene?.gravityField.strength = 9.8
             }
@@ -105,7 +107,7 @@ class Player: SKNode, Updatable, MoveControllable, RotateControllable {
         didSet {
             if isDashing {
                 Timer.scheduledTimer(withTimeInterval: 0.15, repeats: false) { _ in
-                    if self.lastDirection.dy >= 0 { self.physicsBody?.velocity = self.lastDirection.normalized() * self.lastSpeed }
+                    if self.lastDirection.dy >= 0 { self.physicsBody?.velocity.dx = self.lastDirection.normalized().dx * self.lastSpeed }
                     self.physicsBody?.fieldBitMask = ColliderType.gravity
                     self.isDashing = false
                     self.isInDashCooldown = true
@@ -117,7 +119,7 @@ class Player: SKNode, Updatable, MoveControllable, RotateControllable {
     var isInDashCooldown = false {
         didSet {
             if isInDashCooldown {
-                Timer.scheduledTimer(withTimeInterval: 0, repeats: false) { _ in
+                Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { _ in
                     self.isInDashCooldown = false
                 }
             }
@@ -158,6 +160,7 @@ class Player: SKNode, Updatable, MoveControllable, RotateControllable {
     func startWalking(direction: CGPoint, withVelocity velocity: CGFloat = 5) {
         self.physicsBody?.velocity.dx = direction.x * velocity
         let xScale = direction.x > 0 ? 1 : -1
+        self.facedDirection = xScale
         self.sprite.xScale = CGFloat(xScale)
         self.lastSpeed = velocity
         self.isWalking = true
@@ -207,18 +210,80 @@ class Player: SKNode, Updatable, MoveControllable, RotateControllable {
         return CGPoint(x: x, y: y)
     }
     
+    func dashDirection() -> CGVector {
+        
+        let scene = self.scene as? GameScene
+        var angularVelocity: CGFloat = 90
+        
+        if let scene = scene {
+            angularVelocity = -scene.inputController.joystick.angularVelocity * CGFloat.radiansToDegrees
+        }
+        
+        // 1o quadrante
+        if angularVelocity >= 0 && angularVelocity <= 90 {
+            
+            let middleAngle: CGFloat = (0 + 90)/2
+            angularVelocity = (angularVelocity - middleAngle) < 0 ? 0 : 90
+            
+        }
+        
+        // 2o quadrante
+        else if angularVelocity >= 90 && angularVelocity <= 180 {
+            
+            let middleAngle: CGFloat = (90 + 180)/2
+            angularVelocity = (angularVelocity - middleAngle) < 0 ? 90 : 180
+            
+        }
+        
+        // 3o quadrante
+        else if angularVelocity >= -180 && angularVelocity <= -90 {
+            
+            let middleAngle: CGFloat = (-180 - 90)/2
+            angularVelocity = (angularVelocity - middleAngle) < 0 ? -180 : -90
+            
+        }
+        
+        // 4o quadrante
+        else if angularVelocity >= -90 && angularVelocity <= 0 {
+            
+            let middleAngle: CGFloat = (-90 - 0)/2
+            angularVelocity = (angularVelocity - middleAngle) < 0 ? -90 : 0
+            
+        }
+        
+        if abs(angularVelocity) == 0 {
+            lastDirection = .zero
+        } else if abs(angularVelocity) == 180 {
+            lastDirection.dx = 0
+            lastDirection.dy = -70
+        } else if abs(angularVelocity) == 90 {
+            lastDirection.dy = 0
+        }
+        
+        if (lastDirection.dx < 30 && lastDirection.dx > 0) || (lastDirection == .zero && facedDirection == 1) {
+            lastDirection.dx = 30
+        } else if (lastDirection.dx > -30 && lastDirection.dx < 0) || (lastDirection == .zero && facedDirection == -1) {
+            lastDirection.dx = -30
+        }
+        
+        return lastDirection
+        
+    }
+    
     func dash() {
         if !self.isDashing && !self.isInDashCooldown {
             self.willDash = true
-            let impulseVector = CGVector(dx: lastDirection.normalized().dx * 1200, dy: lastDirection.dy * 24)
+            let direction = dashDirection()
+            let impulseVector = direction * 24
             if isWallJumping {
                 let xScale = impulseVector.dx > 0 ? 1 : -1
+                self.facedDirection = xScale
                 self.sprite.xScale = CGFloat(xScale)
                 self.isFallingFromWallJump = true
             }
-            self.physicsBody?.applyForce(impulseVector, at: pointOfDashImpulse())
             self.physicsBody?.fieldBitMask = ColliderType.none
-            if lastDirection.dy >= 0 { self.physicsBody?.velocity.dy = 0 }
+            self.physicsBody?.applyForce(impulseVector)
+            if lastDirection.dy >= 0 && lastDirection.dx != 0 { self.physicsBody?.velocity.dy = 0 }
             self.willDash = false
             self.isDashing = true
         }
@@ -297,14 +362,20 @@ class Player: SKNode, Updatable, MoveControllable, RotateControllable {
     }
     
     
-    func aim(direction: CGPoint){
+    func aim(direction: CGPoint) {
         let angle = (atan2(direction.x, -direction.y))
         gunArm.zRotation =  angle - (90 * CGFloat.degreesToRadians)
         
-        if( angle * CGFloat.radiansToDegrees > 0){
+        if (angle * CGFloat.radiansToDegrees > 0) {
             facedDirection = 1
-        }else{
+            
+        } else {
             facedDirection = -1
+        }
+        
+        if (facedDirection == -1 && lastDirection.dx > 0)
+        || (facedDirection == 1 && lastDirection.dx < 0) {
+            lastDirection.dx *= -1
         }
         
         if(canShoot){

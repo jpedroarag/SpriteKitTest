@@ -39,7 +39,7 @@ class PhysicsDetection: NSObject, SKPhysicsContactDelegate {
         
         let wallJump = { (player: Player, wall: SKSpriteNode) in
             player.wallJump()
-            wall.physicsBody?.friction = 1
+            wall.physicsBody?.friction = 0.5
         }
     
         if collision == ColliderType.player | ColliderType.wall {

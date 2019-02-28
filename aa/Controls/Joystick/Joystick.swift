@@ -43,11 +43,13 @@ class Joystick: SKNode {
         self.thumbNode = thumbNode
         self.thumbNode.size = thumbSize
         self.thumbNode.zPosition = 10
+        self.thumbNode.alpha = 0.9
         
         
         self.backdropNode = backdropNode
         self.backdropNode.zPosition = 5
         self.backdropNode.size = dpadSize
+        self.backdropNode.alpha = 0.7
         
         super.init()
         
