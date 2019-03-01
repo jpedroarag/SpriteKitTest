@@ -18,6 +18,7 @@ struct ColliderType {
     static let checkGround: UInt32 = 0x1 << 2
     static let gravity: UInt32 = 0x1 << 3
     static let wall: UInt32 = 0x1 << 4
+    static let platform: UInt32 = 0x1 << 5
 }
 
 class PhysicsDetection: NSObject, SKPhysicsContactDelegate {
@@ -48,7 +49,19 @@ class PhysicsDetection: NSObject, SKPhysicsContactDelegate {
                 wallJump(player,wall)
             } else if let player = contact.bodyB.node as? Player,
                       let wall = contact.bodyA.node as? SKSpriteNode {
-                wallJump(player,wall)
+                wallJump(player, wall)
+            }
+        }
+        
+        if collision == ColliderType.player | ColliderType.platform {
+            let action = { (player: Player, platform: Platform) in
+            }
+            if let player = contact.bodyA.node as? Player,
+                let platform = contact.bodyB.node as? Platform {
+                action(player, platform)
+            } else if let player = contact.bodyB.node as? Player,
+                let platform = contact.bodyA.node as? Platform {
+                action(player, platform)
             }
         }
         
@@ -61,11 +74,18 @@ class PhysicsDetection: NSObject, SKPhysicsContactDelegate {
         
     }
     
-    
+    func didEnd(_ contact: SKPhysicsContact) {
+        if contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask == ColliderType.platform | ColliderType.player {
+            
+        }
+    }
     
 }
 
-enum JumpDirection {
-    case left
-    case right
+enum PlatformCollisionStates {
+    case beganPassingUp
+    case endedPassingUp
+    case platformed
+    case beganFallingDown
+    case endedFallingDown
 }

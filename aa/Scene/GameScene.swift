@@ -16,7 +16,7 @@ class GameScene: SKScene {
     let physicsDelegate = PhysicsDetection()
     var gravityField: SKFieldNode!
     var inputController: InputController!
-    
+    var platform: Platform!
     
     override func didMove(to view: SKView) {
         
@@ -109,7 +109,6 @@ class GameScene: SKScene {
         addChild(ceiling)
         
         
-        
         let test1 = SKNode()
         let test2 = SKSpriteNode(color: .black, size: CGSize(width: 20, height: 20))
         test1.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 1, height: 1))
@@ -126,6 +125,15 @@ class GameScene: SKScene {
         test2.physicsBody?.mass = 0.1
         
         scene?.physicsWorld.add(joint)
+        
+        let platformSize = CGSize(width: size.width/3, height: 16)
+        let platformPosition = CGPoint(x: test2.position.x + platformSize.width/2 + 48, y: 100)
+        platform = Platform(size: platformSize, position: platformPosition)
+        addChild(platform)
+        
+        let pos2 = CGPoint(x: platformPosition.x, y: -100)
+        let plat2 = Platform(size: platformSize, position: pos2)
+        addChild(plat2)
     }
     
     override func sceneDidLoad() {

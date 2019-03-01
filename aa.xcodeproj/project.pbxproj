@@ -24,6 +24,7 @@
 		3C77F89322257BC700905D25 /* MoveControllable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C77F89022257BC700905D25 /* MoveControllable.swift */; };
 		3C77F89422257BC700905D25 /* RotateControllable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C77F89122257BC700905D25 /* RotateControllable.swift */; };
 		3C77F89522257BC700905D25 /* Controllable2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C77F89222257BC700905D25 /* Controllable2D.swift */; };
+		3CE562742229D6E0006E1B51 /* Platform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE562732229D6E0006E1B51 /* Platform.swift */; };
 		ECFA3F03222718BF007E846E /* CGSize+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECFA3F02222718BF007E846E /* CGSize+Extensions.swift */; };
 		ECFA3F0922271903007E846E /* CGFloat+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECFA3F0422271903007E846E /* CGFloat+Extensions.swift */; };
 		ECFA3F0A22271903007E846E /* Pool.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECFA3F0522271903007E846E /* Pool.swift */; };
@@ -54,6 +55,7 @@
 		3C77F89022257BC700905D25 /* MoveControllable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoveControllable.swift; sourceTree = "<group>"; };
 		3C77F89122257BC700905D25 /* RotateControllable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RotateControllable.swift; sourceTree = "<group>"; };
 		3C77F89222257BC700905D25 /* Controllable2D.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Controllable2D.swift; sourceTree = "<group>"; };
+		3CE562732229D6E0006E1B51 /* Platform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Platform.swift; sourceTree = "<group>"; };
 		ECFA3F02222718BF007E846E /* CGSize+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGSize+Extensions.swift"; sourceTree = "<group>"; };
 		ECFA3F0422271903007E846E /* CGFloat+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGFloat+Extensions.swift"; sourceTree = "<group>"; };
 		ECFA3F0522271903007E846E /* Pool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pool.swift; sourceTree = "<group>"; };
@@ -131,6 +133,7 @@
 				3C77F871221F053F00905D25 /* Player.swift */,
 				3C77F86F221F053F00905D25 /* GameScene.swift */,
 				3C77F873221F053F00905D25 /* Updatable.swift */,
+				3CE562732229D6E0006E1B51 /* Platform.swift */,
 			);
 			path = Scene;
 			sourceTree = "<group>";
@@ -244,6 +247,7 @@
 				3C77F878221F054000905D25 /* CGVector+Extensions.swift in Sources */,
 				3C77F87B221F054000905D25 /* Updatable.swift in Sources */,
 				3C77F876221F054000905D25 /* VirtualButton.swift in Sources */,
+				3CE562742229D6E0006E1B51 /* Platform.swift in Sources */,
 				3C77F89322257BC700905D25 /* MoveControllable.swift in Sources */,
 				3C77F88122206E0300905D25 /* PhysicsDetection.swift in Sources */,
 				3C77F87A221F054000905D25 /* GameViewController.swift in Sources */,

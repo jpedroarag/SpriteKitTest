@@ -40,6 +40,19 @@ class Player: SKNode, Updatable, MoveControllable, RotateControllable {
     var lastSpeed = CGFloat(0)
     var lastDirection = CGVector(dx: 30, dy: 0)
     
+    var isPlatforming = false {
+        didSet {
+            if isPlatforming {
+                canJump = true
+                isWallJumping = false
+                isFallingFromWallJump = false
+                physicsBody?.velocity.dx = lastSpeed
+                let scene = self.scene as? GameScene
+                scene?.gravityField.strength = 9.8
+            }
+        }
+    }
+    
     var maxNJumps = 2
     var nJumps = 0 {
         didSet {
@@ -87,6 +100,7 @@ class Player: SKNode, Updatable, MoveControllable, RotateControllable {
                 isWallJumping = false
                 isFallingFromWallJump = false
                 physicsBody?.velocity.dx = lastSpeed
+                physicsBody?.collisionBitMask = ColliderType.ground | ColliderType.wall
                 let scene = self.scene as? GameScene
                 scene?.gravityField.strength = 9.8
             }
