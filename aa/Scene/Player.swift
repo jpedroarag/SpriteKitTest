@@ -194,7 +194,7 @@ class Player: SKNode, Updatable, MoveControllable, RotateControllable {
             self.isFallingFromWallJump = false
             self.physicsBody?.velocity.dy = 0
             let scene = self.scene as? GameScene
-            scene?.gravityField.strength = 1
+            scene?.gravityField.strength = 2.5
         }
     }
     
