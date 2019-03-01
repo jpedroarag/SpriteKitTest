@@ -375,7 +375,7 @@ class Player: SKNode, Updatable, MoveControllable, RotateControllable {
         
         if (facedDirection == -1 && lastDirection.dx > 0)
         || (facedDirection == 1 && lastDirection.dx < 0) {
-            lastDirection.dx *= -1
+//             lastDirection.dx *= -1
         }
         
         if(canShoot){
