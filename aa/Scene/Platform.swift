@@ -27,6 +27,7 @@ class Platform: SKNode {
         physics.categoryBitMask = ColliderType.platform
         physics.isDynamic = false
         physics.usesPreciseCollisionDetection = true
+        physics.restitution = 0
         physicsBody = physics
     }
     

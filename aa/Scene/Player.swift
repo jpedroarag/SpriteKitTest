@@ -40,9 +40,26 @@ class Player: SKNode, Updatable, MoveControllable, RotateControllable {
     var lastSpeed = CGFloat(0)
     var lastDirection = CGVector(dx: 30, dy: 0)
     
+    var willFall = false {
+        didSet {
+            if willFall {
+                isFalling = true
+                isPlatforming = false
+                willFall = false
+                physicsBody?.collisionBitMask = ColliderType.ground | ColliderType.wall
+            }
+        }
+        
+    }
+    
+    var isFalling = false
+    var willPlatform = false
+    
     var isPlatforming = false {
         didSet {
             if isPlatforming {
+                willFall = false
+                isFalling = false
                 canJump = true
                 isWallJumping = false
                 isFallingFromWallJump = false
@@ -77,7 +94,13 @@ class Player: SKNode, Updatable, MoveControllable, RotateControllable {
     
     var isWallJumping = false {
         didSet {
-            if isWallJumping { canJump = true }
+            if isWallJumping {
+                canJump = true
+                willFall = false
+                isFalling = false
+                isPlatforming = false
+                willPlatform = false
+            }
         }
     }
     
@@ -96,6 +119,10 @@ class Player: SKNode, Updatable, MoveControllable, RotateControllable {
     var grounded = true {
         didSet{
             if grounded {
+                willFall = false
+                isFalling = false
+                isPlatforming = false
+                willPlatform = false
                 canJump = true
                 isWallJumping = false
                 isFallingFromWallJump = false
@@ -270,6 +297,7 @@ class Player: SKNode, Updatable, MoveControllable, RotateControllable {
         } else if abs(angularVelocity) == 180 {
             lastDirection.dx = 0
             lastDirection.dy = -70
+            if isPlatforming { willFall = true }
         } else if abs(angularVelocity) == 90 {
             lastDirection.dy = 0
         }
