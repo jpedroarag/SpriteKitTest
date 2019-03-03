@@ -399,7 +399,7 @@ extension Player {
                 // Gambiarra: Fazendo colidir manualmente,
                 // pois como a plataforma tem restitution = 0,
                 // ele não colide com a plataforma quando usa o dash para baixo
-                run(.sequence([.moveTo(y: position.y - LandValues.platformsHeight/2, duration: 0)]))
+                run(.moveTo(y: position.y - LandValues.platformsHeight, duration: 0.1))
             }
         default:
             break
