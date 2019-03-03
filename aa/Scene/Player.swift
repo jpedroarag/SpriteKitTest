@@ -17,13 +17,13 @@ struct DashValues {
     /// The duration which the player won't be able to dash again
     let cooldown = 0.5
     
-    /// Tells that the player will dash soon
+    /// Tells if the player will dash soon
     var willDash = false
     
-    /// Tells that the player is currently dashing
+    /// Tells if the player is currently dashing
     var isDashing = false
     
-    /// Tells that the player has dashed and isn't able to dash right now
+    /// Tells if the player has dashed and isn't able to dash right now
     var isCooldownling = false
     
     /// Resets all dash values to their initial value
@@ -37,19 +37,23 @@ struct DashValues {
 
 // MARK: Platforms and ground flags and constants
 struct LandValues {
-    /// Tells that the player is getting up in a platform
+    
+    /// Default platforms height
+    static let platformsHeight: CGFloat = 32
+    
+    /// Tells if the player is getting up in a platform
     var willPlatform = false
     
-    /// Tells that the player is currently landed on a platform which is not the ground
+    /// Tells if the player is currently landed on a platform which is not the ground
     var landed = false
     
-    /// Tells that the player will fall from the platform which he is landed soon
+    /// Tells if the player will fall from the platform which he is landed soon
     var willFallFromPlatform = false
     
-    /// Tells that the player fell from the platform which he was landed
+    /// Tells if the player fell from the platform which he was landed
     var isFallingFromPlatform = false
     
-    /// Tells that the player is currently landed on the ground of the scene
+    /// Tells if the player is currently landed on the ground of the scene
     var grounded = true
     
     /// Resets all land values to their initial value
@@ -71,23 +75,27 @@ struct JumpValues {
     /// How many times the player has jumped
     var numberOfJumps = 0
     
-    /// Tells that the user can jump
+    /// Tells if the user can jump
     var canJump = true
+    
+    /// Tells if the user is currently jumping
+    var isJumping = false
     
     /// Resets all jump values to their initial value
     mutating func resetToInitialState() {
         numberOfJumps = 0
         canJump = true
+        isJumping = false
     }
     
 }
 
 // MARK: Wall jump flags and constants
 struct WallJumpValues {
-    /// Tells that the player is currently attached to the wall, waiting for the user to use his wall jump
+    /// Tells if the player is currently attached to the wall, waiting for the user to use his wall jump
     var isWallJumping = false
     
-    /// Tells that the user used his wall jump, and is currently in the air
+    /// Tells if the user used his wall jump, and is currently in the air
     var isFallingFromWallJump = false
     
     /// Resets all wall jump values to their initial value
@@ -121,7 +129,7 @@ struct CombatValues {
     /// The time which the sword will exists
     let swordLifeTime = 2.0
     
-    /// Tells that the user can shoot
+    /// Tells if the user can shoot
     var canShoot = true
 }
 
@@ -280,17 +288,22 @@ extension Player {
     }
     
     func land() {
+        turnCollisionWithPlatforms(on: true)
         resetVelocity()
         landValues.landed = true
         landValues.willFallFromPlatform = false
         landValues.isFallingFromPlatform = false
         landValues.willPlatform = false
+        jumpValues.canJump = true
+        jumpValues.numberOfJumps = 0
         wallJumpValues.resetToInitialState()
-        jumpValues.resetToInitialState()
+        Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { _ in
+            if self.landValues.landed { self.jumpValues.isJumping = false }
+        }
     }
     
     func unland() {
-        if landValues.willFallFromPlatform { landValues.isFallingFromPlatform = true }
+        landValues.isFallingFromPlatform = true
         landValues.landed = false
         landValues.willFallFromPlatform = false
         turnCollisionWithPlatforms(on: false)
@@ -313,7 +326,13 @@ extension Player {
             self.wallJumpValues.isWallJumping = false
             self.resetVelocity()
         }
-        if !jumpValues.canJump { return }
+        
+        if !jumpValues.canJump {
+            self.jumpValues.isJumping = false
+            return
+        }
+        
+        self.jumpValues.isJumping = true
         self.jumpValues.numberOfJumps += 1
         if self.jumpValues.numberOfJumps >= self.jumpValues.maxNumberOfJumps { self.jumpValues.canJump = false }
         self.landValues.grounded = false
@@ -375,9 +394,12 @@ extension Player {
         case 180:
             directionValues.lastDirection.dx = 0
             directionValues.lastDirection.dy = -70
-            if landValues.landed {
+            if landValues.landed && !jumpValues.isJumping {
                 landValues.willFallFromPlatform = true
-                unland()
+                // Gambiarra: Fazendo colidir manualmente,
+                // pois como a plataforma tem restitution = 0,
+                // ele não colide com a plataforma quando usa o dash para baixo
+                run(.sequence([.moveTo(y: position.y - LandValues.platformsHeight/2, duration: 0)]))
             }
         default:
             break
@@ -402,23 +424,26 @@ extension Player {
     
     func dash() {
         if !self.dashValues.isDashing && !self.dashValues.isCooldownling {
-            self.dashValues.willDash = true
             let direction = getDashDirection()
             let impulseVector = direction * 24
+            let fallingFromPlatform = landValues.isFallingFromPlatform || landValues.willFallFromPlatform
             
-            if self.wallJumpValues.isWallJumping {
-                self.flip(toTheRight: impulseVector.dx > 0)
-                self.wallJumpValues.isFallingFromWallJump = true
-                self.wallJumpValues.isWallJumping = false
-                self.resetVelocity()
+            if !fallingFromPlatform {
+                self.dashValues.willDash = true
+                if self.wallJumpValues.isWallJumping {
+                    self.flip(toTheRight: impulseVector.dx > 0)
+                    self.wallJumpValues.isFallingFromWallJump = true
+                    self.wallJumpValues.isWallJumping = false
+                    self.resetVelocity()
+                }
+                
+                self.physicsBody?.fieldBitMask = ColliderType.none
+                self.physicsBody?.applyForce(impulseVector)
+                self.dashValues.willDash = false
+                self.dashValues.isDashing = true
+                self.restoreValuesAfterDash()
             }
             
-            self.physicsBody?.fieldBitMask = ColliderType.none
-            self.physicsBody?.applyForce(impulseVector)
-            if directionValues.lastDirection.dy >= 0 && directionValues.lastDirection.dx != 0 { self.physicsBody?.velocity.dy = 0 }
-            self.dashValues.willDash = false
-            self.dashValues.isDashing = true
-            self.restoreValuesAfterDash()
         }
     }
     

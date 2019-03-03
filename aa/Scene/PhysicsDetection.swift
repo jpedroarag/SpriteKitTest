@@ -59,10 +59,9 @@ class PhysicsDetection: NSObject, SKPhysicsContactDelegate {
                     if (velocity > 0 && player.position.y < platform.sprite.position.y)
                     || (player.position.y < platform.sprite.position.y && player.landValues.landed) {
                         if player.landValues.landed { player.physicsBody?.velocity.dy = 500 }
-                        player.physicsBody?.collisionBitMask &= ~ColliderType.platform
+                        player.turnCollisionWithPlatforms(on: false)
                         player.landValues.willPlatform = true
                     } else {
-                        player.physicsBody?.collisionBitMask |= ColliderType.platform
                         player.land()
                     }
                 }
@@ -92,17 +91,13 @@ class PhysicsDetection: NSObject, SKPhysicsContactDelegate {
                     if (velocity > 0 && player.position.y < platform.sprite.position.y)
                     || (player.position.y < platform.sprite.position.y && player.landValues.landed) {
                         if player.landValues.willPlatform {
-                            player.physicsBody?.collisionBitMask |= ColliderType.platform
                             player.land()
                         }
                     } else {
                         if player.landValues.willPlatform || player.wallJumpValues.isFallingFromWallJump {
-                            player.physicsBody?.collisionBitMask |= ColliderType.platform
                             player.land()
                         } else if player.landValues.isFallingFromPlatform {
-                            player.physicsBody?.collisionBitMask |= ColliderType.platform
-                            player.land()
-                            player.landValues.isFallingFromPlatform = false
+                            player.unland()
                         }
                     }
                 }
