@@ -9,345 +9,188 @@
 import Foundation
 import SpriteKit
 
-class Player: SKNode, Updatable, MoveControllable, RotateControllable {
+// MARK: Dash flags and constants
+struct DashValues {
+    /// The duration of player's dash
+    let duration = 0.15
     
-    func rotate(for angularVelocity: CGFloat) {
-        if(angularVelocity.magnitude < 0){
-            return
-        }
-        
-        let direction = CGPoint(angle: angularVelocity + 90 * CGFloat.degreesToRadians)
-        aim(direction: direction)
-        print(angularVelocity)
+    /// The duration which the player won't be able to dash again
+    let cooldown = 0.5
+    
+    /// Tells that the player will dash soon
+    var willDash = false
+    
+    /// Tells that the player is currently dashing
+    var isDashing = false
+    
+    /// Tells that the player has dashed and isn't able to dash right now
+    var isCooldownling = false
+    
+    /// Resets all dash values to their initial value
+    mutating func resetToInitialState() {
+        willDash = false
+        isDashing = false
+        isCooldownling = false
     }
     
+}
+
+// MARK: Platforms and ground flags and constants
+struct LandValues {
+    /// Tells that the player is getting up in a platform
+    var willPlatform = false
     
+    /// Tells that the player is currently landed on a platform which is not the ground
+    var landed = false
+    
+    /// Tells that the player will fall from the platform which he is landed soon
+    var willFallFromPlatform = false
+    
+    /// Tells that the player fell from the platform which he was landed
+    var isFallingFromPlatform = false
+    
+    /// Tells that the player is currently landed on the ground of the scene
+    var grounded = true
+    
+    /// Resets all land values to their initial value
+    mutating func resetToInitialState() {
+        willFallFromPlatform = false
+        isFallingFromPlatform = false
+        willPlatform = false
+        landed = false
+        grounded = true
+    }
+    
+}
+
+// MARK: Jump flags and constants
+struct JumpValues {
+    /// The maximum times which the player can jump
+    let maxNumberOfJumps = 2
+    
+    /// How many times the player has jumped
+    var numberOfJumps = 0
+    
+    /// Tells that the user can jump
+    var canJump = true
+    
+    /// Resets all jump values to their initial value
+    mutating func resetToInitialState() {
+        numberOfJumps = 0
+        canJump = true
+    }
+    
+}
+
+// MARK: Wall jump flags and constants
+struct WallJumpValues {
+    /// Tells that the player is currently attached to the wall, waiting for the user to use his wall jump
+    var isWallJumping = false
+    
+    /// Tells that the user used his wall jump, and is currently in the air
+    var isFallingFromWallJump = false
+    
+    /// Resets all wall jump values to their initial value
+    mutating func resetToInitialState() {
+        isWallJumping = false
+        isFallingFromWallJump = false
+    }
+    
+}
+
+// MARK: Direction flags and constants
+struct DirectionValues {
+    /// Tells which side the player is looking for (1 = right, -1 = left)
+    var facedDirection = 1
+    
+    /// Tells if the user is currently walking
+    var isWalking = false
+    
+    /// Holds the last speed the user had before his current speed
+    var lastSpeed = CGFloat(0)
+    
+    /// Holds the last direction the user had before his current direction
+    var lastDirection = CGVector(dx: 30, dy: 0)
+}
+
+// MARK: Combat flags and constants
+struct CombatValues {
+    /// The duration which the player won't be able to shoot again
+    let shootCoolDown = 0.15
+    
+    /// The time which the sword will exists
+    let swordLifeTime = 2.0
+    
+    /// Tells that the user can shoot
+    var canShoot = true
+}
+
+class Player: SKNode {
+    
+    // MARK: Properties
     var pool: Pool<Sword>!
-    
-    
     
     var joint = SKPhysicsJointPin()
     var gunArm = SKSpriteNode()
     var sword = SKSpriteNode()
     
-    let shootCoolDown = 0.15
-    let swordLifeTime = 2.0
-    
     var sprite = SKSpriteNode()
     var checkFloor = SKSpriteNode()
-    var isWalking = false
     
-    var lastSpeed = CGFloat(0)
-    var lastDirection = CGVector(dx: 30, dy: 0)
+    // MARK: All flags and constants
     
-    var willFall = false {
-        didSet {
-            if willFall {
-                isFalling = true
-                isPlatforming = false
-                willFall = false
-                physicsBody?.collisionBitMask = ColliderType.ground | ColliderType.wall
-            }
+    /// Holds the player's properties related to the dash action
+    var dashValues = DashValues()
+    /// Holds the player's properties related to land in a platform or on the ground
+    var landValues = LandValues()
+    /// Holds the player's properties related to the jump action
+    var jumpValues = JumpValues()
+    /// Holds the player's properties related to the wall jump action
+    var wallJumpValues = WallJumpValues()
+    /// Holds the player's properties related to his orientation attributes
+    var directionValues = DirectionValues()
+    /// Holds the player's properties related to the combat actions
+    var combatValues = CombatValues()
+    
+    /// Holds how strong the scene gravity affects the player
+    var gravityStrength: Float? {
+        get {
+            let scene = self.scene as? GameScene
+            return scene?.gravityField.strength
         }
-        
-    }
-    
-    var isFalling = false
-    var willPlatform = false
-    
-    var isPlatforming = false {
-        didSet {
-            if isPlatforming {
-                willFall = false
-                isFalling = false
-                canJump = true
-                isWallJumping = false
-                isFallingFromWallJump = false
-                physicsBody?.velocity.dx = lastSpeed
-                let scene = self.scene as? GameScene
-                scene?.gravityField.strength = 9.8
-            }
+        set(value) {
+            let scene = self.scene as? GameScene
+            if let value = value { scene?.gravityField.strength = value }
         }
     }
     
-    var maxNJumps = 2
-    var nJumps = 0 {
-        didSet {
-            if nJumps >= maxNJumps {
-                canJump = false
-            }
-        }
-    }
-    var canShoot = true{
-        didSet{
-            if(!canShoot){
-                Timer.scheduledTimer(withTimeInterval: shootCoolDown, repeats: false, block: {_ in self.canShoot = true})
-            }
-        }
-    }
-    
-    var facedDirection = 1{
-        didSet{
-            changeDirection()
-        }
-    }
-    
-    var isWallJumping = false {
-        didSet {
-            if isWallJumping {
-                canJump = true
-                willFall = false
-                isFalling = false
-                isPlatforming = false
-                willPlatform = false
-            }
-        }
-    }
-    
-    var isFallingFromWallJump = false {
-        didSet {
-            if !isWallJumping { isFallingFromWallJump = false }
-            if isFallingFromWallJump {
-                isWallJumping = false
-                physicsBody?.velocity.dx = lastSpeed
-                let scene = self.scene as? GameScene
-                scene?.gravityField.strength = 9.8
-            }
-        }
-    }
-    
-    var grounded = true {
-        didSet{
-            if grounded {
-                willFall = false
-                isFalling = false
-                isPlatforming = false
-                willPlatform = false
-                canJump = true
-                isWallJumping = false
-                isFallingFromWallJump = false
-                physicsBody?.velocity.dx = lastSpeed
-                physicsBody?.collisionBitMask = ColliderType.ground | ColliderType.wall
-                let scene = self.scene as? GameScene
-                scene?.gravityField.strength = 9.8
-            }
-            
-        }
-    }
-    
-    var canJump = true {
-        didSet{
-            if canJump {
-                nJumps = 0
-            }
-        }
-    }
-    
-    var willDash = false
-    var isDashing = false {
-        didSet {
-            if isDashing {
-                Timer.scheduledTimer(withTimeInterval: 0.15, repeats: false) { _ in
-                    if self.lastDirection.dy >= 0 { self.physicsBody?.velocity.dx = self.lastDirection.normalized().dx * self.lastSpeed }
-                    self.physicsBody?.fieldBitMask = ColliderType.gravity
-                    self.isDashing = false
-                    self.isInDashCooldown = true
-                }
-            }
-        }
-    }
-    
-    var isInDashCooldown = false {
-        didSet {
-            if isInDashCooldown {
-                Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { _ in
-                    self.isInDashCooldown = false
-                }
-            }
-        }
-    }
-    
+    // MARK: Init
     init(addToView view: SKScene) {
         super.init()
-//        let playerTexture = SKTexture(imageNamed: "player")
-//        self.sprite = SKSpriteNode(texture: playerTexture, color: .black, size: CGSize(width: 20, height: 30))
-//        self.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 20, height: 30))
-//        self.physicsBody?.friction = 0
-//        self.physicsBody?.allowsRotation = false
-//        self.physicsBody?.restitution = 0
-//        self.physicsBody?.fieldBitMask = ColliderType.gravity
-//        self.physicsBody?.categoryBitMask = ColliderType.player
         view.addChild(self)
-
         
         setupBody()
         setupArm()
         setupJoint()
         setupWeapon()
-
         
-        pool = Pool(instanceType: Sword(texture: SKTexture(imageNamed: "Sword"), color: .white, size: CGSize(width: 10, height: 40), lifeTime: swordLifeTime, scene: nil), poolSize: 20, canGrow: false)
-    }
-    
-    func update(currentTime: TimeInterval) {
-        // your logic goes here
+        let sword = Sword(texture: SKTexture(imageNamed: "Sword"),
+                          color: .white,
+                          size: CGSize(width: 10, height: 40),
+                          lifeTime: combatValues.swordLifeTime,
+                          scene: nil)
         
+        pool = Pool(instanceType: sword, poolSize: 20, canGrow: false)
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func startWalking(direction: CGPoint, withVelocity velocity: CGFloat = 5) {
-        self.physicsBody?.velocity.dx = direction.x * velocity
-        let xScale = direction.x > 0 ? 1 : -1
-        self.facedDirection = xScale
-        self.sprite.xScale = CGFloat(xScale)
-        self.lastSpeed = velocity
-        self.isWalking = true
-    }
-    
-    func stopWalking() {
-        self.physicsBody?.velocity.dx = 0
-        self.lastDirection.dy = 0
-        self.lastSpeed = 0
-        self.isWalking = false
-    }
-    
-    func jump() {
-        if self.canJump {
-            if isWallJumping {
-                self.isFallingFromWallJump = true
-                self.nJumps = 2
-            } else {
-                self.nJumps += 1
-            }
-            
-            self.grounded = false
-            self.physicsBody?.velocity.dy = 0
-            self.physicsBody?.applyForce(CGVector.up * CGFloat(800))
-        }
-    }
-    
-    func wallJump() {
-        if !self.grounded {
-            self.isWallJumping = true
-            self.isFallingFromWallJump = false
-            self.physicsBody?.velocity.dy = 0
-            let scene = self.scene as? GameScene
-            scene?.gravityField.strength = 2.5
-        }
-    }
-    
-    func pointOfDashImpulse() -> CGPoint {
-        let minX = self.position.x - self.sprite.frame.width/2
-        let minY = self.position.y - self.sprite.frame.height/2
-        let maxX = self.position.x + self.sprite.frame.width/2
-        let maxY = self.position.y + self.sprite.frame.height/2
-        
-        let x = lastDirection.dx > 0 ? minX : maxX
-        let y = lastDirection.dy > 0 ? minY : maxY
-        
-        return CGPoint(x: x, y: y)
-    }
-    
-    func dashDirection() -> CGVector {
-        
-        let scene = self.scene as? GameScene
-        var angularVelocity: CGFloat = 90
-        
-        if let scene = scene {
-            angularVelocity = -scene.inputController.joystick.angularVelocity * CGFloat.radiansToDegrees
-        }
-        
-        // 1o quadrante
-        if angularVelocity >= 0 && angularVelocity <= 90 {
-            
-            let middleAngle: CGFloat = (0 + 90)/2
-            angularVelocity = (angularVelocity - middleAngle) < 0 ? 0 : 90
-            
-        }
-        
-        // 2o quadrante
-        else if angularVelocity >= 90 && angularVelocity <= 180 {
-            
-            let middleAngle: CGFloat = (90 + 180)/2
-            angularVelocity = (angularVelocity - middleAngle) < 0 ? 90 : 180
-            
-        }
-        
-        // 3o quadrante
-        else if angularVelocity >= -180 && angularVelocity <= -90 {
-            
-            let middleAngle: CGFloat = (-180 - 90)/2
-            angularVelocity = (angularVelocity - middleAngle) < 0 ? -180 : -90
-            
-        }
-        
-        // 4o quadrante
-        else if angularVelocity >= -90 && angularVelocity <= 0 {
-            
-            let middleAngle: CGFloat = (-90 - 0)/2
-            angularVelocity = (angularVelocity - middleAngle) < 0 ? -90 : 0
-            
-        }
-        
-        if abs(angularVelocity) == 0 {
-            lastDirection = .zero
-        } else if abs(angularVelocity) == 180 {
-            lastDirection.dx = 0
-            lastDirection.dy = -70
-            if isPlatforming { willFall = true }
-        } else if abs(angularVelocity) == 90 {
-            lastDirection.dy = 0
-        }
-        
-        if (lastDirection.dx < 30 && lastDirection.dx > 0) || (lastDirection == .zero && facedDirection == 1) {
-            lastDirection.dx = 30
-        } else if (lastDirection.dx > -30 && lastDirection.dx < 0) || (lastDirection == .zero && facedDirection == -1) {
-            lastDirection.dx = -30
-        }
-        
-        return lastDirection
-        
-    }
-    
-    func dash() {
-        if !self.isDashing && !self.isInDashCooldown {
-            self.willDash = true
-            let direction = dashDirection()
-            let impulseVector = direction * 24
-            if isWallJumping {
-                let xScale = impulseVector.dx > 0 ? 1 : -1
-                self.facedDirection = xScale
-                self.sprite.xScale = CGFloat(xScale)
-                self.isFallingFromWallJump = true
-            }
-            self.physicsBody?.fieldBitMask = ColliderType.none
-            self.physicsBody?.applyForce(impulseVector)
-            if lastDirection.dy >= 0 && lastDirection.dx != 0 { self.physicsBody?.velocity.dy = 0 }
-            self.willDash = false
-            self.isDashing = true
-        }
-    }
-    
-    func move(for velocity: CGPoint) {
-        if lastDirection != velocity {
-            self.lastDirection = CGVector(dx: velocity.x, dy: velocity.y)
-        }
-        
-        if (self.willDash)
-        || (!self.isDashing && !self.isWallJumping)
-        || (self.isWallJumping && self.isFallingFromWallJump) {
-            self.startWalking(direction: velocity)
-        }
-    }
-    
-    func stopMoving() {
-        self.stopWalking()
-    }
-    
-    
+}
+
+// MARK: Setup of player and player's weapon
+extension Player {
     func setupBody(){
         sprite = SKSpriteNode(imageNamed: "Knight")
         self.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 20, height: 20))
@@ -385,77 +228,283 @@ class Player: SKNode, Updatable, MoveControllable, RotateControllable {
         scene?.physicsWorld.add(joint)
     }
     
-    func throwSword(rotation: CGFloat, direction: CGPoint){
-        
-        //let sword = Sword(texture: SKTexture(imageNamed: "Sword"), color: .white, size: CGSize(width: 10, height: 40), lifeTime: swordLifeTime, scene: self.scene)
-        let sword = pool.get()!
-        self.scene?.addChild(sword)
-        
-        sword.throwSword(position: self.position, rotation: rotation, speed: 1000)
-        
-        sword.destroy()
-        
-    }
-    
     func setupWeapon(){
         sword = SKSpriteNode(imageNamed: "Sword")
         sword.position.x = 00
         gunArm.addChild(sword)
     }
+}
+
+// MARK: Player orientation methods
+extension Player {
+    func flip(toTheRight right: Bool) {
+        let xScale = right ? 1 : -1
+        self.directionValues.facedDirection = xScale
+        self.changeDirection()
+    }
     
+    func changeDirection(){
+        let angle = gunArm.zRotation * CGFloat.radiansToDegrees + 90
+        let angle2 = (-angle - 90) * CGFloat.degreesToRadians
+        
+        sprite.xScale = sprite.xScale.magnitude
+        gunArm.yScale = gunArm.yScale.magnitude
+        
+        if(directionValues.facedDirection < 0){
+            sprite.xScale = sprite.xScale * -1
+            gunArm.yScale = gunArm.yScale * -1
+            if angle > 0 && angle < 180 {
+                gunArm.zRotation = angle2
+            }
+        } else {
+            if angle < 0 || angle > 180 {
+                gunArm.zRotation =  angle2
+            }
+        }
+    }
+}
+
+// MARK: Methods for when collides with ground or platforms
+extension Player {
+    func resetVelocity() {
+        physicsBody?.velocity.dx = directionValues.lastSpeed
+        gravityStrength = 9.8
+    }
+    
+    func turnCollisionWithPlatforms(on: Bool) {
+        if on {
+            physicsBody?.collisionBitMask |= ColliderType.platform
+        } else {
+            physicsBody?.collisionBitMask = ColliderType.ground | ColliderType.wall
+        }
+    }
+    
+    func land() {
+        resetVelocity()
+        landValues.landed = true
+        landValues.willFallFromPlatform = false
+        landValues.isFallingFromPlatform = false
+        landValues.willPlatform = false
+        wallJumpValues.resetToInitialState()
+        jumpValues.resetToInitialState()
+    }
+    
+    func unland() {
+        if landValues.willFallFromPlatform { landValues.isFallingFromPlatform = true }
+        landValues.landed = false
+        landValues.willFallFromPlatform = false
+        turnCollisionWithPlatforms(on: false)
+    }
+    
+    func ground() {
+        resetVelocity()
+        landValues.resetToInitialState()
+        wallJumpValues.resetToInitialState()
+        jumpValues.resetToInitialState()
+        turnCollisionWithPlatforms(on: false)
+    }
+}
+
+// MARK: Jump action implementation
+extension Player {
+    func jump() {
+        if self.wallJumpValues.isWallJumping {
+            self.wallJumpValues.isFallingFromWallJump = true
+            self.wallJumpValues.isWallJumping = false
+            self.resetVelocity()
+        }
+        if !jumpValues.canJump { return }
+        self.jumpValues.numberOfJumps += 1
+        if self.jumpValues.numberOfJumps >= self.jumpValues.maxNumberOfJumps { self.jumpValues.canJump = false }
+        self.landValues.grounded = false
+        self.physicsBody?.velocity.dy = 0
+        self.physicsBody?.applyForce(CGVector.up * CGFloat(800))
+    }
+    
+    func wallJump() {
+        if self.landValues.grounded { return }
+        
+        self.wallJumpValues.isWallJumping = true
+        self.wallJumpValues.isFallingFromWallJump = false
+        
+        self.jumpValues.canJump = true
+        self.landValues.willFallFromPlatform = false
+        self.landValues.isFallingFromPlatform = false
+        self.landValues.landed = false
+        self.landValues.willPlatform = false
+        
+        self.physicsBody?.velocity.dy = 0
+        self.gravityStrength = 2.5
+    }
+}
+
+// MARK: Walking move action implementation
+extension Player {
+    func startWalking(direction: CGPoint, withVelocity velocity: CGFloat = 5) {
+        self.flip(toTheRight: direction.x > 0)
+        self.physicsBody?.velocity.dx = direction.x * velocity
+        self.directionValues.lastSpeed = velocity
+        self.directionValues.isWalking = true
+    }
+}
+
+// MARK: Dash action implementation
+extension Player {
+    private func getDashDirection() -> CGVector {
+        let scene = self.scene as? GameScene
+        var angularVelocity: CGFloat = 90
+        let ranges = [0...90, 90...180, -180...(-90), -90...0]
+        
+        if let scene = scene {
+            angularVelocity = -scene.inputController.joystick.angularVelocity * CGFloat.radiansToDegrees
+        }
+        
+        for range in ranges {
+            if range.contains(Int(angularVelocity)) {
+                let middleAngle: CGFloat = CGFloat(range.lowerBound + range.upperBound)/2
+                let angle = (angularVelocity - middleAngle) < 0 ? range.lowerBound : range.upperBound
+                angularVelocity = CGFloat(angle)
+            }
+        }
+        
+        switch abs(angularVelocity) {
+        case 0:
+            directionValues.lastDirection = .zero
+        case 90:
+            directionValues.lastDirection.dy = 0
+        case 180:
+            directionValues.lastDirection.dx = 0
+            directionValues.lastDirection.dy = -70
+            if landValues.landed {
+                landValues.willFallFromPlatform = true
+                unland()
+            }
+        default:
+            break
+        }
+        
+        validateDashDirectionValue()
+        return directionValues.lastDirection
+        
+    }
+    
+    private func validateDashDirectionValue() {
+        if (directionValues.lastDirection.dx < 30 && directionValues.lastDirection.dx > 0)
+            || (directionValues.lastDirection == .zero && directionValues.facedDirection == 1) {
+            directionValues.lastDirection.dx = 30
+        }
+        
+        if (directionValues.lastDirection.dx > -30 && directionValues.lastDirection.dx < 0)
+            || (directionValues.lastDirection == .zero && directionValues.facedDirection == -1) {
+            directionValues.lastDirection.dx = -30
+        }
+    }
+    
+    func dash() {
+        if !self.dashValues.isDashing && !self.dashValues.isCooldownling {
+            self.dashValues.willDash = true
+            let direction = getDashDirection()
+            let impulseVector = direction * 24
+            
+            if self.wallJumpValues.isWallJumping {
+                self.flip(toTheRight: impulseVector.dx > 0)
+                self.wallJumpValues.isFallingFromWallJump = true
+                self.wallJumpValues.isWallJumping = false
+                self.resetVelocity()
+            }
+            
+            self.physicsBody?.fieldBitMask = ColliderType.none
+            self.physicsBody?.applyForce(impulseVector)
+            if directionValues.lastDirection.dy >= 0 && directionValues.lastDirection.dx != 0 { self.physicsBody?.velocity.dy = 0 }
+            self.dashValues.willDash = false
+            self.dashValues.isDashing = true
+            self.restoreValuesAfterDash()
+        }
+    }
+    
+    private func restoreValuesAfterDash() {
+        Timer.scheduledTimer(withTimeInterval: dashValues.duration, repeats: false) { _ in
+            if self.directionValues.lastDirection.dy >= 0 { self.physicsBody?.velocity.dx = self.directionValues.lastDirection.normalized().dx * self.directionValues.lastSpeed }
+            self.physicsBody?.fieldBitMask = ColliderType.gravity
+            self.cooldownDash()
+        }
+    }
+    
+    private func cooldownDash() {
+        self.dashValues.isDashing = false
+        self.dashValues.isCooldownling = true
+        Timer.scheduledTimer(withTimeInterval: dashValues.cooldown, repeats: false) { _ in
+            self.dashValues.isCooldownling = false
+        }
+    }
+}
+
+// MARK: Shoot action implementation
+extension Player {
+    func throwSword(rotation: CGFloat, direction: CGPoint){
+        //let sword = Sword(texture: SKTexture(imageNamed: "Sword"), color: .white, size: CGSize(width: 10, height: 40), lifeTime: swordLifeTime, scene: self.scene)
+        let sword = pool.get()!
+        self.scene?.addChild(sword)
+        
+        sword.throwSword(position: self.position, rotation: rotation, speed: 1000)
+        sword.destroy()
+    }
     
     func aim(direction: CGPoint) {
         let angle = (atan2(direction.x, -direction.y))
         gunArm.zRotation =  angle - (90 * CGFloat.degreesToRadians)
         
-        if (angle * CGFloat.radiansToDegrees > 0) {
-            facedDirection = 1
-            
-        } else {
-            facedDirection = -1
-        }
+        flip(toTheRight: angle * CGFloat.radiansToDegrees > 0)
         
-        if (facedDirection == -1 && lastDirection.dx > 0)
-        || (facedDirection == 1 && lastDirection.dx < 0) {
-//             lastDirection.dx *= -1
-        }
-        
-        if(canShoot){
-            canShoot = false
+        if combatValues.canShoot {
             throwSword(rotation: gunArm.zRotation, direction: direction)
+            cooldownShoot()
         }
         
+    }
+    
+    func cooldownShoot() {
+        combatValues.canShoot = false
+        Timer.scheduledTimer(withTimeInterval: combatValues.shootCoolDown, repeats: false) { _ in
+            self.combatValues.canShoot = true
+        }
     }
     
     func cancelAim(){
         //changeDirection()
     }
-    
-    func changeDirection(){
-        let angle = gunArm.zRotation * CGFloat.radiansToDegrees + 90
-        let angle2 = ((-angle) - 90) * CGFloat.degreesToRadians
+}
+
+// MARK: Joystick actions implementation
+extension Player: Controllable2D {
+    func move(for velocity: CGPoint) {
+        if directionValues.lastDirection != velocity {
+            self.directionValues.lastDirection = CGVector(dx: velocity.x, dy: velocity.y)
+        }
         
-        sprite.xScale = (sprite.xScale).magnitude
-        gunArm.yScale = (gunArm.yScale).magnitude
-        
-        if(facedDirection < 0){
-            
-            sprite.xScale = sprite.xScale * -1
-            gunArm.yScale = gunArm.yScale * -1
-            if( (angle) > 0 && angle < 180){
-                gunArm.zRotation = angle2
-            }
-            
-        }else{
-            if(angle < 0 || angle > 180){
-                gunArm.zRotation =  angle2
-            }
+        if (self.dashValues.willDash)
+        || (!self.dashValues.isDashing && !self.wallJumpValues.isWallJumping)
+        || (self.wallJumpValues.isWallJumping && self.wallJumpValues.isFallingFromWallJump) {
+            self.startWalking(direction: velocity)
         }
     }
-
+    
+    func stopMoving() {
+        self.physicsBody?.velocity.dx = 0
+        self.directionValues.lastDirection.dy = 0
+        self.directionValues.lastSpeed = 0
+        self.directionValues.isWalking = false
+    }
+    
+    func rotate(for angularVelocity: CGFloat) {
+        if (angularVelocity.magnitude < 0) { return }
+        let direction = CGPoint(angle: angularVelocity + 90 * CGFloat.degreesToRadians)
+        aim(direction: direction)
+    }
     
 }
 
-
-
-typealias Vector2D = CGVector
+// MARK: Conforming to Updatable protocol
+extension Player: Updatable {
+    func update(currentTime: TimeInterval) {}
+}

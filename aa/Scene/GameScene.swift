@@ -131,7 +131,7 @@ class GameScene: SKScene {
         platform = Platform(size: platformSize, position: platformPosition)
         addChild(platform)
         
-        let pos2 = CGPoint(x: platformPosition.x, y: -100)
+        let pos2 = CGPoint(x: -platformPosition.x, y: -50)
         let plat2 = Platform(size: platformSize, position: pos2)
         addChild(plat2)
     }

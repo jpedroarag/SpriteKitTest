@@ -32,9 +32,9 @@ class PhysicsDetection: NSObject, SKPhysicsContactDelegate {
         //if the collision was between player and ground
         if collision == ColliderType.player | ColliderType.ground {
             if let player = contact.bodyA.node as? Player {
-                player.grounded = true
+                player.ground()
             } else if let player = contact.bodyB.node as? Player{
-                player.grounded = true
+                player.ground()
             }
         }
         
@@ -57,13 +57,13 @@ class PhysicsDetection: NSObject, SKPhysicsContactDelegate {
             let action = { (player: Player, platform: Platform) in
                 if let velocity = player.physicsBody?.velocity.dy {
                     if (velocity > 0 && player.position.y < platform.sprite.position.y)
-                    || (player.position.y < platform.sprite.position.y && player.isPlatforming) {
-                        if player.isPlatforming { player.physicsBody?.velocity.dy = 500 }
+                    || (player.position.y < platform.sprite.position.y && player.landValues.landed) {
+                        if player.landValues.landed { player.physicsBody?.velocity.dy = 500 }
                         player.physicsBody?.collisionBitMask &= ~ColliderType.platform
-                        player.willPlatform = true
+                        player.landValues.willPlatform = true
                     } else {
                         player.physicsBody?.collisionBitMask |= ColliderType.platform
-                        player.isPlatforming = true
+                        player.land()
                     }
                 }
             }
@@ -90,21 +90,19 @@ class PhysicsDetection: NSObject, SKPhysicsContactDelegate {
             let action = { (player: Player, platform: Platform) in
                 if let velocity = player.physicsBody?.velocity.dy {
                     if (velocity > 0 && player.position.y < platform.sprite.position.y)
-                    || (player.position.y < platform.sprite.position.y && player.isPlatforming) {
-                        if player.willPlatform {
+                    || (player.position.y < platform.sprite.position.y && player.landValues.landed) {
+                        if player.landValues.willPlatform {
                             player.physicsBody?.collisionBitMask |= ColliderType.platform
-                            player.isPlatforming = true
-                            player.willPlatform = false
+                            player.land()
                         }
                     } else {
-                        if player.willPlatform || player.isFallingFromWallJump {
+                        if player.landValues.willPlatform || player.wallJumpValues.isFallingFromWallJump {
                             player.physicsBody?.collisionBitMask |= ColliderType.platform
-                            player.isPlatforming = true
-                            player.willPlatform = false
-                        } else if player.isFalling {
+                            player.land()
+                        } else if player.landValues.isFallingFromPlatform {
                             player.physicsBody?.collisionBitMask |= ColliderType.platform
-                            player.isPlatforming = true
-                            player.isFalling = false
+                            player.land()
+                            player.landValues.isFallingFromPlatform = false
                         }
                     }
                 }

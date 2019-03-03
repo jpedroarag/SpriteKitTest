@@ -30,9 +30,9 @@ class PhysicsDetection2: NSObject, SKPhysicsContactDelegate {
         if collision == ColliderType.player | ColliderType.ground {
             
             if let player = contact.bodyA.node as? Player {
-                player.grounded = true
+                player.landValues.grounded = true
             }else if let player = contact.bodyB.node as? Player{
-                player.grounded = true
+                player.landValues.grounded = true
             }
             print("Chao")
             
