@@ -204,7 +204,7 @@ extension Player {
         self.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 20, height: 20))
         self.physicsBody?.allowsRotation = false
         self.physicsBody?.restitution = 0
-        //self.physicsBody?.friction = 0
+        self.physicsBody?.friction = 0
         self.physicsBody?.categoryBitMask = ColliderType.player
         self.physicsBody?.fieldBitMask = ColliderType.gravity
         self.physicsBody?.collisionBitMask = ColliderType.ground | ColliderType.wall

@@ -13,7 +13,7 @@ class VirtualButton: SKSpriteNode {
     
     var touchActions = TouchActions()
     
-    init(texture: SKTexture? = nil, color: UIColor = .clear, size: CGSize, position: CGPoint = .zero, addTo scene: SKScene) {
+    init(texture: SKTexture? = nil, color: UIColor = .clear, size: CGSize, position: CGPoint = .zero, addTo scene: SKNode) {
         super.init(texture: texture, color: color, size: size)
         self.position = position
         self.isUserInteractionEnabled = true
