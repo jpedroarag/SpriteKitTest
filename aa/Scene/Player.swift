@@ -42,25 +42,25 @@ struct LandValues {
     static let platformsHeight: CGFloat = 32
     
     /// Tells if the player is getting up in a platform
-    var willPlatform = false
+    var willLand = false
     
     /// Tells if the player is currently landed on a platform which is not the ground
     var landed = false
     
     /// Tells if the player will fall from the platform which he is landed soon
-    var willFallFromPlatform = false
+    var willUnland = false
     
     /// Tells if the player fell from the platform which he was landed
-    var isFallingFromPlatform = false
+    var isUnlanding = false
     
     /// Tells if the player is currently landed on the ground of the scene
     var grounded = true
     
     /// Resets all land values to their initial value
     mutating func resetToInitialState() {
-        willFallFromPlatform = false
-        isFallingFromPlatform = false
-        willPlatform = false
+        willUnland = false
+        isUnlanding = false
+        willLand = false
         landed = false
         grounded = true
     }
@@ -133,6 +133,7 @@ struct CombatValues {
     var canShoot = true
 }
 
+// MARK: Player class definition
 class Player: SKNode {
     
     // MARK: Properties
@@ -167,8 +168,7 @@ class Player: SKNode {
             return scene?.gravityField.strength
         }
         set(value) {
-            let scene = self.scene as? GameScene
-            if let value = value { scene?.gravityField.strength = value }
+            if let value = value, let scene = scene as? GameScene { scene.gravityField.strength = value }
         }
     }
     
@@ -291,9 +291,9 @@ extension Player {
         turnCollisionWithPlatforms(on: true)
         resetVelocity()
         landValues.landed = true
-        landValues.willFallFromPlatform = false
-        landValues.isFallingFromPlatform = false
-        landValues.willPlatform = false
+        landValues.willUnland = false
+        landValues.isUnlanding = false
+        landValues.willLand = false
         jumpValues.canJump = true
         jumpValues.numberOfJumps = 0
         wallJumpValues.resetToInitialState()
@@ -303,9 +303,9 @@ extension Player {
     }
     
     func unland() {
-        landValues.isFallingFromPlatform = true
+        landValues.isUnlanding = true
         landValues.landed = false
-        landValues.willFallFromPlatform = false
+        landValues.willUnland = false
         turnCollisionWithPlatforms(on: false)
     }
     
@@ -347,10 +347,10 @@ extension Player {
         self.wallJumpValues.isFallingFromWallJump = false
         
         self.jumpValues.canJump = true
-        self.landValues.willFallFromPlatform = false
-        self.landValues.isFallingFromPlatform = false
+        self.landValues.willUnland = false
+        self.landValues.isUnlanding = false
         self.landValues.landed = false
-        self.landValues.willPlatform = false
+        self.landValues.willLand = false
         
         self.physicsBody?.velocity.dy = 0
         self.gravityStrength = 2.5
@@ -395,7 +395,7 @@ extension Player {
             directionValues.lastDirection.dx = 0
             directionValues.lastDirection.dy = -70
             if landValues.landed && !jumpValues.isJumping {
-                landValues.willFallFromPlatform = true
+                landValues.willUnland = true
                 // Gambiarra: Fazendo colidir manualmente,
                 // pois como a plataforma tem restitution = 0,
                 // ele não colide com a plataforma quando usa o dash para baixo
@@ -426,7 +426,7 @@ extension Player {
         if !self.dashValues.isDashing && !self.dashValues.isCooldownling {
             let direction = getDashDirection()
             let impulseVector = direction * 24
-            let fallingFromPlatform = landValues.isFallingFromPlatform || landValues.willFallFromPlatform
+            let fallingFromPlatform = landValues.isUnlanding || landValues.willUnland
             
             if !fallingFromPlatform {
                 self.dashValues.willDash = true

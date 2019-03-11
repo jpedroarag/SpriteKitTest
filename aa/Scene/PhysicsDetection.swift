@@ -59,7 +59,7 @@ class PhysicsDetection: NSObject, SKPhysicsContactDelegate {
                     || (player.position.y < platform.sprite.position.y && player.landValues.landed) {
                         if player.landValues.landed { player.physicsBody?.velocity.dy = 500 }
                         player.turnCollisionWithPlatforms(on: false)
-                        player.landValues.willPlatform = true
+                        player.landValues.willLand = true
                     } else {
                         player.land()
                     }
@@ -89,13 +89,13 @@ class PhysicsDetection: NSObject, SKPhysicsContactDelegate {
                 if let velocity = player.physicsBody?.velocity.dy {
                     if (velocity > 0 && player.position.y < platform.sprite.position.y)
                     || (player.position.y < platform.sprite.position.y && player.landValues.landed) {
-                        if player.landValues.willPlatform {
+                        if player.landValues.willLand {
                             player.land()
                         }
                     } else {
-                        if player.landValues.willPlatform || player.wallJumpValues.isFallingFromWallJump {
+                        if player.landValues.willLand || player.wallJumpValues.isFallingFromWallJump {
                             player.land()
-                        } else if player.landValues.isFallingFromPlatform {
+                        } else if player.landValues.isUnlanding {
                             player.unland()
                         }
                     }
