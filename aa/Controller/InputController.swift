@@ -21,11 +21,11 @@ class InputController: Updatable {
     var joystick: Joystick!
     var joystickShoot: Joystick!
     
-    init(view: SKView, player: Player, buttonsSize: CGSize = .init(width: 60, height: 60), addTo scene: SKScene) {
+    init(view: SKView, player: Player, buttonsSize: CGSize = .init(width: 60, height: 60), addTo scene: SKNode) {
         createMovementButtons(view: view, player: player, withSize: buttonsSize, addTo: scene)
     }
     
-    func createMovementButtons(view: SKView, player: Player, withSize size: CGSize, addTo: SKScene) {
+    func createMovementButtons(view: SKView, player: Player, withSize size: CGSize, addTo node: SKNode) {
         if let scene = view.scene {
             let viewSize = -view.frame.size/2
             
@@ -35,16 +35,20 @@ class InputController: Updatable {
             joystick.position.y += 36
             joystick.attach(moveControllable: player)
             joystick.forceTouchAction = { _ in player.dash() }
-            scene.addChild(joystick)
+            //scene.addChild(joystick)
+            node.addChild(joystick)
             
             joystickShoot = Joystick()
             joystickShoot.position = joystick.position
             joystickShoot.position.x *= -1
             joystickShoot.attach(rotateControllable: player)
-            scene.addChild(joystickShoot)
+            joystickShoot.forceTouchAction = { _ in player.jump() }
+            //scene.addChild(joystickShoot)
+            node.addChild(joystickShoot)
             
             let texture = SKTexture(imageNamed: "Jump")
-            tapJump = VirtualButton(texture: texture, size: size, addTo: scene)
+//            tapJump = VirtualButton(texture: texture, size: size, addTo: scene)
+            tapJump = VirtualButton(texture: texture, size: size, addTo: node)
             tapJump.addAction(action: { player.jump() }, type: .began)
             tapJump.position = joystickShoot.position
             tapJump.position.x -= joystick.dpadSize.width/2 + tapJump.size.width/2 + 8

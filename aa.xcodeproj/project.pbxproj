@@ -32,6 +32,8 @@
 		ECFA3F0D22271903007E846E /* PhysicsDetection2.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECFA3F0822271903007E846E /* PhysicsDetection2.swift */; };
 		ECFA3F0F22271915007E846E /* Player2.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECFA3F0E22271915007E846E /* Player2.swift */; };
 		ECFA3F112227192F007E846E /* GameScene2.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECFA3F102227192F007E846E /* GameScene2.swift */; };
+		ECFA3F1422295BDE007E846E /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = ECFA3F13222958C1007E846E /* GameScene.sks */; };
+		ECFA3F1522295BE2007E846E /* TileMapTower.sks in Resources */ = {isa = PBXBuildFile; fileRef = ECFA3F12222958AB007E846E /* TileMapTower.sks */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -62,6 +64,8 @@
 		ECFA3F0822271903007E846E /* PhysicsDetection2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhysicsDetection2.swift; sourceTree = "<group>"; };
 		ECFA3F0E22271915007E846E /* Player2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player2.swift; sourceTree = "<group>"; };
 		ECFA3F102227192F007E846E /* GameScene2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene2.swift; sourceTree = "<group>"; };
+		ECFA3F12222958AB007E846E /* TileMapTower.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = TileMapTower.sks; sourceTree = "<group>"; };
+		ECFA3F13222958C1007E846E /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,6 +131,8 @@
 		3C77F8832225739700905D25 /* Scene */ = {
 			isa = PBXGroup;
 			children = (
+				ECFA3F12222958AB007E846E /* TileMapTower.sks */,
+				ECFA3F13222958C1007E846E /* GameScene.sks */,
 				3C77F88022206E0300905D25 /* PhysicsDetection.swift */,
 				3C77F871221F053F00905D25 /* Player.swift */,
 				3C77F86F221F053F00905D25 /* GameScene.swift */,
@@ -222,9 +228,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ECFA3F1422295BDE007E846E /* GameScene.sks in Resources */,
 				3C77F860221F052300905D25 /* Main.storyboard in Resources */,
 				3C77F862221F052500905D25 /* Assets.xcassets in Resources */,
 				3C77F865221F052500905D25 /* LaunchScreen.storyboard in Resources */,
+				ECFA3F1522295BE2007E846E /* TileMapTower.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -403,7 +411,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 6H6ZL3JRAS;
+				DEVELOPMENT_TEAM = 89JG34L8Z2;
 				INFOPLIST_FILE = aa/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -421,7 +429,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 6H6ZL3JRAS;
+				DEVELOPMENT_TEAM = 89JG34L8Z2;
 				INFOPLIST_FILE = aa/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

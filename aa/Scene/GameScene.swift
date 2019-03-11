@@ -16,29 +16,34 @@ class GameScene: SKScene {
     let physicsDelegate = PhysicsDetection()
     var gravityField: SKFieldNode!
     var inputController: InputController!
+
+    var tilemap: SKTileMapNode!
     
+
     
     override func didMove(to view: SKView) {
-        
+        anchorPoint = CGPoint(x: 0.5, y: 0.5)
         view.showsPhysics = true
+        tilemap = scene?.childNode(withName: "Tile Map Node") as? SKTileMapNode //else{fatalError("Não deu bom")}
+        setupTileMapPhysicsBody(tileMap: tilemap)
         
         physicsWorld.contactDelegate = physicsDelegate
         addGravity()
         player = Player(addToView: self)
+        setupCamera()
         if let scene = view.scene {
-            inputController = InputController(view: view, player: player, addTo: scene)
+            inputController = InputController(view: view, player: player, addTo: self.camera!)
         }
         updatables.append(inputController)
         // 2
-        anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        backgroundColor = SKColor.white
+        
+        backgroundColor = UIColor.clear
         // 3
         player.position = CGPoint(x: 5, y: 5)
         // 4
-        createSandbox(view: view)
+        //createSandbox(view: view)
 
         updatables.append(player)
-        //addChild(player)
         
         
     }
@@ -135,6 +140,8 @@ class GameScene: SKScene {
     override func update(_ currentTime: TimeInterval) {
         //inputController.joystick.update(currentTime)
         updatables.forEach { $0.update(currentTime: currentTime) }
+        followPlayer(player: player)
+        
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -158,4 +165,100 @@ class GameScene: SKScene {
         //player.cancelAim()
     }
     
+}
+
+extension GameScene{
+    enum TileSetType: String {
+        case porta = "porta"
+        case espinhos = "espinhos"
+        case limite = "limite"
+        case plataforma = "plataforma"
+        case background = "background"
+    }
+    func setupCamera(){
+        guard let camera = scene?.childNode(withName: "camera") as? SKCameraNode else{
+            fatalError("Não deu bom 2")
+        }
+        camera.scene?.scaleMode = .resizeFill
+        self.camera = camera
+        cameraConstraints()
+        camera.position = CGPoint.zero
+        
+    }
+    func followPlayer(player: SKNode) {
+        //scene?.camera?.position = player.position
+    }
+    func cameraConstraints(){
+        // Constrain the camera to stay a constant distance of 0 points from the player node.
+        let zeroRange = SKRange(constantValue: 0.0)
+        let playerConstraint = SKConstraint.distance(zeroRange, to: player)
+        let tilemapContentRect = CGRect(x: tilemap!.position.x, y: tilemap!.position.y, width: tilemap!.mapSize.width, height: tilemap!.mapSize.height)
+        
+    
+        
+        //let horizontalRange = SKRange(lowerLimit: tilemapContentRect.minX, upperLimit: tilemapContentRect.minX)
+        
+        //let verticalRange = SKRange(lowerLimit: -tilemapContentRect.minY/2, upperLimit: tilemapContentRect.maxY/2)
+        let horizontalRange = SKRange(lowerLimit: (tilemap.position.x - tilemap.mapSize.width/2) + view!.bounds.width/2, upperLimit: (tilemap.position.x + tilemap.mapSize.width/2) - (view?.bounds.width)!/2)
+        
+        let verticalRange = SKRange(lowerLimit: (tilemap.position.y - tilemap.mapSize.height/2) + (view?.bounds.height)!/2, upperLimit: (tilemap.position.y + tilemap.mapSize.height/2) - (view?.bounds.height)!/2)
+
+        let tileHorizontalConstraint = SKConstraint.positionX(horizontalRange)
+        
+        let tileVerticalConstraint = SKConstraint.positionY(verticalRange)
+
+        
+        camera!.constraints = [playerConstraint, tileHorizontalConstraint, tileVerticalConstraint]
+    }
+    func setupTileMapPhysicsBody(tileMap: SKTileMapNode) {
+        let tileSize = tileMap.tileSize
+        let halfWidth = CGFloat(tileMap.numberOfColumns) / 2.0 * tileSize.width
+        let halfHeight = CGFloat(tileMap.numberOfRows) / 2.0 * tileSize.height
+        let startingLocation:CGPoint = tileMap.position
+        for row in 0..<tileMap.numberOfRows{
+            for column in 0..<tileMap.numberOfColumns{
+                let tileSet = tileMap.tileDefinition(atColumn: column, row: row)
+                let tileArray = tileSet?.textures
+                let tileTexture = tileArray![0]
+                
+                let x = CGFloat(column) * tileSize.width - halfWidth + (tileSize.width / 2)
+                let y = CGFloat(row) * tileSize.height - halfHeight + (tileSize.height / 2)
+                // print(tileTexture)
+                
+                
+                
+                switch tileSet?.name{
+                case TileSetType.background.rawValue:
+                    
+                    break
+                case TileSetType.limite.rawValue,TileSetType.plataforma.rawValue :
+                    
+                    let tileNode = SKSpriteNode(texture:tileTexture)
+                    tileNode.position = CGPoint(x: x, y: y)
+                    tileNode.physicsBody = SKPhysicsBody(rectangleOf: tileTexture.size() + CGSize(width: 2, height: 2))//SKPhysicsBody(texture: tileTexture, size: CGSize(width: (tileTexture.size().width + 5), height: (tileTexture.size().height )))
+                    tileNode.physicsBody?.linearDamping = 0
+                    tileNode.physicsBody?.affectedByGravity = false
+                    tileNode.physicsBody?.allowsRotation = false
+                    tileNode.physicsBody?.isDynamic = false
+                    tileNode.physicsBody?.friction = 0
+                    tileNode.physicsBody?.categoryBitMask = ColliderType.ground
+                    tileNode.physicsBody?.contactTestBitMask = ColliderType.player
+                    tileNode.name = "Ground"
+                    self.addChild(tileNode)
+                      tileNode.position = CGPoint(x: tileNode.position.x + startingLocation.x, y: tileNode.position.y + startingLocation.y)
+                    break
+                case TileSetType.espinhos.rawValue:
+                    
+                    break
+                case TileSetType.porta.rawValue:
+                    break
+                default:
+                    break
+                }
+                
+            }
+        }
+        
+        
+    }
 }
