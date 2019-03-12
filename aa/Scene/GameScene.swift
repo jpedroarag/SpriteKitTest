@@ -32,7 +32,7 @@ class GameScene: SKScene {
         addGravity()
         player = Player(addToView: self)
         setupCamera()
-        if let scene = view.scene {
+        if let _ = view.scene {
             inputController = InputController(view: view, player: player, addTo: self.camera!)
         }
         updatables.append(inputController)
@@ -197,6 +197,7 @@ extension GameScene{
     func followPlayer(player: SKNode) {
         //scene?.camera?.position = player.position
     }
+    
     func cameraConstraints(){
         // Constrain the camera to stay a constant distance of 0 points from the player node.
         let zeroRange = SKRange(constantValue: 0.0)
@@ -219,6 +220,7 @@ extension GameScene{
         
         camera!.constraints = [playerConstraint, tileHorizontalConstraint, tileVerticalConstraint]
     }
+    
     func setupTileMapPhysicsBody(tileMap: SKTileMapNode) {
         let tileSize = tileMap.tileSize
         let halfWidth = CGFloat(tileMap.numberOfColumns) / 2.0 * tileSize.width
@@ -238,9 +240,14 @@ extension GameScene{
                 
                 switch tileSet?.name{
                 case TileSetType.background.rawValue:
-                    
                     break
-                case TileSetType.limite.rawValue,TileSetType.plataforma.rawValue :
+                case TileSetType.plataforma.rawValue:
+                    let platform = Platform(size: tileTexture.size() + CGSize(width: 2, height: 2),
+                                            position: CGPoint(x: x, y: y))
+                    addChild(platform)
+                    platform.sprite.position = CGPoint(x: platform.position.x + startingLocation.x, y: platform.position.y + startingLocation.y)
+                    platform.position = platform.sprite.position
+                case TileSetType.limite.rawValue:
                     
                     let tileNode = SKSpriteNode(texture:tileTexture)
                     tileNode.position = CGPoint(x: x, y: y)

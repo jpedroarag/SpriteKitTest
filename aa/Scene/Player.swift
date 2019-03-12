@@ -15,7 +15,7 @@ struct DashValues {
     let duration = 0.15
     
     /// The duration which the player won't be able to dash again
-    let cooldown = 0.5
+    let cooldown = 0.2
     
     /// Tells if the player will dash soon
     var willDash = false
@@ -293,6 +293,7 @@ extension Player {
         landValues.landed = true
         landValues.willUnland = false
         landValues.isUnlanding = false
+        landValues.grounded = false
         landValues.willLand = false
         jumpValues.canJump = true
         jumpValues.numberOfJumps = 0
@@ -335,7 +336,6 @@ extension Player {
         self.jumpValues.isJumping = true
         self.jumpValues.numberOfJumps += 1
         if self.jumpValues.numberOfJumps >= self.jumpValues.maxNumberOfJumps { self.jumpValues.canJump = false }
-        self.landValues.grounded = false
         self.physicsBody?.velocity.dy = 0
         self.physicsBody?.applyForce(CGVector.up * CGFloat(800))
     }
@@ -347,10 +347,7 @@ extension Player {
         self.wallJumpValues.isFallingFromWallJump = false
         
         self.jumpValues.canJump = true
-        self.landValues.willUnland = false
-        self.landValues.isUnlanding = false
-        self.landValues.landed = false
-        self.landValues.willLand = false
+        self.landValues.resetToInitialState()
         
         self.physicsBody?.velocity.dy = 0
         self.gravityStrength = 2.5
@@ -401,6 +398,7 @@ extension Player {
                 // ele não colide com a plataforma quando usa o dash para baixo
                 run(.moveTo(y: position.y - LandValues.platformsHeight, duration: 0.1))
             }
+            if landValues.grounded && !jumpValues.isJumping { directionValues.lastDirection = .zero }
         default:
             break
         }
@@ -426,24 +424,20 @@ extension Player {
         if !self.dashValues.isDashing && !self.dashValues.isCooldownling {
             let direction = getDashDirection()
             let impulseVector = direction * 24
-            let fallingFromPlatform = landValues.isUnlanding || landValues.willUnland
             
-            if !fallingFromPlatform {
-                self.dashValues.willDash = true
-                if self.wallJumpValues.isWallJumping {
-                    self.flip(toTheRight: impulseVector.dx > 0)
-                    self.wallJumpValues.isFallingFromWallJump = true
-                    self.wallJumpValues.isWallJumping = false
-                    self.resetVelocity()
-                }
-                
-                self.physicsBody?.fieldBitMask = ColliderType.none
-                self.physicsBody?.applyForce(impulseVector)
-                self.dashValues.willDash = false
-                self.dashValues.isDashing = true
-                self.restoreValuesAfterDash()
+            self.dashValues.willDash = true
+            if self.wallJumpValues.isWallJumping {
+                self.flip(toTheRight: impulseVector.dx > 0)
+                self.wallJumpValues.isFallingFromWallJump = true
+                self.wallJumpValues.isWallJumping = false
+                self.resetVelocity()
             }
             
+            self.physicsBody?.fieldBitMask = ColliderType.none
+            self.physicsBody?.applyForce(impulseVector)
+            self.dashValues.willDash = false
+            self.dashValues.isDashing = true
+            self.restoreValuesAfterDash()
         }
     }
     
