@@ -15,7 +15,7 @@ struct DashValues {
     let duration = 0.15
     
     /// The duration which the player won't be able to dash again
-    let cooldown = 0.5
+    let cooldown = 0.2
     
     /// Tells if the player will dash soon
     var willDash = false

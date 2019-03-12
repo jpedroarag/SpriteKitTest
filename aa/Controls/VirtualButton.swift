@@ -13,11 +13,10 @@ class VirtualButton: SKSpriteNode {
     
     var touchActions = TouchActions()
     
-    init(texture: SKTexture? = nil, color: UIColor = .clear, size: CGSize, position: CGPoint = .zero, addTo scene: SKNode) {
+    init(texture: SKTexture? = nil, color: UIColor = .clear, size: CGSize, position: CGPoint = .zero) {
         super.init(texture: texture, color: color, size: size)
         self.position = position
         self.isUserInteractionEnabled = true
-        scene.addChild(self)
     }
     
     func addAction(action: @escaping ()->(), type: TouchType){

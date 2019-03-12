@@ -17,7 +17,7 @@ class InputController: Updatable {
     }
     
     var tapJump: VirtualButton!
-//    var tapDash: VirtualButton!
+    var tapDash: VirtualButton!
     var joystick: Joystick!
     var joystickShoot: Joystick!
     
@@ -35,7 +35,6 @@ class InputController: Updatable {
             joystick.position.y += 36
             joystick.attach(moveControllable: player)
             joystick.forceTouchAction = { _ in player.dash() }
-            //scene.addChild(joystick)
             node.addChild(joystick)
             
             joystickShoot = Joystick()
@@ -43,23 +42,25 @@ class InputController: Updatable {
             joystickShoot.position.x *= -1
             joystickShoot.attach(rotateControllable: player)
             joystickShoot.forceTouchAction = { _ in player.jump() }
-            //scene.addChild(joystickShoot)
             node.addChild(joystickShoot)
             
             let texture = SKTexture(imageNamed: "Jump")
 //            tapJump = VirtualButton(texture: texture, size: size, addTo: scene)
-            tapJump = VirtualButton(texture: texture, size: size, addTo: node)
+            tapJump = VirtualButton(texture: texture, size: size)
             tapJump.addAction(action: { player.jump() }, type: .began)
             tapJump.position = joystickShoot.position
-            tapJump.position.x -= joystick.dpadSize.width/2 + tapJump.size.width/2 + 8
-            
-//            tapDash = VirtualButton(color: .red, size: size/2, addTo: scene)
-//            tapDash.addAction(action: { player.dash() }, type: .began)
-//            tapDash.position = joystickShoot.position
-//            tapDash.position.x -= 0
-////            tapDash.position.x -= size.width + 4
-//            tapDash.position.y += 60
-//            tapDash.alpha = 0.5
+            tapJump.position.x -= joystick.dpadSize.width/2 + tapJump.size.width/2 + 16
+            tapJump.position.y += tapJump.size.height/2
+            tapJump.zPosition = 1
+            node.addChild(tapJump)
+        
+            let dashTex = SKTexture(imageNamed: "Dash")
+            tapDash = VirtualButton(texture: dashTex, size: size)
+            tapDash.addAction(action: { player.dash() }, type: .began)
+            tapDash.position = tapJump.position
+            tapDash.position.y -= tapJump.size.height + 16
+            tapDash.zPosition = 1
+            node.addChild(tapDash)
             
         }
     }
