@@ -36,8 +36,12 @@ class ProceduralTileMap {
         let tileSize = tileMap.tileSize
         let halfWidth = CGFloat(tileMap.numberOfColumns) / 2.0 * tileSize.width
         let halfHeight = CGFloat(tileMap.numberOfRows) / 2.0 * tileSize.height
-        let startingLocation:CGPoint = tileMap.position
-        for row in 0..<tileMap.numberOfRows{
+        let startingLocation: CGPoint = tileMap.position
+        
+        for row in 0..<tileMap.numberOfRows {
+            var platStartIndex: Int? = nil
+            var platEndIndex: Int? = nil
+            
             for column in 0..<tileMap.numberOfColumns{
                 let tileSet = tileMap.tileDefinition(atColumn: column, row: row)
                 let tileArray = tileSet?.textures
@@ -48,36 +52,72 @@ class ProceduralTileMap {
                 let y = CGFloat(row) * tileSize.height - halfHeight + (tileSize.height / 2)
                 // print(tileTexture)
                 
-                
-                
                 switch tileSet?.name{
                 case TileSetType.background.rawValue:
                     
                     break
                 case TileSetType.limite.rawValue:
                     
-                    let tileNode = SKSpriteNode(texture:tileTexture)
-                    tileNode.position = CGPoint(x: x, y: y)
-                    tileNode.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: (tileTexture.size().width) + 5, height: (tileTexture.size().height) + 5))
-                    tileNode.physicsBody?.linearDamping = 0
-                    tileNode.physicsBody?.affectedByGravity = false
-                    tileNode.physicsBody?.allowsRotation = false
-                    tileNode.physicsBody?.isDynamic = false
-                    tileNode.physicsBody?.friction = 0
-                    tileNode.physicsBody?.categoryBitMask = ColliderType.ground
-                    tileNode.physicsBody?.contactTestBitMask = ColliderType.player
-                    viewNode.addChild(tileNode)
+                    // Chão e teto
+                    if (row == 0 && column == tileMap.numberOfColumns - 1)
+                    || (row == tileMap.numberOfRows - 1 && column == tileMap.numberOfColumns - 1) {
+                        let size = CGSize(width: CGFloat(tileMap.numberOfColumns) * tileSize.width, height: tileSize.height)
+                        let position = CGPoint(x: x + startingLocation.x - size.width/2 + tileSize.width/2, y: y + startingLocation.y)
+                        let tileNode = SKSpriteNode(texture: nil)
+                        tileNode.position = CGPoint(x: x, y: y)
+                        tileNode.physicsBody = SKPhysicsBody(rectangleOf: size)
+                        tileNode.physicsBody?.linearDamping = 0
+                        tileNode.physicsBody?.affectedByGravity = false
+                        tileNode.physicsBody?.allowsRotation = false
+                        tileNode.physicsBody?.isDynamic = false
+                        tileNode.physicsBody?.friction = 0
+                        if row == 0 {
+                            tileNode.physicsBody?.categoryBitMask = ColliderType.ground
+                        }
+                        tileNode.physicsBody?.contactTestBitMask = ColliderType.player
+                        viewNode.addChild(tileNode)
+                        tileNode.position = position
+                    }
                     
-                    tileNode.position = CGPoint(x: tileNode.position.x + startingLocation.x, y: tileNode.position.y + startingLocation.y)
-                    break
+                    // Paredes
+                    if (row == tileMap.numberOfRows - 1 && column == 0)
+                    || (row == tileMap.numberOfRows - 1 && column == tileMap.numberOfColumns - 1) {
+                        let size = CGSize(width: tileSize.width, height: CGFloat(tileMap.numberOfRows) * tileSize.height)
+                        let position = CGPoint(x: x + startingLocation.x, y: y + startingLocation.y - size.height/2 + tileSize.height/2)
+                        let tileNode = SKSpriteNode(texture: nil)
+                        tileNode.position = CGPoint(x: x, y: y)
+                        tileNode.physicsBody = SKPhysicsBody(rectangleOf: size)
+                        tileNode.physicsBody?.linearDamping = 0
+                        tileNode.physicsBody?.affectedByGravity = false
+                        tileNode.physicsBody?.allowsRotation = false
+                        tileNode.physicsBody?.isDynamic = false
+                        tileNode.physicsBody?.friction = 0
+                        tileNode.physicsBody?.restitution = 0
+                        tileNode.physicsBody?.categoryBitMask = ColliderType.wall
+                        tileNode.physicsBody?.contactTestBitMask = ColliderType.player
+                        viewNode.addChild(tileNode)
+                        tileNode.position = position
+                    }
+                    
                 case TileSetType.plataforma.rawValue:
-                    let tileNode = Platform(texture: tileTexture,
-                                            size: CGSize(width: (tileTexture.size().width),
-                                                         height: (tileTexture.size().height)),
-                                            position: CGPoint(x: x, y: y))
-                    viewNode.addChild(tileNode)
-                    tileNode.position = CGPoint(x: tileNode.position.x + startingLocation.x, y: tileNode.position.y + startingLocation.y)
-                    break
+                    if platStartIndex == nil {
+                        platStartIndex = column
+                    }
+                    
+                    let platEndCondition1 = (tileMap.numberOfColumns - 2 > column + 1 && tileMap.tileDefinition(atColumn: column + 1, row: row)?.name != TileSetType.plataforma.rawValue)
+                    let platEndCondition2 = (tileMap.numberOfColumns - 2 == column)
+                    if platEndIndex == nil && platStartIndex != nil && (platEndCondition1 || platEndCondition2) {
+                        platEndIndex = column
+                        
+                        let platTilesCount = CGFloat(platEndIndex! - platStartIndex! + 1)
+                        let size = CGSize(width: platTilesCount * tileSize.width, height: tileSize.height)
+                        let position = CGPoint(x: x + startingLocation.x - size.width/2 + tileSize.width/2, y: y + startingLocation.y)
+                        let tileNode = Platform(size: size, position: position)
+                        viewNode.addChild(tileNode)
+                        
+                        platStartIndex = nil
+                        platEndIndex = nil
+                    }
                 case TileSetType.espinhos.rawValue:
                     
                     break

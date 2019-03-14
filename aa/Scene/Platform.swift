@@ -15,7 +15,7 @@ class Platform: SKNode {
     init(texture: SKTexture? = nil, size: CGSize = .zero, position: CGPoint = .zero) {
         super.init()
         name = "Platform"
-        sprite = SKSpriteNode(texture: texture, color: .black, size: size)
+        sprite = SKSpriteNode(texture: texture, color: .clear, size: size)
         sprite.position = position
         setupPhysics(size: size, position: position)
         addChild(sprite)
@@ -29,7 +29,6 @@ class Platform: SKNode {
         physics.allowsRotation = false
         physics.affectedByGravity = false
         physics.isDynamic = false
-        physics.usesPreciseCollisionDetection = true
         physics.restitution = 0
         physics.friction = 0
         physicsBody = physics

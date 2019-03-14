@@ -332,6 +332,7 @@ extension Player {
             return
         }
         
+        self.landValues.grounded = false
         self.jumpValues.isJumping = true
         self.jumpValues.numberOfJumps += 1
         if self.jumpValues.numberOfJumps >= self.jumpValues.maxNumberOfJumps { self.jumpValues.canJump = false }
