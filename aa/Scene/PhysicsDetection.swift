@@ -65,13 +65,14 @@ class PhysicsDetection: NSObject, SKPhysicsContactDelegate {
 //                    }
 //                }
                 if let velocity = player.physicsBody?.velocity.dy {
-                    if player.jumpValues.isJumping && (player.landValues.grounded || player.landValues.landed) {
-                        if player.landValues.landed { player.physicsBody?.velocity.dy = 500 }
-                        player.turnCollisionWithPlatforms(on: false)
-                        player.landValues.willLand = true
-                    } else {
-                        player.land()
-                    }
+//                    if player.jumpValues.isJumping && (player.landValues.grounded || player.landValues.landed) {
+//                        if player.landValues.landed { player.physicsBody?.velocity.dy = 500 }
+//                        player.turnCollisionWithPlatforms(on: false)
+//                        player.landValues.willLand = true
+//                    } else {
+//                        player.land()
+//                    }
+                    player.ground()
                 }
             }
             if let player = contact.bodyA.node as? Player,
@@ -108,11 +109,11 @@ class PhysicsDetection: NSObject, SKPhysicsContactDelegate {
 //                            player.unland()
 //                        }
 //                    }
-                        if player.landValues.willLand || player.wallJumpValues.isFallingFromWallJump {
-                            player.land()
-                        } else if player.landValues.isUnlanding {
-                            player.unland()
-                        }
+//                        if player.landValues.willLand || player.wallJumpValues.isFallingFromWallJump {
+//                            player.land()
+//                        } else if player.landValues.isUnlanding {
+//                            player.unland()
+//                        }
                 }
             }
             if let player = contact.bodyA.node as? Player,

@@ -12,10 +12,10 @@ class Platform: SKNode {
     
     var sprite: SKSpriteNode!
     
-    init(size: CGSize = .zero, position: CGPoint = .zero) {
+    init(texture: SKTexture? = nil, size: CGSize = .zero, position: CGPoint = .zero) {
         super.init()
         name = "Platform"
-        sprite = SKSpriteNode(texture: nil, color: .black, size: size)
+        sprite = SKSpriteNode(texture: texture, color: .black, size: size)
         sprite.position = position
         setupPhysics(size: size, position: position)
         addChild(sprite)
@@ -25,9 +25,13 @@ class Platform: SKNode {
         let physics = SKPhysicsBody(rectangleOf: size, center: position)
         physics.contactTestBitMask = ColliderType.player
         physics.categoryBitMask = ColliderType.platform
+        physics.linearDamping = 0
+        physics.allowsRotation = false
+        physics.affectedByGravity = false
         physics.isDynamic = false
         physics.usesPreciseCollisionDetection = true
         physics.restitution = 0
+        physics.friction = 0
         physicsBody = physics
     }
     

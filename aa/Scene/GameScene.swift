@@ -19,19 +19,21 @@ class GameScene: SKScene {
     var platform: Platform!
 
     var tilemap: SKTileMapNode!
-    
-
+    var tilemapObject = ProceduralTileMap.init()
     
     override func didMove(to view: SKView) {
         anchorPoint = CGPoint(x: 0.5, y: 0.5)
         view.showsPhysics = true
-        tilemap = scene?.childNode(withName: "Tile Map Node") as? SKTileMapNode //else{fatalError("Não deu bom")}
-        setupTileMapPhysicsBody(tileMap: tilemap)
-        
         physicsWorld.contactDelegate = physicsDelegate
         addGravity()
+        
+        tilemap = tilemapObject.createTileMap(tileSet: "TileSet", columns: 23, rows: 41, widthTile: 32, heightTile: 32)
+        scene?.addChild(tilemap)
+        tilemapObject.givTileMapPhysicsBody(tileMap: tilemap, viewNode: scene!)
+        
         player = Player(addToView: self)
         setupCamera()
+        
         if let _ = view.scene {
             inputController = InputController(view: view, player: player, addTo: self.camera!)
         }
@@ -45,8 +47,6 @@ class GameScene: SKScene {
         //createSandbox(view: view)
 
         updatables.append(player)
-        
-        
     }
     
     func addGravity() {
@@ -202,7 +202,7 @@ extension GameScene{
         // Constrain the camera to stay a constant distance of 0 points from the player node.
         let zeroRange = SKRange(constantValue: 0.0)
         let playerConstraint = SKConstraint.distance(zeroRange, to: player)
-        let tilemapContentRect = CGRect(x: tilemap!.position.x, y: tilemap!.position.y, width: tilemap!.mapSize.width, height: tilemap!.mapSize.height)
+        let tilemapContentRect = CGRect(x: tilemap.position.x, y: tilemap.position.y, width: tilemap.mapSize.width, height: tilemap.mapSize.height)
         
     
         
@@ -221,60 +221,4 @@ extension GameScene{
         camera!.constraints = [playerConstraint, tileHorizontalConstraint, tileVerticalConstraint]
     }
     
-    func setupTileMapPhysicsBody(tileMap: SKTileMapNode) {
-        let tileSize = tileMap.tileSize
-        let halfWidth = CGFloat(tileMap.numberOfColumns) / 2.0 * tileSize.width
-        let halfHeight = CGFloat(tileMap.numberOfRows) / 2.0 * tileSize.height
-        let startingLocation:CGPoint = tileMap.position
-        for row in 0..<tileMap.numberOfRows{
-            for column in 0..<tileMap.numberOfColumns{
-                let tileSet = tileMap.tileDefinition(atColumn: column, row: row)
-                let tileArray = tileSet?.textures
-                let tileTexture = tileArray![0]
-                
-                let x = CGFloat(column) * tileSize.width - halfWidth + (tileSize.width / 2)
-                let y = CGFloat(row) * tileSize.height - halfHeight + (tileSize.height / 2)
-                // print(tileTexture)
-                
-                
-                
-                switch tileSet?.name{
-                case TileSetType.background.rawValue:
-                    break
-                case TileSetType.plataforma.rawValue:
-                    let platform = Platform(size: tileTexture.size() + CGSize(width: 2, height: 2),
-                                            position: CGPoint(x: x, y: y))
-                    addChild(platform)
-                    platform.sprite.position = CGPoint(x: platform.position.x + startingLocation.x, y: platform.position.y + startingLocation.y)
-                    platform.position = platform.sprite.position
-                case TileSetType.limite.rawValue:
-                    
-                    let tileNode = SKSpriteNode(texture:tileTexture)
-                    tileNode.position = CGPoint(x: x, y: y)
-                    tileNode.physicsBody = SKPhysicsBody(rectangleOf: tileTexture.size() + CGSize(width: 2, height: 2))//SKPhysicsBody(texture: tileTexture, size: CGSize(width: (tileTexture.size().width + 5), height: (tileTexture.size().height )))
-                    tileNode.physicsBody?.linearDamping = 0
-                    tileNode.physicsBody?.affectedByGravity = false
-                    tileNode.physicsBody?.allowsRotation = false
-                    tileNode.physicsBody?.isDynamic = false
-                    tileNode.physicsBody?.friction = 0
-                    tileNode.physicsBody?.categoryBitMask = ColliderType.ground
-                    tileNode.physicsBody?.contactTestBitMask = ColliderType.player
-                    tileNode.name = "Ground"
-                    self.addChild(tileNode)
-                      tileNode.position = CGPoint(x: tileNode.position.x + startingLocation.x, y: tileNode.position.y + startingLocation.y)
-                    break
-                case TileSetType.espinhos.rawValue:
-                    
-                    break
-                case TileSetType.porta.rawValue:
-                    break
-                default:
-                    break
-                }
-                
-            }
-        }
-        
-        
-    }
 }

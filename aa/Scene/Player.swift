@@ -207,7 +207,7 @@ extension Player {
         self.physicsBody?.friction = 0
         self.physicsBody?.categoryBitMask = ColliderType.player
         self.physicsBody?.fieldBitMask = ColliderType.gravity
-        self.physicsBody?.collisionBitMask = ColliderType.ground | ColliderType.wall
+        self.physicsBody?.collisionBitMask = ColliderType.ground | ColliderType.wall | ColliderType.platform
         self.physicsBody?.contactTestBitMask = ColliderType.player
         self.name = "Player"
         self.addChild(sprite)
@@ -315,7 +315,6 @@ extension Player {
         landValues.resetToInitialState()
         wallJumpValues.resetToInitialState()
         jumpValues.resetToInitialState()
-        turnCollisionWithPlatforms(on: false)
     }
 }
 
@@ -337,7 +336,7 @@ extension Player {
         self.jumpValues.numberOfJumps += 1
         if self.jumpValues.numberOfJumps >= self.jumpValues.maxNumberOfJumps { self.jumpValues.canJump = false }
         self.physicsBody?.velocity.dy = 0
-        self.physicsBody?.applyForce(CGVector.up * CGFloat(800))
+        self.physicsBody?.applyForce(CGVector.up * CGFloat(700))
     }
     
     func wallJump() {
