@@ -366,6 +366,7 @@ extension Player {
 
 // MARK: Dash action implementation
 extension Player {
+    // This function is currently unused
     private func getDashDirection() -> CGVector {
         let scene = self.scene as? GameScene
         var angularVelocity: CGFloat = 90
@@ -422,8 +423,8 @@ extension Player {
     
     func dash() {
         if !self.dashValues.isDashing && !self.dashValues.isCooldownling {
-            let direction = getDashDirection()
-            let impulseVector = direction * 24
+            validateDashDirectionValue()
+            let impulseVector = CGVector(dx: directionValues.lastDirection.dx * 24, dy: 0)
             
             self.dashValues.willDash = true
             if self.wallJumpValues.isWallJumping {
@@ -455,6 +456,14 @@ extension Player {
         Timer.scheduledTimer(withTimeInterval: dashValues.cooldown, repeats: false) { _ in
             self.dashValues.isCooldownling = false
         }
+    }
+}
+
+// MARK: Stomp action implementation
+extension Player {
+    func stomp() {
+        let impulseVector = CGVector(dx: 0, dy: -700)
+        self.physicsBody?.applyForce(impulseVector)
     }
 }
 
