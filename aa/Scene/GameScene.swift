@@ -44,7 +44,12 @@ class GameScene: SKScene {
         // 3
         player.position = CGPoint(x: 5, y: 5)
         // 4
-        //createSandbox(view: view)
+        let enemy = childNode(withName: "enemy")
+        enemy?.position = player.position
+        enemy?.position.x += 32
+        enemy?.physicsBody?.categoryBitMask = ColliderType.hazard
+        enemy?.physicsBody?.collisionBitMask = ColliderType.ground | ColliderType.wall | ColliderType.platform
+        enemy?.physicsBody?.contactTestBitMask = ColliderType.hazard | ColliderType.player
 
         updatables.append(player)
     }
@@ -140,6 +145,7 @@ class GameScene: SKScene {
         let pos2 = CGPoint(x: -platformPosition.x, y: -50)
         let plat2 = Platform(size: platformSize, position: pos2)
         addChild(plat2)
+        
     }
     
     override func sceneDidLoad() {

@@ -131,6 +131,14 @@ struct CombatValues {
     
     /// Tells if the user can shoot
     var canShoot = true
+    
+    /// How many Health Points the player have
+    var hp = 100 {
+        didSet {
+            if hp > 100 { hp = 100 }
+            if hp < 0 { hp = 0 }
+        }
+    }
 }
 
 // MARK: Player class definition
@@ -207,7 +215,7 @@ extension Player {
         self.physicsBody?.friction = 0
         self.physicsBody?.categoryBitMask = ColliderType.player
         self.physicsBody?.fieldBitMask = ColliderType.gravity
-        self.physicsBody?.collisionBitMask = ColliderType.ground | ColliderType.wall | ColliderType.platform
+        self.physicsBody?.collisionBitMask = ColliderType.ground | ColliderType.wall | ColliderType.platform | ColliderType.hazard
         self.physicsBody?.contactTestBitMask = ColliderType.player
         self.name = "Player"
         self.addChild(sprite)
@@ -500,6 +508,19 @@ extension Player {
     
     func cancelAim(){
         //changeDirection()
+    }
+}
+
+// MARK: Combat implementation
+extension Player {
+    func receiveDamage(percentage: Int) {
+        combatValues.hp -= percentage
+        print("\(combatValues.hp)")
+        if combatValues.hp == 0 { die() }
+    }
+    
+    func die() {
+        
     }
 }
 
