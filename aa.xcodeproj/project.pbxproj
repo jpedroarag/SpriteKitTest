@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3C14AC82224A6F50009B0779 /* MenuNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C14AC81224A6F50009B0779 /* MenuNode.swift */; };
 		3C1FED76223947A500700039 /* EnumTileMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C1FED73223947A500700039 /* EnumTileMap.swift */; };
 		3C1FED77223947A500700039 /* ProceduralMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C1FED74223947A500700039 /* ProceduralMatrix.swift */; };
 		3C1FED78223947A500700039 /* ProceduralTileMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C1FED75223947A500700039 /* ProceduralTileMap.swift */; };
@@ -41,6 +42,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3C14AC81224A6F50009B0779 /* MenuNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuNode.swift; sourceTree = "<group>"; };
 		3C1FED73223947A500700039 /* EnumTileMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnumTileMap.swift; sourceTree = "<group>"; };
 		3C1FED74223947A500700039 /* ProceduralMatrix.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProceduralMatrix.swift; sourceTree = "<group>"; };
 		3C1FED75223947A500700039 /* ProceduralTileMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProceduralTileMap.swift; sourceTree = "<group>"; };
@@ -174,6 +176,7 @@
 			isa = PBXGroup;
 			children = (
 				3C77F86E221F053F00905D25 /* VirtualButton.swift */,
+				3C14AC81224A6F50009B0779 /* MenuNode.swift */,
 				3C77F8872225743C00905D25 /* Joystick */,
 			);
 			path = Controls;
@@ -279,6 +282,7 @@
 				3C77F88122206E0300905D25 /* PhysicsDetection.swift in Sources */,
 				3C77F87A221F054000905D25 /* GameViewController.swift in Sources */,
 				3C1FED76223947A500700039 /* EnumTileMap.swift in Sources */,
+				3C14AC82224A6F50009B0779 /* MenuNode.swift in Sources */,
 				3C77F879221F054000905D25 /* Player.swift in Sources */,
 				3C77F89522257BC700905D25 /* Controllable2D.swift in Sources */,
 				3C77F875221F054000905D25 /* CGPoint+Extensions.swift in Sources */,

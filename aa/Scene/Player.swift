@@ -520,7 +520,7 @@ extension Player {
     }
     
     func die() {
-        
+        (scene as? GameScene)?.showMenu()
     }
 }
 

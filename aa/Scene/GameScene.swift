@@ -21,6 +21,8 @@ class GameScene: SKScene {
     var tilemap: SKTileMapNode!
     var tilemapObject = ProceduralTileMap.init()
     
+    var menu: MenuNode!
+    
     override func didMove(to view: SKView) {
         anchorPoint = CGPoint(x: 0.5, y: 0.5)
         view.showsPhysics = true
@@ -50,8 +52,15 @@ class GameScene: SKScene {
         enemy?.physicsBody?.categoryBitMask = ColliderType.hazard
         enemy?.physicsBody?.collisionBitMask = ColliderType.ground | ColliderType.wall | ColliderType.platform
         enemy?.physicsBody?.contactTestBitMask = ColliderType.hazard | ColliderType.player
-
+        
+        menu = MenuNode(addTo: self)
+        menu.position = player.position
+        
         updatables.append(player)
+    }
+    
+    func showMenu() {
+        menu.isHidden = false
     }
     
     func addGravity() {
@@ -223,7 +232,6 @@ extension GameScene{
         
         let tileVerticalConstraint = SKConstraint.positionY(verticalRange)
 
-        
         camera!.constraints = [playerConstraint, tileHorizontalConstraint, tileVerticalConstraint]
     }
     
