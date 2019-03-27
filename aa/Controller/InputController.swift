@@ -41,7 +41,7 @@ class InputController: Updatable {
             node.addChild(joystick)
             
             joystickShoot = Joystick()
-            joystickShoot.restriction = .none
+            joystickShoot.restriction = .vertical
             joystickShoot.positionType = .free
             joystickShoot.position = joystick.position
             joystickShoot.position.x *= -1
