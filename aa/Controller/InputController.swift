@@ -30,6 +30,8 @@ class InputController: Updatable {
             let viewSize = -view.frame.size/2
             
             joystick = Joystick()
+            joystick.restriction = .horizontal
+            joystick.positionType = .free
             joystick.position = CGPoint(fromSize: viewSize + size)
             joystick.position.x += 36
             joystick.position.y += 36
@@ -38,6 +40,8 @@ class InputController: Updatable {
             node.addChild(joystick)
             
             joystickShoot = Joystick()
+            joystickShoot.restriction = .none
+            joystickShoot.positionType = .free
             joystickShoot.position = joystick.position
             joystickShoot.position.x *= -1
             joystickShoot.attach(rotateControllable: player)

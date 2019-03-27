@@ -20,6 +20,9 @@ public extension CGFloat{
     static var zero: CGFloat{
         return CGFloat(integerLiteral: 0)
     }
+    static public func clamp(_ value: CGFloat, lower: CGFloat, upper: CGFloat) -> CGFloat {
+        return Swift.min(Swift.max(lower, value), upper)
+    }
 }
 
 

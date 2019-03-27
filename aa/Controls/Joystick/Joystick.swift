@@ -1,20 +1,25 @@
-//
-//  Joystick.swift
-//  ios-spritekit-tanks
-//
-//  Created by Astemir Eleev on 06/06/2018.
-//  Copyright © 2018 Astemir Eleev. All rights reserved.
-//
 
 import Foundation
 import SpriteKit
+
+enum Restriction{
+    case none
+    case horizontal
+    case vertical
+}
+enum PositionType{
+    case fixed
+    case free
+}
 
 class Joystick: SKNode {
     
     // MARK: - Properties
     
     var forceTouchAction: ((UITouch) -> Void)?
-    
+    var restriction = Restriction.none
+    var positionType = PositionType.fixed
+    var canFade = true
     let kThumbSpringBackDuration: Double =  0.3
     private let backdropNode, thumbNode: SKSpriteNode
     
@@ -40,7 +45,7 @@ class Joystick: SKNode {
     
     // MARK: - Initiailziers
     
-    init(thumbNode: SKSpriteNode = SKSpriteNode(imageNamed: "joystick-fg"), backdropNode: SKSpriteNode = SKSpriteNode(imageNamed: "joystick-bg")) {
+    init(thumbNode: SKSpriteNode = SKSpriteNode(imageNamed: "joystick-fg"), backdropNode: SKSpriteNode = SKSpriteNode(imageNamed: "joystick-bg"), restriction: Restriction = .none, positionType: PositionType = .fixed) {
         
         self.thumbNode = thumbNode
         self.thumbNode.size = thumbSize
@@ -61,6 +66,9 @@ class Joystick: SKNode {
         
         thumbNode.alpha = 0.5
         backdropNode.alpha = 0.5
+        
+        self.restriction = restriction
+        self.positionType = positionType
         self.isUserInteractionEnabled = true
     }
     
@@ -84,14 +92,24 @@ class Joystick: SKNode {
         for touch in touches {
             let touchPoint: CGPoint = touch.location(in: self)
             
+            
+            
+                
+            
             if self.isTracking == false, self.thumbNode.frame.contains(touchPoint) {
                 self.isTracking = true
+                fade(alpha: 0.5)
             }
-            if self.isTracking == false, self.backdropNode.frame.contains(touchPoint) {
+            if(positionType == .free){
+                if self.isTracking == false, self.backdropNode.frame.contains(touchPoint) {
+                    
+                    self.isTracking = true
+                    fade(alpha: 0.5)
+                    touchesMoved(touches, with: event)
+                }
                 
-                self.isTracking = true
-                touchesMoved(touches, with: event)
             }
+            
         }
     }
     
@@ -108,6 +126,7 @@ class Joystick: SKNode {
                 if sqrtf(powf((Float(touchPoint.x) - Float(self.anchorPoint.x)), 2) + powf((Float(touchPoint.y) - Float(self.anchorPoint.y)), 2)) <= Float(self.thumbNode.size.width) {
                     let moveDifference: CGPoint = CGPoint(x: touchPoint.x - self.anchorPoint.x, y: touchPoint.y - self.anchorPoint.y)
                     self.thumbNode.position = CGPoint(x: self.anchorPoint.x + moveDifference.x, y: self.anchorPoint.y + moveDifference.y)
+                    
                 } else {
                     let vX: Double = Double(touchPoint.x) - Double(self.anchorPoint.x)
                     let vY: Double = Double(touchPoint.y) - Double(self.anchorPoint.y)
@@ -115,10 +134,12 @@ class Joystick: SKNode {
                     let aX: Double = Double(self.anchorPoint.x) + vX / magV * Double(self.thumbNode.size.width)
                     let aY: Double = Double(self.anchorPoint.y) + vY / magV * Double(self.thumbNode.size.width)
                     self.thumbNode.position = CGPoint(x: CGFloat(aX), y: CGFloat(aY))
+                   
                 }
             }
             self.velocity = CGPoint(x: ((self.thumbNode.position.x - self.anchorPoint.x)), y: ((self.thumbNode.position.y - self.anchorPoint.y)))
             self.angularVelocity = -atan2(self.thumbNode.position.x - self.anchorPoint.x, self.thumbNode.position.y - self.anchorPoint.y)
+            clampRestriction()
         }
         
         for touch in touches {
@@ -132,11 +153,14 @@ class Joystick: SKNode {
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         moveControllable?.stopMoving()
+        fade(alpha: 0.1)
         self.resetVelocity()
+        
     }
     
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         moveControllable?.stopMoving()
+        fade(alpha: 0.1)
         self.resetVelocity()
     }
     
@@ -152,7 +176,13 @@ class Joystick: SKNode {
         }
         
     }
-    
+    func fade(alpha: CGFloat){
+        if(!canFade) {
+            return
+        }
+        thumbNode.alpha = alpha
+        backdropNode.alpha = alpha
+    }
     
     // MARK: - Methods
     
@@ -168,6 +198,17 @@ class Joystick: SKNode {
     private func colorizeThumbNode(with color: SKColor, blendFactor: CGFloat = 0.5, duration: TimeInterval = 0.2) {
         let action = SKAction.colorize(with: color, colorBlendFactor: blendFactor, duration: duration)
         thumbNode.run(action)
+    }
+    
+    private func clampRestriction(){
+        switch restriction {
+            case .horizontal:
+                thumbNode.position.y = CGFloat.clamp(thumbNode.position.y, lower: 0, upper: 0)
+            case .vertical:
+                thumbNode.position.x = CGFloat.clamp(thumbNode.position.x, lower: 0, upper: 0)
+            case .none:
+                return
+        }
     }
     
 }
