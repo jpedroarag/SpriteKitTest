@@ -10,20 +10,28 @@ import SpriteKit
 
 class MenuNode: SKNode {
     
+    var label: SKLabelNode!
     var startButton: VirtualButton!
     var background: SKSpriteNode!
     
     init(addTo scene: SKScene) {
         super.init()
         
-        background = SKSpriteNode(texture: nil, color: .black, size: scene.view!.frame.size)
+        background = SKSpriteNode(texture: nil, color: .white, size: scene.view!.frame.size)
         background.alpha = 0.9
         addChild(background)
         
-        let texture = SKTexture(imageNamed: "Play")
+        let texture = SKTexture(imageNamed: "Start")
         startButton = VirtualButton(texture: texture, color: .red, size: .from(100), position: .zero)
-        startButton.addAction(action: { self.isHidden = true }, type: .began)
         addChild(startButton)
+        
+        label = SKLabelNode(text: "Press to start the game")
+        label.fontSize = startButton.size.width/2
+        label.fontColor = .black
+        addChild(label)
+        
+        startButton.position.y -= startButton.size.height/4 + 8
+        label.position.y += startButton.size.height/4 + 8
         
         scene.addChild(self)
         zPosition = 100

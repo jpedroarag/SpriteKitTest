@@ -139,6 +139,11 @@ struct CombatValues {
             if hp < 0 { hp = 0 }
         }
     }
+    
+    mutating func resetToInitialState() {
+        canShoot = true
+        hp = 100
+    }
 }
 
 // MARK: Player class definition
@@ -470,8 +475,10 @@ extension Player {
 // MARK: Stomp action implementation
 extension Player {
     func stomp() {
+        self.gravityStrength = 0
         let impulseVector = CGVector(dx: 0, dy: -700)
         self.physicsBody?.applyForce(impulseVector)
+        self.gravityStrength = 9.8
     }
 }
 

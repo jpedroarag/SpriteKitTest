@@ -34,6 +34,12 @@ class GameScene: SKScene {
         tilemapObject.givTileMapPhysicsBody(tileMap: tilemap, viewNode: scene!)
         
         player = Player(addToView: self)
+        menu = MenuNode(addTo: self)
+        menu.position = .zero
+        menu.startButton.addAction(action: {
+            self.menu.isHidden = true
+            self.player.combatValues.resetToInitialState()
+        }, type: .began)
         setupCamera()
         
         if let _ = view.scene {
@@ -51,16 +57,15 @@ class GameScene: SKScene {
         enemy?.position.x += 32
         enemy?.physicsBody?.categoryBitMask = ColliderType.hazard
         enemy?.physicsBody?.collisionBitMask = ColliderType.ground | ColliderType.wall | ColliderType.platform
-        enemy?.physicsBody?.contactTestBitMask = ColliderType.hazard | ColliderType.player
-        
-        menu = MenuNode(addTo: self)
-        menu.position = player.position
+        enemy?.physicsBody?.contactTestBitMask = ColliderType.hazard | ColliderType.player | ColliderType.sword
         
         updatables.append(player)
     }
     
     func showMenu() {
         menu.isHidden = false
+        menu.label.text = "Oh, you died... 😞"
+        menu.startButton.texture = SKTexture(imageNamed: "Restart")
     }
     
     func addGravity() {
@@ -233,6 +238,7 @@ extension GameScene{
         let tileVerticalConstraint = SKConstraint.positionY(verticalRange)
 
         camera!.constraints = [playerConstraint, tileHorizontalConstraint, tileVerticalConstraint]
+        menu.constraints = camera!.constraints
     }
     
 }

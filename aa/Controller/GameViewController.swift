@@ -18,11 +18,10 @@ class GameViewController: UIViewController {
         newScene = SKScene(fileNamed: "GameScene")
         if newScene != nil {
             newScene.scaleMode = .aspectFill
-            
             view.presentScene(newScene)
-            
         }
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
        

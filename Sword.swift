@@ -25,6 +25,9 @@ class Sword: SKSpriteNode{
     func setupBody(){
         self.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 5, height: 20))
         self.physicsBody?.affectedByGravity = true
+        self.physicsBody?.categoryBitMask = ColliderType.sword
+        self.physicsBody?.collisionBitMask = ColliderType.ground | ColliderType.wall | ColliderType.platform
+        self.physicsBody?.contactTestBitMask = ColliderType.sword | ColliderType.hazard
         self.physicsBody?.mass = 10
     }
     
