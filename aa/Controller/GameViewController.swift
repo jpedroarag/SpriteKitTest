@@ -28,9 +28,13 @@ class GameViewController: UIViewController {
        
         
         let skView = view as! SKView
+
+        // Debug info.
         skView.showsFPS = true
         skView.showsNodeCount = true
         skView.ignoresSiblingOrder = true
+        skView.showsPhysics = true
+
         //let scene = GameScene()
         loadScene(view: skView)
         

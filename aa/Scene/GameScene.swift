@@ -12,6 +12,7 @@ import SpriteKit
 class GameScene: SKScene {
     
     var player: Player!
+    var enemy: FlyingEnemy!
     private var updatables = [Updatable]()
     let physicsDelegate = PhysicsDetection()
     var gravityField: SKFieldNode!
@@ -20,33 +21,34 @@ class GameScene: SKScene {
 
     var tilemap: SKTileMapNode!
     
-
-    
     override func didMove(to view: SKView) {
         anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        view.showsPhysics = true
-        tilemap = scene?.childNode(withName: "Tile Map Node") as? SKTileMapNode //else{fatalError("Não deu bom")}
+        backgroundColor = UIColor.clear
+
+        tilemap = scene?.childNode(withName: "Tile Map Node") as? SKTileMapNode
         setupTileMapPhysicsBody(tileMap: tilemap)
-        
         physicsWorld.contactDelegate = physicsDelegate
         addGravity()
+
         player = Player(addToView: self)
+        enemy = FlyingEnemy(view: self, target: player)
+
         setupCamera()
-        if let scene = view.scene {
+
+        if view.scene != nil {
             inputController = InputController(view: view, player: player, addTo: self.camera!)
         }
-        updatables.append(inputController)
-        // 2
-        
-        backgroundColor = UIColor.clear
-        // 3
-        player.position = CGPoint(x: 5, y: 5)
-        // 4
-        //createSandbox(view: view)
 
+        player.position = CGPoint(x: 5, y: 5)
+        enemy.position = CGPoint(x: self.size.width - 50, y: 30)
+
+        updatables.append(inputController)
         updatables.append(player)
-        
-        
+        updatables.append(enemy)
+
+        // Toca uma música de background
+        SKTAudio.sharedInstance().playBackgroundMusic("soundtrack-test.mp3")
+
     }
     
     func addGravity() {
@@ -57,8 +59,6 @@ class GameScene: SKScene {
         gravityField.categoryBitMask = ColliderType.gravity
         addChild(gravityField)
     }
-    
-    
     
     func createSandbox(view: SKView) {
         
@@ -141,36 +141,26 @@ class GameScene: SKScene {
         let plat2 = Platform(size: platformSize, position: pos2)
         addChild(plat2)
     }
-    
-    override func sceneDidLoad() {
-        
-    }
-    
+
     override func update(_ currentTime: TimeInterval) {
         //inputController.joystick.update(currentTime)
         updatables.forEach { $0.update(currentTime: currentTime) }
         followPlayer(player: player)
-        
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-
         //player.aim(direction: (touches.first?.location(in: player))!)
-
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         //player.aim(direction: (touches.first?.location(in: player))!)
-        
     }
     
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-
         ///player.cancelAim()
     }
 
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-
         //player.cancelAim()
     }
     
@@ -184,6 +174,7 @@ extension GameScene{
         case plataforma = "plataforma"
         case background = "background"
     }
+
     func setupCamera(){
         guard let camera = scene?.childNode(withName: "camera") as? SKCameraNode else{
             fatalError("Não deu bom 2")
@@ -192,11 +183,12 @@ extension GameScene{
         self.camera = camera
         cameraConstraints()
         camera.position = CGPoint.zero
-        
     }
+
     func followPlayer(player: SKNode) {
         //scene?.camera?.position = player.position
     }
+
     func cameraConstraints(){
         // Constrain the camera to stay a constant distance of 0 points from the player node.
         let zeroRange = SKRange(constantValue: 0.0)
