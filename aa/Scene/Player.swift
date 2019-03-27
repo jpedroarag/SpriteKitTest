@@ -349,6 +349,7 @@ extension Player {
         self.jumpValues.isJumping = true
         self.jumpValues.numberOfJumps += 1
         if self.jumpValues.numberOfJumps >= self.jumpValues.maxNumberOfJumps { self.jumpValues.canJump = false }
+        SKTAudio.sharedInstance().playSoundEffect("jump.mp3")
         self.physicsBody?.velocity.dy = 0
         self.physicsBody?.applyForce(CGVector.up * CGFloat(700))
     }
@@ -447,6 +448,7 @@ extension Player {
                 self.resetVelocity()
             }
             
+            SKTAudio.sharedInstance().playSoundEffect("dash.mp3")
             self.physicsBody?.fieldBitMask = ColliderType.none
             self.physicsBody?.applyForce(impulseVector)
             self.dashValues.willDash = false
@@ -489,6 +491,7 @@ extension Player {
         let sword = pool.get()!
         self.scene?.addChild(sword)
         
+        SKTAudio.sharedInstance().playSoundEffect("playerAttack.mp3")
         sword.throwSword(position: self.position, rotation: rotation, speed: 1000)
         sword.destroy()
     }
@@ -521,12 +524,14 @@ extension Player {
 // MARK: Combat implementation
 extension Player {
     func receiveDamage(percentage: Int) {
+        SKTAudio.sharedInstance().playSoundEffect("damage.mp3")
         combatValues.hp -= percentage
         print("\(combatValues.hp)")
         if combatValues.hp == 0 { die() }
     }
     
     func die() {
+        SKTAudio.sharedInstance().playSoundEffect("die.mp3")
         (scene as? GameScene)?.showMenu()
     }
 }

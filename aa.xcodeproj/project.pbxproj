@@ -11,6 +11,7 @@
 		3C1FED76223947A500700039 /* EnumTileMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C1FED73223947A500700039 /* EnumTileMap.swift */; };
 		3C1FED77223947A500700039 /* ProceduralMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C1FED74223947A500700039 /* ProceduralMatrix.swift */; };
 		3C1FED78223947A500700039 /* ProceduralTileMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C1FED75223947A500700039 /* ProceduralTileMap.swift */; };
+		3C2D6727224BC40600E22C4A /* SKTAudio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2D6726224BC40600E22C4A /* SKTAudio.swift */; };
 		3C77F855221F052300905D25 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C77F854221F052300905D25 /* AppDelegate.swift */; };
 		3C77F860221F052300905D25 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3C77F85E221F052300905D25 /* Main.storyboard */; };
 		3C77F862221F052500905D25 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3C77F861221F052500905D25 /* Assets.xcassets */; };
@@ -46,6 +47,7 @@
 		3C1FED73223947A500700039 /* EnumTileMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnumTileMap.swift; sourceTree = "<group>"; };
 		3C1FED74223947A500700039 /* ProceduralMatrix.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProceduralMatrix.swift; sourceTree = "<group>"; };
 		3C1FED75223947A500700039 /* ProceduralTileMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProceduralTileMap.swift; sourceTree = "<group>"; };
+		3C2D6726224BC40600E22C4A /* SKTAudio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKTAudio.swift; sourceTree = "<group>"; };
 		3C77F851221F052300905D25 /* aa.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = aa.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C77F854221F052300905D25 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3C77F85F221F052300905D25 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -100,6 +102,23 @@
 			path = Tilemap;
 			sourceTree = "<group>";
 		};
+		3C2D6725224BC3E200E22C4A /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				3C77F8822225738B00905D25 /* Extensions */,
+				3C2D6728224BC42000E22C4A /* Sounds */,
+				3C2D6726224BC40600E22C4A /* SKTAudio.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		3C2D6728224BC42000E22C4A /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Sounds;
+			sourceTree = "<group>";
+		};
 		3C77F848221F052300905D25 = {
 			isa = PBXGroup;
 			children = (
@@ -125,10 +144,10 @@
 		3C77F853221F052300905D25 /* aa */ = {
 			isa = PBXGroup;
 			children = (
+				3C2D6725224BC3E200E22C4A /* Helpers */,
 				3C77F886222573BC00905D25 /* Controls */,
 				3C77F884222573A600905D25 /* Controller */,
 				3C77F8832225739700905D25 /* Scene */,
-				3C77F8822225738B00905D25 /* Extensions */,
 				3C77F854221F052300905D25 /* AppDelegate.swift */,
 				3C77F85E221F052300905D25 /* Main.storyboard */,
 				3C77F861221F052500905D25 /* Assets.xcassets */,
@@ -291,6 +310,7 @@
 				ECFA3F0D22271903007E846E /* PhysicsDetection2.swift in Sources */,
 				ECFA3F03222718BF007E846E /* CGSize+Extensions.swift in Sources */,
 				ECFA3F0922271903007E846E /* CGFloat+Extensions.swift in Sources */,
+				3C2D6727224BC40600E22C4A /* SKTAudio.swift in Sources */,
 				ECFA3F0A22271903007E846E /* Pool.swift in Sources */,
 				3C77F855221F052300905D25 /* AppDelegate.swift in Sources */,
 			);
