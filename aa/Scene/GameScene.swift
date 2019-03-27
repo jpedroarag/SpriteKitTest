@@ -10,7 +10,7 @@ import Foundation
 import SpriteKit
 
 class GameScene: SKScene {
-    
+
     var player: Player!
     var enemy: FlyingEnemy!
     private var updatables = [Updatable]()
@@ -20,15 +20,17 @@ class GameScene: SKScene {
     var platform: Platform!
 
     var tilemap: SKTileMapNode!
-    
+    var tilemapObject = ProceduralTileMap.init()
+
     override func didMove(to view: SKView) {
         anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        backgroundColor = UIColor.clear
-
-        tilemap = scene?.childNode(withName: "Tile Map Node") as? SKTileMapNode
-        setupTileMapPhysicsBody(tileMap: tilemap)
+        view.showsPhysics = true
         physicsWorld.contactDelegate = physicsDelegate
         addGravity()
+
+        tilemap = tilemapObject.createTileMap(tileSet: "TileSet", columns: 30, rows: 80, widthTile: 32, heightTile: 32)
+        scene?.addChild(tilemap)
+        tilemapObject.givTileMapPhysicsBody(tileMap: tilemap, viewNode: scene!)
 
         player = Player(addToView: self)
         enemy = FlyingEnemy(view: self, target: player)
@@ -50,7 +52,7 @@ class GameScene: SKScene {
         SKTAudio.sharedInstance().playBackgroundMusic("soundtrack-test.mp3")
 
     }
-    
+
     func addGravity() {
         physicsWorld.gravity = .zero
         let vector = vector_float3(0, -1, 0)
@@ -59,62 +61,62 @@ class GameScene: SKScene {
         gravityField.categoryBitMask = ColliderType.gravity
         addChild(gravityField)
     }
-    
+
     func createSandbox(view: SKView) {
-        
+
         let floor = SKSpriteNode(color: .blue, size: CGSize(width: view.bounds.width, height: 20))
-        
+
         floor.position.y = view.bounds.height/2 * -1
         floor.position.x = 0
         floor.physicsBody = SKPhysicsBody(rectangleOf: floor.size)
         floor.physicsBody?.isDynamic = false
-        
+
         floor.physicsBody?.restitution = 0
         floor.physicsBody?.categoryBitMask = ColliderType.ground
         floor.physicsBody?.contactTestBitMask = ColliderType.player
         floor.name = "Ground"
-        
+
         addChild(floor)
-        
+
         let leftWall = SKSpriteNode(color: .red, size: CGSize(width: 30, height: view.bounds.height))
-        
+
         leftWall.position.x = (view.bounds.width/2 * -1) - leftWall.size.width/2 + 10
-        
+
         leftWall.position.y = 0
         leftWall.physicsBody = SKPhysicsBody(rectangleOf: leftWall.size)
         leftWall.physicsBody?.isDynamic = false
-        
+
         leftWall.physicsBody?.restitution = 0
         leftWall.physicsBody?.categoryBitMask = ColliderType.wall
         leftWall.physicsBody?.contactTestBitMask = ColliderType.player
-        
+
         addChild(leftWall)
-        
+
         let rightWall = SKSpriteNode(color: .red, size: CGSize(width: 30, height: view.bounds.height))
-        
+
         rightWall.position.x = view.bounds.width/2 + rightWall.size.width/2 - 10
         rightWall.position.y = 0
         rightWall.physicsBody = SKPhysicsBody(rectangleOf: rightWall.size)
         rightWall.physicsBody?.isDynamic = false
-        
-        
+
+
         rightWall.physicsBody?.restitution = 0
         rightWall.physicsBody?.categoryBitMask = ColliderType.wall
         rightWall.physicsBody?.contactTestBitMask = ColliderType.player
-        
+
         addChild(rightWall)
-        
+
         let ceiling = SKSpriteNode(color: .blue, size: CGSize(width: view.bounds.width, height: 20))
-        
+
         ceiling.position.y = view.bounds.height/2 + ceiling.size.height/2 - 10
         ceiling.position.x = 0
         ceiling.physicsBody = SKPhysicsBody(rectangleOf: ceiling.size)
         ceiling.physicsBody?.isDynamic = false
         ceiling.physicsBody?.restitution = 0
-        
+
         addChild(ceiling)
-        
-        
+
+
         let test1 = SKNode()
         let test2 = SKSpriteNode(color: .black, size: CGSize(width: 20, height: 20))
         test1.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 1, height: 1))
@@ -125,18 +127,18 @@ class GameScene: SKScene {
         test2.position.x = 5
         addChild(test1)
         addChild(test2)
-        
+
         let joint = SKPhysicsJointPin.joint(withBodyA: (test1.physicsBody)!, bodyB: test2.physicsBody!, anchor: test1.position)
         //joint.shouldEnableLimits = true
         test2.physicsBody?.mass = 0.1
-        
+
         scene?.physicsWorld.add(joint)
-        
+
         let platformSize = CGSize(width: size.width/3, height: 16)
         let platformPosition = CGPoint(x: test2.position.x + platformSize.width/2 + 48, y: 100)
         platform = Platform(size: platformSize, position: platformPosition)
         addChild(platform)
-        
+
         let pos2 = CGPoint(x: -platformPosition.x, y: -50)
         let plat2 = Platform(size: platformSize, position: pos2)
         addChild(plat2)
@@ -147,15 +149,15 @@ class GameScene: SKScene {
         updatables.forEach { $0.update(currentTime: currentTime) }
         followPlayer(player: player)
     }
-    
+
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         //player.aim(direction: (touches.first?.location(in: player))!)
     }
-    
+
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         //player.aim(direction: (touches.first?.location(in: player))!)
     }
-    
+
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         ///player.cancelAim()
     }
@@ -163,7 +165,7 @@ class GameScene: SKScene {
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         //player.cancelAim()
     }
-    
+
 }
 
 extension GameScene{
@@ -193,73 +195,23 @@ extension GameScene{
         // Constrain the camera to stay a constant distance of 0 points from the player node.
         let zeroRange = SKRange(constantValue: 0.0)
         let playerConstraint = SKConstraint.distance(zeroRange, to: player)
-        let tilemapContentRect = CGRect(x: tilemap!.position.x, y: tilemap!.position.y, width: tilemap!.mapSize.width, height: tilemap!.mapSize.height)
-        
-    
-        
+        let tilemapContentRect = CGRect(x: tilemap.position.x, y: tilemap.position.y, width: tilemap.mapSize.width, height: tilemap.mapSize.height)
+
+
+
         //let horizontalRange = SKRange(lowerLimit: tilemapContentRect.minX, upperLimit: tilemapContentRect.minX)
-        
+
         //let verticalRange = SKRange(lowerLimit: -tilemapContentRect.minY/2, upperLimit: tilemapContentRect.maxY/2)
         let horizontalRange = SKRange(lowerLimit: (tilemap.position.x - tilemap.mapSize.width/2) + view!.bounds.width/2, upperLimit: (tilemap.position.x + tilemap.mapSize.width/2) - (view?.bounds.width)!/2)
-        
+
         let verticalRange = SKRange(lowerLimit: (tilemap.position.y - tilemap.mapSize.height/2) + (view?.bounds.height)!/2, upperLimit: (tilemap.position.y + tilemap.mapSize.height/2) - (view?.bounds.height)!/2)
 
         let tileHorizontalConstraint = SKConstraint.positionX(horizontalRange)
-        
+
         let tileVerticalConstraint = SKConstraint.positionY(verticalRange)
 
-        
+
         camera!.constraints = [playerConstraint, tileHorizontalConstraint, tileVerticalConstraint]
     }
-    func setupTileMapPhysicsBody(tileMap: SKTileMapNode) {
-        let tileSize = tileMap.tileSize
-        let halfWidth = CGFloat(tileMap.numberOfColumns) / 2.0 * tileSize.width
-        let halfHeight = CGFloat(tileMap.numberOfRows) / 2.0 * tileSize.height
-        let startingLocation:CGPoint = tileMap.position
-        for row in 0..<tileMap.numberOfRows{
-            for column in 0..<tileMap.numberOfColumns{
-                let tileSet = tileMap.tileDefinition(atColumn: column, row: row)
-                let tileArray = tileSet?.textures
-                let tileTexture = tileArray![0]
-                
-                let x = CGFloat(column) * tileSize.width - halfWidth + (tileSize.width / 2)
-                let y = CGFloat(row) * tileSize.height - halfHeight + (tileSize.height / 2)
-                // print(tileTexture)
-                
-                
-                
-                switch tileSet?.name{
-                case TileSetType.background.rawValue:
-                    
-                    break
-                case TileSetType.limite.rawValue,TileSetType.plataforma.rawValue :
-                    
-                    let tileNode = SKSpriteNode(texture:tileTexture)
-                    tileNode.position = CGPoint(x: x, y: y)
-                    tileNode.physicsBody = SKPhysicsBody(rectangleOf: tileTexture.size() + CGSize(width: 2, height: 2))//SKPhysicsBody(texture: tileTexture, size: CGSize(width: (tileTexture.size().width + 5), height: (tileTexture.size().height )))
-                    tileNode.physicsBody?.linearDamping = 0
-                    tileNode.physicsBody?.affectedByGravity = false
-                    tileNode.physicsBody?.allowsRotation = false
-                    tileNode.physicsBody?.isDynamic = false
-                    tileNode.physicsBody?.friction = 0
-                    tileNode.physicsBody?.categoryBitMask = ColliderType.ground
-                    tileNode.physicsBody?.contactTestBitMask = ColliderType.player
-                    tileNode.name = "Ground"
-                    self.addChild(tileNode)
-                      tileNode.position = CGPoint(x: tileNode.position.x + startingLocation.x, y: tileNode.position.y + startingLocation.y)
-                    break
-                case TileSetType.espinhos.rawValue:
-                    
-                    break
-                case TileSetType.porta.rawValue:
-                    break
-                default:
-                    break
-                }
-                
-            }
-        }
-        
-        
-    }
+
 }

@@ -17,6 +17,7 @@ class InputController: Updatable {
     }
     
     var tapJump: VirtualButton!
+    var tapStomp: VirtualButton!
     var tapDash: VirtualButton!
     var joystick: Joystick!
     var joystickShoot: Joystick!
@@ -26,7 +27,7 @@ class InputController: Updatable {
     }
     
     func createMovementButtons(view: SKView, player: Player, withSize size: CGSize, addTo node: SKNode) {
-        if let scene = view.scene {
+        if let _ = view.scene {
             let viewSize = -view.frame.size/2
             
             joystick = Joystick()
@@ -53,12 +54,20 @@ class InputController: Updatable {
             tapJump.position.y += tapJump.size.height/2
             tapJump.zPosition = 1
             node.addChild(tapJump)
+            
+            tapStomp = VirtualButton(texture: texture, size: size)
+            tapStomp.addAction(action: { player.stomp() }, type: .began)
+            tapStomp.position = tapJump.position
+            tapStomp.position.y -= tapJump.size.height + 16
+            tapStomp.zPosition = 1
+            tapStomp.yScale *= -1
+            node.addChild(tapStomp)
         
             let dashTex = SKTexture(imageNamed: "Dash")
             tapDash = VirtualButton(texture: dashTex, size: size)
             tapDash.addAction(action: { player.dash() }, type: .began)
-            tapDash.position = tapJump.position
-            tapDash.position.y -= tapJump.size.height + 16
+            tapDash.position = tapStomp.position
+            tapDash.position.x -= tapStomp.size.width + 16
             tapDash.zPosition = 1
             node.addChild(tapDash)
             

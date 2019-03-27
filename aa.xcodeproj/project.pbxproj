@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3C1FED76223947A500700039 /* EnumTileMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C1FED73223947A500700039 /* EnumTileMap.swift */; };
+		3C1FED77223947A500700039 /* ProceduralMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C1FED74223947A500700039 /* ProceduralMatrix.swift */; };
+		3C1FED78223947A500700039 /* ProceduralTileMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C1FED75223947A500700039 /* ProceduralTileMap.swift */; };
 		3C77F855221F052300905D25 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C77F854221F052300905D25 /* AppDelegate.swift */; };
 		3C77F860221F052300905D25 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3C77F85E221F052300905D25 /* Main.storyboard */; };
 		3C77F862221F052500905D25 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3C77F861221F052500905D25 /* Assets.xcassets */; };
@@ -42,6 +45,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3C1FED73223947A500700039 /* EnumTileMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnumTileMap.swift; sourceTree = "<group>"; };
+		3C1FED74223947A500700039 /* ProceduralMatrix.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProceduralMatrix.swift; sourceTree = "<group>"; };
+		3C1FED75223947A500700039 /* ProceduralTileMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProceduralTileMap.swift; sourceTree = "<group>"; };
 		3C77F851221F052300905D25 /* aa.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = aa.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C77F854221F052300905D25 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3C77F85F221F052300905D25 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -89,6 +95,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3C1FED79223947B300700039 /* Tilemap */ = {
+			isa = PBXGroup;
+			children = (
+				ECFA3F12222958AB007E846E /* TileMapTower.sks */,
+				3C1FED73223947A500700039 /* EnumTileMap.swift */,
+				3C1FED74223947A500700039 /* ProceduralMatrix.swift */,
+				3C1FED75223947A500700039 /* ProceduralTileMap.swift */,
+			);
+			path = Tilemap;
+			sourceTree = "<group>";
+		};
 		3C77F848221F052300905D25 = {
 			isa = PBXGroup;
 			children = (
@@ -143,7 +160,7 @@
 		3C77F8832225739700905D25 /* Scene */ = {
 			isa = PBXGroup;
 			children = (
-				ECFA3F12222958AB007E846E /* TileMapTower.sks */,
+				3C1FED79223947B300700039 /* Tilemap */,
 				ECFA3F13222958C1007E846E /* GameScene.sks */,
 				3C77F88022206E0300905D25 /* PhysicsDetection.swift */,
 				3C77F871221F053F00905D25 /* Player.swift */,
@@ -266,7 +283,9 @@
 				ECFA3F0B22271903007E846E /* Arm.swift in Sources */,
 				5DFD8F59224A6D3D004463D5 /* FlyingEnemyStates.swift in Sources */,
 				ECFA3F0F22271915007E846E /* Player2.swift in Sources */,
+				3C1FED78223947A500700039 /* ProceduralTileMap.swift in Sources */,
 				3C77F874221F054000905D25 /* InputController.swift in Sources */,
+				3C1FED77223947A500700039 /* ProceduralMatrix.swift in Sources */,
 				3C77F878221F054000905D25 /* CGVector+Extensions.swift in Sources */,
 				3C77F87B221F054000905D25 /* Updatable.swift in Sources */,
 				3C77F876221F054000905D25 /* VirtualButton.swift in Sources */,
@@ -274,6 +293,7 @@
 				3C77F89322257BC700905D25 /* MoveControllable.swift in Sources */,
 				3C77F88122206E0300905D25 /* PhysicsDetection.swift in Sources */,
 				3C77F87A221F054000905D25 /* GameViewController.swift in Sources */,
+				3C1FED76223947A500700039 /* EnumTileMap.swift in Sources */,
 				3C77F879221F054000905D25 /* Player.swift in Sources */,
 				3C77F89522257BC700905D25 /* Controllable2D.swift in Sources */,
 				3C77F875221F054000905D25 /* CGPoint+Extensions.swift in Sources */,

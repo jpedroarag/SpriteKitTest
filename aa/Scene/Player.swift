@@ -207,7 +207,7 @@ extension Player {
         self.physicsBody?.friction = 0
         self.physicsBody?.categoryBitMask = ColliderType.player
         self.physicsBody?.fieldBitMask = ColliderType.gravity
-        self.physicsBody?.collisionBitMask = ColliderType.ground | ColliderType.wall
+        self.physicsBody?.collisionBitMask = ColliderType.ground | ColliderType.wall | ColliderType.platform
         self.physicsBody?.contactTestBitMask = ColliderType.player
         self.name = "Player"
         self.addChild(sprite)
@@ -293,6 +293,7 @@ extension Player {
         landValues.landed = true
         landValues.willUnland = false
         landValues.isUnlanding = false
+        landValues.grounded = false
         landValues.willLand = false
         jumpValues.canJump = true
         jumpValues.numberOfJumps = 0
@@ -314,7 +315,6 @@ extension Player {
         landValues.resetToInitialState()
         wallJumpValues.resetToInitialState()
         jumpValues.resetToInitialState()
-        turnCollisionWithPlatforms(on: false)
     }
 }
 
@@ -332,12 +332,12 @@ extension Player {
             return
         }
         
+        self.landValues.grounded = false
         self.jumpValues.isJumping = true
         self.jumpValues.numberOfJumps += 1
         if self.jumpValues.numberOfJumps >= self.jumpValues.maxNumberOfJumps { self.jumpValues.canJump = false }
-        self.landValues.grounded = false
         self.physicsBody?.velocity.dy = 0
-        self.physicsBody?.applyForce(CGVector.up * CGFloat(800))
+        self.physicsBody?.applyForce(CGVector.up * CGFloat(700))
     }
     
     func wallJump() {
@@ -347,10 +347,7 @@ extension Player {
         self.wallJumpValues.isFallingFromWallJump = false
         
         self.jumpValues.canJump = true
-        self.landValues.willUnland = false
-        self.landValues.isUnlanding = false
-        self.landValues.landed = false
-        self.landValues.willLand = false
+        self.landValues.resetToInitialState()
         
         self.physicsBody?.velocity.dy = 0
         self.gravityStrength = 2.5
@@ -369,6 +366,7 @@ extension Player {
 
 // MARK: Dash action implementation
 extension Player {
+    // This function is currently unused
     private func getDashDirection() -> CGVector {
         let scene = self.scene as? GameScene
         var angularVelocity: CGFloat = 90
@@ -401,6 +399,7 @@ extension Player {
                 // ele não colide com a plataforma quando usa o dash para baixo
                 run(.moveTo(y: position.y - LandValues.platformsHeight, duration: 0.1))
             }
+            if landValues.grounded && !jumpValues.isJumping { directionValues.lastDirection = .zero }
         default:
             break
         }
@@ -424,26 +423,22 @@ extension Player {
     
     func dash() {
         if !self.dashValues.isDashing && !self.dashValues.isCooldownling {
-            let direction = getDashDirection()
-            let impulseVector = direction * 24
-            let fallingFromPlatform = landValues.isUnlanding || landValues.willUnland
+            validateDashDirectionValue()
+            let impulseVector = CGVector(dx: directionValues.lastDirection.dx * 24, dy: 0)
             
-            if !fallingFromPlatform {
-                self.dashValues.willDash = true
-                if self.wallJumpValues.isWallJumping {
-                    self.flip(toTheRight: impulseVector.dx > 0)
-                    self.wallJumpValues.isFallingFromWallJump = true
-                    self.wallJumpValues.isWallJumping = false
-                    self.resetVelocity()
-                }
-                
-                self.physicsBody?.fieldBitMask = ColliderType.none
-                self.physicsBody?.applyForce(impulseVector)
-                self.dashValues.willDash = false
-                self.dashValues.isDashing = true
-                self.restoreValuesAfterDash()
+            self.dashValues.willDash = true
+            if self.wallJumpValues.isWallJumping {
+                self.flip(toTheRight: impulseVector.dx > 0)
+                self.wallJumpValues.isFallingFromWallJump = true
+                self.wallJumpValues.isWallJumping = false
+                self.resetVelocity()
             }
             
+            self.physicsBody?.fieldBitMask = ColliderType.none
+            self.physicsBody?.applyForce(impulseVector)
+            self.dashValues.willDash = false
+            self.dashValues.isDashing = true
+            self.restoreValuesAfterDash()
         }
     }
     
@@ -461,6 +456,14 @@ extension Player {
         Timer.scheduledTimer(withTimeInterval: dashValues.cooldown, repeats: false) { _ in
             self.dashValues.isCooldownling = false
         }
+    }
+}
+
+// MARK: Stomp action implementation
+extension Player {
+    func stomp() {
+        let impulseVector = CGVector(dx: 0, dy: -700)
+        self.physicsBody?.applyForce(impulseVector)
     }
 }
 

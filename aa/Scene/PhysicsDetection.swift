@@ -55,15 +55,8 @@ class PhysicsDetection: NSObject, SKPhysicsContactDelegate {
         
         if collision == ColliderType.player | ColliderType.platform {
             let action = { (player: Player, platform: Platform) in
-                if let velocity = player.physicsBody?.velocity.dy {
-                    if (velocity > 0 && player.position.y < platform.sprite.position.y)
-                    || (player.position.y < platform.sprite.position.y && player.landValues.landed) {
-                        if player.landValues.landed { player.physicsBody?.velocity.dy = 500 }
-                        player.turnCollisionWithPlatforms(on: false)
-                        player.landValues.willLand = true
-                    } else {
-                        player.land()
-                    }
+                if player.position.y > platform.sprite.position.y {
+                    player.ground()
                 }
             }
             if let player = contact.bodyA.node as? Player,
@@ -82,34 +75,6 @@ class PhysicsDetection: NSObject, SKPhysicsContactDelegate {
             print("collision between check")
         }
         
-    }
-    
-    func didEnd(_ contact: SKPhysicsContact) {
-        if contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask == ColliderType.platform | ColliderType.player {
-            let action = { (player: Player, platform: Platform) in
-                if let velocity = player.physicsBody?.velocity.dy {
-                    if (velocity > 0 && player.position.y < platform.sprite.position.y)
-                    || (player.position.y < platform.sprite.position.y && player.landValues.landed) {
-                        if player.landValues.willLand {
-                            player.land()
-                        }
-                    } else {
-                        if player.landValues.willLand || player.wallJumpValues.isFallingFromWallJump {
-                            player.land()
-                        } else if player.landValues.isUnlanding {
-                            player.unland()
-                        }
-                    }
-                }
-            }
-            if let player = contact.bodyA.node as? Player,
-                let platform = contact.bodyB.node as? Platform {
-                action(player, platform)
-            } else if let player = contact.bodyB.node as? Player,
-                let platform = contact.bodyA.node as? Platform {
-                action(player, platform)
-            }
-        }
     }
     
 }
