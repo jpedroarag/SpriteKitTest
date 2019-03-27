@@ -526,10 +526,20 @@ extension Player: Controllable2D {
     
     func rotate(for angularVelocity: CGFloat) {
         if (angularVelocity.magnitude < 0) { return }
+        //var temp = (angularVelocity.magnitude * -CGFloat(self.directionValues.facedDirection)).rounded(toPlaces: 1)
+        
+        
         let direction = CGPoint(angle: angularVelocity + 90 * CGFloat.degreesToRadians)
         aim(direction: direction)
     }
     
+}
+extension CGFloat {
+    /// Rounds the double to decimal places value
+    func rounded(toPlaces places:Int) -> CGFloat {
+        let divisor = pow(10.0, CGFloat(places))
+        return (self * divisor).rounded() / divisor
+    }
 }
 
 // MARK: Conforming to Updatable protocol
