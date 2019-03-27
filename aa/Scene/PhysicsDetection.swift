@@ -19,6 +19,8 @@ struct ColliderType {
     static let gravity: UInt32 = 0x1 << 3
     static let wall: UInt32 = 0x1 << 4
     static let platform: UInt32 = 0x1 << 5
+    static let hazard: UInt32 = 0x1 << 6
+    static let sword: UInt32 = 0x1 << 7
 }
 
 class PhysicsDetection: NSObject, SKPhysicsContactDelegate {
@@ -67,6 +69,18 @@ class PhysicsDetection: NSObject, SKPhysicsContactDelegate {
             }
         }
         
+        if collision == ColliderType.player | ColliderType.hazard {
+            if let player = contact.bodyA.node as? Player {
+                player.receiveDamage(percentage: 3)
+            } else if let player = contact.bodyB.node as? Player{
+                player.receiveDamage(percentage: 3)
+            }
+        }
+        
+        if collision == ColliderType.sword | ColliderType.hazard {
+            print("attack hazard/enemy")
+        }
+        
         if collision == ColliderType.player | ColliderType.player {
             print("collision between players")
         }
@@ -76,12 +90,4 @@ class PhysicsDetection: NSObject, SKPhysicsContactDelegate {
         
     }
     
-}
-
-enum PlatformCollisionStates {
-    case beganPassingUp
-    case endedPassingUp
-    case platformed
-    case beganFallingDown
-    case endedFallingDown
 }

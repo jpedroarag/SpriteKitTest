@@ -189,5 +189,9 @@ public extension CGSize {
         lhs.height *= scalar
     }
     
+    
+    public static func from(_ number: CGFloat) -> CGSize {
+        return CGSize(width: number, height: number)
+    }
 }
 

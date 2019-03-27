@@ -21,6 +21,8 @@ class GameScene: SKScene {
     var tilemap: SKTileMapNode!
     var tilemapObject = ProceduralTileMap.init()
     
+    var menu: MenuNode!
+    
     override func didMove(to view: SKView) {
         anchorPoint = CGPoint(x: 0.5, y: 0.5)
         view.showsPhysics = true
@@ -32,6 +34,12 @@ class GameScene: SKScene {
         tilemapObject.givTileMapPhysicsBody(tileMap: tilemap, viewNode: scene!)
         
         player = Player(addToView: self)
+        menu = MenuNode(addTo: self)
+        menu.position = .zero
+        menu.startButton.addAction(action: {
+            self.menu.isHidden = true
+            self.player.combatValues.resetToInitialState()
+        }, type: .began)
         setupCamera()
         
         if let _ = view.scene {
@@ -44,9 +52,20 @@ class GameScene: SKScene {
         // 3
         player.position = CGPoint(x: 5, y: 5)
         // 4
-        //createSandbox(view: view)
-
+        let enemy = childNode(withName: "enemy")
+        enemy?.position = player.position
+        enemy?.position.x += 32
+        enemy?.physicsBody?.categoryBitMask = ColliderType.hazard
+        enemy?.physicsBody?.collisionBitMask = ColliderType.ground | ColliderType.wall | ColliderType.platform
+        enemy?.physicsBody?.contactTestBitMask = ColliderType.hazard | ColliderType.player | ColliderType.sword
+        
         updatables.append(player)
+    }
+    
+    func showMenu() {
+        menu.isHidden = false
+        menu.label.text = "Oh, you died... 😞"
+        menu.startButton.texture = SKTexture(imageNamed: "Restart")
     }
     
     func addGravity() {
@@ -140,6 +159,7 @@ class GameScene: SKScene {
         let pos2 = CGPoint(x: -platformPosition.x, y: -50)
         let plat2 = Platform(size: platformSize, position: pos2)
         addChild(plat2)
+        
     }
     
     override func sceneDidLoad() {
@@ -217,8 +237,8 @@ extension GameScene{
         
         let tileVerticalConstraint = SKConstraint.positionY(verticalRange)
 
-        
         camera!.constraints = [playerConstraint, tileHorizontalConstraint, tileVerticalConstraint]
+        menu.constraints = camera!.constraints
     }
     
 }
