@@ -32,6 +32,7 @@
 		5DD5440D223A8F90004364E9 /* soundtrack-test.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5DD5440C223A8F90004364E9 /* soundtrack-test.mp3 */; };
 		5DF2079922392EF700D0CD36 /* FlyingEnemy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF2079822392EF700D0CD36 /* FlyingEnemy.swift */; };
 		5DFD8F59224A6D3D004463D5 /* FlyingEnemyStates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DFD8F58224A6D3D004463D5 /* FlyingEnemyStates.swift */; };
+		5DFD8F5B224BB188004463D5 /* skull.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 5DFD8F5A224BB188004463D5 /* skull.atlas */; };
 		ECFA3F03222718BF007E846E /* CGSize+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECFA3F02222718BF007E846E /* CGSize+Extensions.swift */; };
 		ECFA3F0922271903007E846E /* CGFloat+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECFA3F0422271903007E846E /* CGFloat+Extensions.swift */; };
 		ECFA3F0A22271903007E846E /* Pool.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECFA3F0522271903007E846E /* Pool.swift */; };
@@ -72,6 +73,7 @@
 		5DD5440C223A8F90004364E9 /* soundtrack-test.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "soundtrack-test.mp3"; sourceTree = "<group>"; };
 		5DF2079822392EF700D0CD36 /* FlyingEnemy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlyingEnemy.swift; sourceTree = "<group>"; };
 		5DFD8F58224A6D3D004463D5 /* FlyingEnemyStates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlyingEnemyStates.swift; sourceTree = "<group>"; };
+		5DFD8F5A224BB188004463D5 /* skull.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = skull.atlas; sourceTree = "<group>"; };
 		ECFA3F02222718BF007E846E /* CGSize+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGSize+Extensions.swift"; sourceTree = "<group>"; };
 		ECFA3F0422271903007E846E /* CGFloat+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGFloat+Extensions.swift"; sourceTree = "<group>"; };
 		ECFA3F0522271903007E846E /* Pool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pool.swift; sourceTree = "<group>"; };
@@ -131,6 +133,7 @@
 		3C77F853221F052300905D25 /* aa */ = {
 			isa = PBXGroup;
 			children = (
+				5DFD8F5A224BB188004463D5 /* skull.atlas */,
 				3C77F886222573BC00905D25 /* Controls */,
 				3C77F884222573A600905D25 /* Controller */,
 				3C77F8832225739700905D25 /* Scene */,
@@ -262,6 +265,7 @@
 			files = (
 				ECFA3F1422295BDE007E846E /* GameScene.sks in Resources */,
 				3C77F860221F052300905D25 /* Main.storyboard in Resources */,
+				5DFD8F5B224BB188004463D5 /* skull.atlas in Resources */,
 				3C77F862221F052500905D25 /* Assets.xcassets in Resources */,
 				3C77F865221F052500905D25 /* LaunchScreen.storyboard in Resources */,
 				5DD5440D223A8F90004364E9 /* soundtrack-test.mp3 in Resources */,

@@ -10,16 +10,16 @@ import Foundation
 import SpriteKit
 import GameplayKit
 
-class FlyingEnemy: SKNode {
+class FlyingEnemy: SKSpriteNode {
 
     var target: Player!
 
     var stateMachine: GKStateMachine!
 
-    var sprite: SKSpriteNode!
-
     init(view: SKScene, target: Player) {
-        super.init()
+        let texture = SKTexture(imageNamed: "skull1")
+        super.init(texture: texture, color: .clear, size: texture.size())
+
         view.addChild(self)
 
         self.target = target
@@ -40,32 +40,40 @@ class FlyingEnemy: SKNode {
     }
 
     func setupBody() {
-        self.sprite = SKSpriteNode(imageNamed: "personagem")
-        self.physicsBody = SKPhysicsBody(rectangleOf: self.sprite.size)
+        self.physicsBody = SKPhysicsBody(rectangleOf: self.size)
         self.physicsBody?.allowsRotation = false
         self.physicsBody?.restitution = 0
         self.physicsBody?.friction = 0
+        self.physicsBody?.mass = 100.0 // TODO: ver melhor essa propriedade
         self.physicsBody?.isDynamic = true
         self.physicsBody?.affectedByGravity = false
 
-        // FIXME: Isso tá atrapalhando de alguma forma, precisa criar uma personalizado para o inimigo.
         self.physicsBody?.fieldBitMask = ColliderType.none
         self.physicsBody?.categoryBitMask = ColliderType.hazard
         self.physicsBody?.collisionBitMask = ColliderType.player | ColliderType.hazard | ColliderType.wall | ColliderType.ground
         self.physicsBody?.contactTestBitMask = ColliderType.player | ColliderType.hazard
-
+        
         self.name = "Enemy"
-        self.addChild(sprite)
+    }
+
+    func runAnimation(with frames: [SKTexture], withKey: String) {
+        let animation = SKAction.animate(with: frames, timePerFrame: 0.2, resize: true, restore: false)
+        self.run(SKAction.repeatForever(animation), withKey: withKey)
+    }
+
+    func stopAnimation(with key: String) {
+        self.removeAction(forKey: key)
     }
 
     private func waitingForTarget() {
         let targetLocation = self.target.position
 
         // Checa na horizontal
-        if targetLocation.x > self.position.x - 10 &&
-            targetLocation.x < self.position.x + 10 {
-
-            self.stateMachine.enter(HuntingState.self)
+        if targetLocation.x > self.position.x - 100 && targetLocation.x < self.position.x + 100 {
+            // Checa na vertical
+            if targetLocation.y > self.position.y - 50 && targetLocation.y < self.position.y + 50 {
+                self.stateMachine.enter(HuntingState.self)
+            }
         }
     }
 
@@ -74,9 +82,9 @@ class FlyingEnemy: SKNode {
 
         // Aim
         if targetLocation.x < self.position.x {
-            self.sprite.xScale = -1.0
+            self.xScale = -1.0
         } else {
-            self.sprite.xScale = 1.0
+            self.xScale = 1.0
         }
 
         // Seek
@@ -97,12 +105,15 @@ extension FlyingEnemy: Updatable {
 
     func update(currentTime: TimeInterval) {
         guard let currentState = self.stateMachine.currentState else { return }
-        print(currentState)
+
         if currentState is IdleState {
             self.waitingForTarget()
         } else if currentState is HuntingState {
             self.seekTarget()
         }
+
+
+        print(self.size)
     }
 
 }

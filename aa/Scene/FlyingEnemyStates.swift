@@ -24,12 +24,29 @@ class IdleState: GKState {
 class HuntingState: GKState {
     var enemy: FlyingEnemy
 
+    private var animationFrames: [SKTexture] = []
+
     init(enemyNode: FlyingEnemy) {
         self.enemy = enemyNode
+
+        let atlas = SKTextureAtlas(named: "skull")
+        var frames = [SKTexture]()
+
+        for i in 1...atlas.textureNames.count {
+            let textureName = "skull\(i)"
+            frames.append(atlas.textureNamed(textureName))
+        }
+
+        self.animationFrames = frames
     }
 
     override func didEnter(from previousState: GKState?) {
-        // trocar para animacao cacando
+        self.enemy.runAnimation(with: self.animationFrames, withKey: "HuntingAnimation")
+        print(self.animationFrames)
+    }
+
+    override func willExit(to nextState: GKState) {
+        self.enemy.removeAction(forKey: "HuntingAnimation")
     }
 }
 
