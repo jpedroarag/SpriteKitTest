@@ -33,9 +33,6 @@
 		ECFA3F0A22271903007E846E /* Pool.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECFA3F0522271903007E846E /* Pool.swift */; };
 		ECFA3F0B22271903007E846E /* Arm.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECFA3F0622271903007E846E /* Arm.swift */; };
 		ECFA3F0C22271903007E846E /* Sword.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECFA3F0722271903007E846E /* Sword.swift */; };
-		ECFA3F0D22271903007E846E /* PhysicsDetection2.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECFA3F0822271903007E846E /* PhysicsDetection2.swift */; };
-		ECFA3F0F22271915007E846E /* Player2.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECFA3F0E22271915007E846E /* Player2.swift */; };
-		ECFA3F112227192F007E846E /* GameScene2.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECFA3F102227192F007E846E /* GameScene2.swift */; };
 		ECFA3F1422295BDE007E846E /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = ECFA3F13222958C1007E846E /* GameScene.sks */; };
 		ECFA3F1522295BE2007E846E /* TileMapTower.sks in Resources */ = {isa = PBXBuildFile; fileRef = ECFA3F12222958AB007E846E /* TileMapTower.sks */; };
 /* End PBXBuildFile section */
@@ -69,9 +66,6 @@
 		ECFA3F0522271903007E846E /* Pool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pool.swift; sourceTree = "<group>"; };
 		ECFA3F0622271903007E846E /* Arm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Arm.swift; sourceTree = "<group>"; };
 		ECFA3F0722271903007E846E /* Sword.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sword.swift; sourceTree = "<group>"; };
-		ECFA3F0822271903007E846E /* PhysicsDetection2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhysicsDetection2.swift; sourceTree = "<group>"; };
-		ECFA3F0E22271915007E846E /* Player2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player2.swift; sourceTree = "<group>"; };
-		ECFA3F102227192F007E846E /* GameScene2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene2.swift; sourceTree = "<group>"; };
 		ECFA3F12222958AB007E846E /* TileMapTower.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = TileMapTower.sks; sourceTree = "<group>"; };
 		ECFA3F13222958C1007E846E /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -103,12 +97,6 @@
 			children = (
 				3C77F853221F052300905D25 /* aa */,
 				3C77F852221F052300905D25 /* Products */,
-				ECFA3F0622271903007E846E /* Arm.swift */,
-				ECFA3F0822271903007E846E /* PhysicsDetection2.swift */,
-				ECFA3F0522271903007E846E /* Pool.swift */,
-				ECFA3F0722271903007E846E /* Sword.swift */,
-				ECFA3F0E22271915007E846E /* Player2.swift */,
-				ECFA3F102227192F007E846E /* GameScene2.swift */,
 			);
 			sourceTree = "<group>";
 		};
@@ -151,6 +139,9 @@
 			isa = PBXGroup;
 			children = (
 				3C1FED79223947B300700039 /* Tilemap */,
+				ECFA3F0622271903007E846E /* Arm.swift */,
+				ECFA3F0522271903007E846E /* Pool.swift */,
+				ECFA3F0722271903007E846E /* Sword.swift */,
 				ECFA3F13222958C1007E846E /* GameScene.sks */,
 				3C77F88022206E0300905D25 /* PhysicsDetection.swift */,
 				3C77F871221F053F00905D25 /* Player.swift */,
@@ -267,7 +258,6 @@
 				3C77F89422257BC700905D25 /* RotateControllable.swift in Sources */,
 				ECFA3F0C22271903007E846E /* Sword.swift in Sources */,
 				ECFA3F0B22271903007E846E /* Arm.swift in Sources */,
-				ECFA3F0F22271915007E846E /* Player2.swift in Sources */,
 				3C1FED78223947A500700039 /* ProceduralTileMap.swift in Sources */,
 				3C77F874221F054000905D25 /* InputController.swift in Sources */,
 				3C1FED77223947A500700039 /* ProceduralMatrix.swift in Sources */,
@@ -283,8 +273,6 @@
 				3C77F89522257BC700905D25 /* Controllable2D.swift in Sources */,
 				3C77F875221F054000905D25 /* CGPoint+Extensions.swift in Sources */,
 				3C77F88D2225743C00905D25 /* Joystick.swift in Sources */,
-				ECFA3F112227192F007E846E /* GameScene2.swift in Sources */,
-				ECFA3F0D22271903007E846E /* PhysicsDetection2.swift in Sources */,
 				ECFA3F03222718BF007E846E /* CGSize+Extensions.swift in Sources */,
 				ECFA3F0922271903007E846E /* CGFloat+Extensions.swift in Sources */,
 				ECFA3F0A22271903007E846E /* Pool.swift in Sources */,
