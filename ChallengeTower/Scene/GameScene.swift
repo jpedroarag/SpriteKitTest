@@ -57,7 +57,7 @@ class GameScene: SKScene {
         updatables.append(enemy)
 
         // Toca uma música de background
-//        SKTAudio.sharedInstance().playBackgroundMusic("soundtrack-test.mp3")
+        SKTAudio.sharedInstance().playBackgroundMusic("soundtrack-test.mp3")
 
     }
     
