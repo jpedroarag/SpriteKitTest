@@ -477,10 +477,9 @@ extension Player {
 // MARK: Stomp action implementation
 extension Player {
     func stomp() {
-        self.gravityStrength = 0
         let impulseVector = CGVector(dx: 0, dy: -700)
+        self.physicsBody?.velocity.dy = 0
         self.physicsBody?.applyForce(impulseVector)
-        self.gravityStrength = 9.8
     }
 }
 
