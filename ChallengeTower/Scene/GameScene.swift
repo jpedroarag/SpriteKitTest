@@ -34,6 +34,7 @@ class GameScene: SKScene {
         tilemapObject.givTileMapPhysicsBody(tileMap: tilemap, viewNode: scene!)
         
         player = Player(addToView: self)
+        player.combatValues.isDead = true
         menu = MenuNode(addTo: self)
         menu.position = .zero
         menu.startButton.addAction(action: {

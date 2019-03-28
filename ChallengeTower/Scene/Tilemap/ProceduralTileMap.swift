@@ -70,7 +70,6 @@ class ProceduralTileMap {
                         tileNode.physicsBody?.affectedByGravity = false
                         tileNode.physicsBody?.allowsRotation = false
                         tileNode.physicsBody?.isDynamic = false
-                        tileNode.physicsBody?.friction = 0
                         if row == 0 {
                             tileNode.physicsBody?.categoryBitMask = ColliderType.ground
                         }

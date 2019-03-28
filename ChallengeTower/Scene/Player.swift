@@ -15,7 +15,7 @@ struct DashValues {
     let duration = 0.15
     
     /// The duration which the player won't be able to dash again
-    let cooldown = 0.2
+    let cooldown = 0.3
     
     /// Tells if the player will dash soon
     var willDash = false
@@ -140,9 +140,13 @@ struct CombatValues {
         }
     }
     
+    /// Tells if the user is dead
+    var isDead = false
+    
     mutating func resetToInitialState() {
         canShoot = true
         hp = 100
+        isDead = false
     }
 }
 
@@ -217,7 +221,6 @@ extension Player {
         self.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 20, height: 20))
         self.physicsBody?.allowsRotation = false
         self.physicsBody?.restitution = 0
-        self.physicsBody?.friction = 0
         self.physicsBody?.categoryBitMask = ColliderType.player
         self.physicsBody?.fieldBitMask = ColliderType.gravity
         self.physicsBody?.collisionBitMask = ColliderType.ground | ColliderType.wall | ColliderType.platform | ColliderType.hazard
@@ -349,9 +352,9 @@ extension Player {
         self.jumpValues.isJumping = true
         self.jumpValues.numberOfJumps += 1
         if self.jumpValues.numberOfJumps >= self.jumpValues.maxNumberOfJumps { self.jumpValues.canJump = false }
-        SKTAudio.sharedInstance().playSoundEffect("jump.mp3")
         self.physicsBody?.velocity.dy = 0
         self.physicsBody?.applyForce(CGVector.up * CGFloat(700))
+        self.run(.playSoundFileNamed("jump.wav", waitForCompletion: false))
     }
     
     func wallJump() {
@@ -448,9 +451,9 @@ extension Player {
                 self.resetVelocity()
             }
             
-            SKTAudio.sharedInstance().playSoundEffect("dash.mp3")
             self.physicsBody?.fieldBitMask = ColliderType.none
             self.physicsBody?.applyForce(impulseVector)
+            self.run(.playSoundFileNamed("dash.mp3", waitForCompletion: false))
             self.dashValues.willDash = false
             self.dashValues.isDashing = true
             self.restoreValuesAfterDash()
@@ -480,6 +483,7 @@ extension Player {
         let impulseVector = CGVector(dx: 0, dy: -700)
         self.physicsBody?.velocity.dy = 0
         self.physicsBody?.applyForce(impulseVector)
+        self.run(.playSoundFileNamed("stomp.wav", waitForCompletion: false))
     }
 }
 
@@ -490,8 +494,8 @@ extension Player {
         let sword = pool.get()!
         self.scene?.addChild(sword)
         
-        SKTAudio.sharedInstance().playSoundEffect("playerAttack.mp3")
         sword.throwSword(position: self.position, rotation: rotation, speed: 1000)
+        self.run(.playSoundFileNamed("playerAttack.mp3", waitForCompletion: false))
         sword.destroy()
     }
     
@@ -523,15 +527,22 @@ extension Player {
 // MARK: Combat implementation
 extension Player {
     func receiveDamage(percentage: Int) {
-        SKTAudio.sharedInstance().playSoundEffect("damage.mp3")
+        if combatValues.isDead { return }
         combatValues.hp -= percentage
         print("\(combatValues.hp)")
         if combatValues.hp == 0 { die() }
+        else { self.run(.playSoundFileNamed("damage.wav", waitForCompletion: true)) }
     }
     
     func die() {
-        SKTAudio.sharedInstance().playSoundEffect("die.mp3")
+        Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { _ in
+            self.run(.playSoundFileNamed("die.wav", waitForCompletion: true))
+        }
+        Timer.scheduledTimer(withTimeInterval: 1.5, repeats: false) { _ in
+            self.run(.playSoundFileNamed("gameOver.wav", waitForCompletion: false))
+        }
         (scene as? GameScene)?.showMenu()
+        combatValues.isDead = true
     }
 }
 

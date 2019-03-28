@@ -37,6 +37,17 @@
 		3C2D679A224CF5CE00E22C4A /* VirtualButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2D677B224CF5CE00E22C4A /* VirtualButton.swift */; };
 		3C2D679F224CFEFD00E22C4A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3C2D679B224CFEFD00E22C4A /* Main.storyboard */; };
 		3C2D67A0224CFEFD00E22C4A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3C2D679D224CFEFD00E22C4A /* LaunchScreen.storyboard */; };
+		3C2D67AB224D011F00E22C4A /* die.wav in Resources */ = {isa = PBXBuildFile; fileRef = 3C2D67A1224D011F00E22C4A /* die.wav */; };
+		3C2D67AC224D011F00E22C4A /* Explosion.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 3C2D67A2224D011F00E22C4A /* Explosion.mp3 */; };
+		3C2D67AD224D011F00E22C4A /* playerAttack.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 3C2D67A3224D011F00E22C4A /* playerAttack.mp3 */; };
+		3C2D67AE224D011F00E22C4A /* ready.wav in Resources */ = {isa = PBXBuildFile; fileRef = 3C2D67A4224D011F00E22C4A /* ready.wav */; };
+		3C2D67AF224D011F00E22C4A /* dash.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 3C2D67A5224D011F00E22C4A /* dash.mp3 */; };
+		3C2D67B0224D011F00E22C4A /* stomp.wav in Resources */ = {isa = PBXBuildFile; fileRef = 3C2D67A6224D011F00E22C4A /* stomp.wav */; };
+		3C2D67B1224D011F00E22C4A /* Cancel.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 3C2D67A7224D011F00E22C4A /* Cancel.mp3 */; };
+		3C2D67B2224D011F00E22C4A /* gameOver.wav in Resources */ = {isa = PBXBuildFile; fileRef = 3C2D67A8224D011F00E22C4A /* gameOver.wav */; };
+		3C2D67B3224D011F00E22C4A /* damage.wav in Resources */ = {isa = PBXBuildFile; fileRef = 3C2D67A9224D011F00E22C4A /* damage.wav */; };
+		3C2D67B4224D011F00E22C4A /* Select.wav in Resources */ = {isa = PBXBuildFile; fileRef = 3C2D67AA224D011F00E22C4A /* Select.wav */; };
+		3C2D67B6224D046E00E22C4A /* jump.wav in Resources */ = {isa = PBXBuildFile; fileRef = 3C2D67B5224D046E00E22C4A /* jump.wav */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -72,6 +83,17 @@
 		3C2D677B224CF5CE00E22C4A /* VirtualButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VirtualButton.swift; sourceTree = "<group>"; };
 		3C2D679C224CFEFD00E22C4A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3C2D679E224CFEFD00E22C4A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		3C2D67A1224D011F00E22C4A /* die.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = die.wav; sourceTree = "<group>"; };
+		3C2D67A2224D011F00E22C4A /* Explosion.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Explosion.mp3; sourceTree = "<group>"; };
+		3C2D67A3224D011F00E22C4A /* playerAttack.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = playerAttack.mp3; sourceTree = "<group>"; };
+		3C2D67A4224D011F00E22C4A /* ready.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = ready.wav; sourceTree = "<group>"; };
+		3C2D67A5224D011F00E22C4A /* dash.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = dash.mp3; sourceTree = "<group>"; };
+		3C2D67A6224D011F00E22C4A /* stomp.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = stomp.wav; sourceTree = "<group>"; };
+		3C2D67A7224D011F00E22C4A /* Cancel.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Cancel.mp3; sourceTree = "<group>"; };
+		3C2D67A8224D011F00E22C4A /* gameOver.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = gameOver.wav; sourceTree = "<group>"; };
+		3C2D67A9224D011F00E22C4A /* damage.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = damage.wav; sourceTree = "<group>"; };
+		3C2D67AA224D011F00E22C4A /* Select.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Select.wav; sourceTree = "<group>"; };
+		3C2D67B5224D046E00E22C4A /* jump.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = jump.wav; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,6 +151,7 @@
 		3C2D675C224CF5CE00E22C4A /* Scene */ = {
 			isa = PBXGroup;
 			children = (
+				3C2D6765224CF5CE00E22C4A /* Tilemap */,
 				3C2D675D224CF5CE00E22C4A /* Sword.swift */,
 				3C2D675E224CF5CE00E22C4A /* Pool.swift */,
 				3C2D675F224CF5CE00E22C4A /* Updatable.swift */,
@@ -137,7 +160,6 @@
 				3C2D6762224CF5CE00E22C4A /* Arm.swift */,
 				3C2D6763224CF5CE00E22C4A /* GameScene.swift */,
 				3C2D6764224CF5CE00E22C4A /* Player.swift */,
-				3C2D6765224CF5CE00E22C4A /* Tilemap */,
 				3C2D676A224CF5CE00E22C4A /* PhysicsDetection.swift */,
 			);
 			path = Scene;
@@ -178,6 +200,17 @@
 		3C2D6772224CF5CE00E22C4A /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
+				3C2D67A7224D011F00E22C4A /* Cancel.mp3 */,
+				3C2D67A9224D011F00E22C4A /* damage.wav */,
+				3C2D67A5224D011F00E22C4A /* dash.mp3 */,
+				3C2D67A1224D011F00E22C4A /* die.wav */,
+				3C2D67A2224D011F00E22C4A /* Explosion.mp3 */,
+				3C2D67A8224D011F00E22C4A /* gameOver.wav */,
+				3C2D67B5224D046E00E22C4A /* jump.wav */,
+				3C2D67A3224D011F00E22C4A /* playerAttack.mp3 */,
+				3C2D67A4224D011F00E22C4A /* ready.wav */,
+				3C2D67AA224D011F00E22C4A /* Select.wav */,
+				3C2D67A6224D011F00E22C4A /* stomp.wav */,
 			);
 			path = Sounds;
 			sourceTree = "<group>";
@@ -185,8 +218,8 @@
 		3C2D6774224CF5CE00E22C4A /* Controls */ = {
 			isa = PBXGroup;
 			children = (
-				3C2D6775224CF5CE00E22C4A /* MenuNode.swift */,
 				3C2D6776224CF5CE00E22C4A /* Joystick */,
+				3C2D6775224CF5CE00E22C4A /* MenuNode.swift */,
 				3C2D677B224CF5CE00E22C4A /* VirtualButton.swift */,
 			);
 			path = Controls;
@@ -262,10 +295,21 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3C2D67B6224D046E00E22C4A /* jump.wav in Resources */,
 				3C2D6786224CF5CE00E22C4A /* GameScene.sks in Resources */,
+				3C2D67AE224D011F00E22C4A /* ready.wav in Resources */,
+				3C2D67B2224D011F00E22C4A /* gameOver.wav in Resources */,
+				3C2D67B3224D011F00E22C4A /* damage.wav in Resources */,
 				3C2D678F224CF5CE00E22C4A /* Assets.xcassets in Resources */,
 				3C2D678A224CF5CE00E22C4A /* TileMapTower.sks in Resources */,
+				3C2D67AD224D011F00E22C4A /* playerAttack.mp3 in Resources */,
+				3C2D67B4224D011F00E22C4A /* Select.wav in Resources */,
+				3C2D67AB224D011F00E22C4A /* die.wav in Resources */,
+				3C2D67B0224D011F00E22C4A /* stomp.wav in Resources */,
+				3C2D67AF224D011F00E22C4A /* dash.mp3 in Resources */,
 				3C2D67A0224CFEFD00E22C4A /* LaunchScreen.storyboard in Resources */,
+				3C2D67AC224D011F00E22C4A /* Explosion.mp3 in Resources */,
+				3C2D67B1224D011F00E22C4A /* Cancel.mp3 in Resources */,
 				3C2D679F224CFEFD00E22C4A /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

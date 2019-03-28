@@ -29,8 +29,6 @@ class Platform: SKNode {
         physics.allowsRotation = false
         physics.affectedByGravity = false
         physics.isDynamic = false
-        physics.restitution = 0
-        physics.friction = 0
         physicsBody = physics
     }
     
