@@ -34,6 +34,7 @@ class GameScene: SKScene {
         tilemapObject.givTileMapPhysicsBody(tileMap: tilemap, viewNode: scene!)
 
         player = Player(addToView: self)
+        enemy = FlyingEnemy(view: self, target: player)
         player.combatValues.isDead = true
         menu = MenuNode(addTo: self)
         menu.position = .zero
@@ -41,7 +42,6 @@ class GameScene: SKScene {
             self.menu.isHidden = true
             self.player.combatValues.resetToInitialState()
         }, type: .began)
-        enemy = FlyingEnemy(view: self, target: player)
         setupCamera()
 
         if view.scene != nil {
