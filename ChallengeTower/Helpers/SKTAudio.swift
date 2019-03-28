@@ -56,7 +56,7 @@ public class SKTAudio {
             print("Could not create audio player: \(error!)")
         }
     }
-    
+
     public func pauseBackgroundMusic() {
         if let player = backgroundMusicPlayer {
             if player.isPlaying {
@@ -64,7 +64,7 @@ public class SKTAudio {
             }
         }
     }
-    
+
     public func resumeBackgroundMusic() {
         if let player = backgroundMusicPlayer {
             if !player.isPlaying {
@@ -79,7 +79,6 @@ public class SKTAudio {
             print("Could not find file: \(filename)")
             return
         }
-        
         var error: NSError? = nil
         do {
             soundEffectPlayer = try AVAudioPlayer(contentsOf: url!)
