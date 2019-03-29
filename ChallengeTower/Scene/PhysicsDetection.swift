@@ -78,7 +78,11 @@ class PhysicsDetection: NSObject, SKPhysicsContactDelegate {
         }
         
         if collision == ColliderType.sword | ColliderType.hazard {
-            print("attack hazard/enemy")
+            if let enemy = contact.bodyA.node as? FlyingEnemy {
+                enemy.die()
+            } else if let enemy = contact.bodyB.node as? FlyingEnemy {
+                enemy.die()
+            }
         }
         
         if collision == ColliderType.player | ColliderType.player {
