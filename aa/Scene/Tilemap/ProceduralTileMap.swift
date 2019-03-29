@@ -18,7 +18,8 @@ class ProceduralTileMap {
         self.matrixTaleMap = proceduralManipulation.createMatrix(column: columns, row: rows)
         self.matrixTaleMap = proceduralManipulation.reverseMatriz(matrix: matrixTaleMap, rows: rows)
         let tileset = SKTileSet(named: tileSet)!
-        let tileTesteMap = SKTileMapNode(tileSet: tileset, columns: columns, rows: rows, tileSize: CGSize(width: widthTile, height: heightTile))
+        print(tileset.tileGroups[0].name)
+        let tileTesteMap = SKTileMapNode(tileSet: tileset, columns: columns, rows: rows, tileSize: CGSize(width: widthTile, height: heightTile), tileGroupLayout: tileset.tileGroups)
         tileTesteMap.name = "TileMapBase"
         tileTesteMap.position = CGPoint(x: 20 , y: 452)
         for row in 0..<tileTesteMap.numberOfRows{
@@ -27,7 +28,6 @@ class ProceduralTileMap {
                 tileTesteMap.setTileGroup(tileset.tileGroups[texture], forColumn: column, row: row)
             }
         }
-        
         return tileTesteMap
     }
     
@@ -45,13 +45,12 @@ class ProceduralTileMap {
             for column in 0..<tileMap.numberOfColumns{
                 let tileSet = tileMap.tileDefinition(atColumn: column, row: row)
                 let tileArray = tileSet?.textures
+                print(tileSet)
                 let tileTexture = tileArray![0]
-                //print(tileTexture)
+               // print(tileTexture)
                 
                 let x = CGFloat(column) * tileSize.width - halfWidth + (tileSize.width / 2)
                 let y = CGFloat(row) * tileSize.height - halfHeight + (tileSize.height / 2)
-                // print(tileTexture)
-                
                 switch tileSet?.name{
                 case TileSetType.background.rawValue:
                     

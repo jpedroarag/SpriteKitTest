@@ -89,8 +89,7 @@ class ProceduralMatriz {
             if (matrix[row][3] == typeTyle.plataforms.rawValue){
                 //Evita que crie buracos na mesma posicao e mesmo tamanho em plataformas afastadas
                 if lastPlataform == gapPlataform{
-                     lastPlataform = gapPlataform
-                     matrix[row] = createGapInPlataform(rowMatrix: matrix[row], sizeGap: sizeGap + 1, initialGap: lastPlataform-1)
+                    matrix[row] = createGapInPlataform(rowMatrix: matrix[row], sizeGap: sizeGap + 1, initialGap: lastPlataform-1)
                     
                 }else{
                      matrix[row] = createGapInPlataform(rowMatrix: matrix[row], sizeGap: sizeGap, initialGap: gapPlataform)
@@ -119,11 +118,9 @@ class ProceduralMatriz {
         var column = 1
         var initialGap = -1
         while (column < numberColumn-2) {
-            if rowMatrix[column] == typeTyle.plataforms.rawValue{
-                if rowMatrix[column+1] == typeTyle.backgorund.rawValue{
-                    initialGap = column+1
-                    break
-                }
+            if rowMatrix[column] == typeTyle.plataforms.rawValue && rowMatrix[column+1] == typeTyle.backgorund.rawValue {
+                initialGap = column
+                break
             }
             column += 1
         }
