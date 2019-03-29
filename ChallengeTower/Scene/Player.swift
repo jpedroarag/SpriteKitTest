@@ -90,6 +90,36 @@ struct JumpValues {
     
 }
 
+// MARK: setup player animations
+extension Player{
+    func runRunAnimation(){
+        var textures: [SKTexture] = []
+        for i in 1 ... 8{
+            textures.append(SKTexture(imageNamed: "run\(i)"))
+            
+        }
+        
+        let run = SKAction.animate(with: textures, timePerFrame: 0.2)
+        
+        sprite.run(SKAction.repeatForever(run))
+        
+        self.animationRunning = "run"
+    }
+    
+    func runIdleAnimation(){
+        var textures: [SKTexture] = []
+        for i in 1 ... 4{
+            textures.append(SKTexture(imageNamed: "idle\(i)"))
+            
+        }
+        
+        let idle = SKAction.animate(with: textures, timePerFrame: 0.2)
+        
+        sprite.run(SKAction.repeatForever(idle))
+        self.animationRunning = "idle"
+    }
+}
+
 // MARK: Wall jump flags and constants
 struct WallJumpValues {
     /// Tells if the player is currently attached to the wall, waiting for the user to use his wall jump
@@ -178,6 +208,8 @@ class Player: SKNode {
     /// Holds the player's properties related to the combat actions
     var combatValues = CombatValues()
     
+    var animationRunning = "idle"
+    
     /// Holds how strong the scene gravity affects the player
     var gravityStrength: Float? {
         get {
@@ -197,7 +229,7 @@ class Player: SKNode {
         setupBody()
         setupArm()
         setupJoint()
-        setupWeapon()
+//        setupWeapon()
         
         let sword = Sword(texture: SKTexture(imageNamed: "Sword"),
                           color: .white,
@@ -217,8 +249,8 @@ class Player: SKNode {
 // MARK: Setup of player and player's weapon
 extension Player {
     func setupBody(){
-        sprite = SKSpriteNode(imageNamed: "Knight")
-        self.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 20, height: 20))
+        sprite = SKSpriteNode(texture: SKTexture(image: UIImage(named: "idle1")!), size: CGSize(width: 25, height: 32))
+        self.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 20, height: 32))
         self.physicsBody?.allowsRotation = false
         self.physicsBody?.restitution = 0
         self.physicsBody?.categoryBitMask = ColliderType.player
@@ -252,11 +284,11 @@ extension Player {
         scene?.physicsWorld.add(joint)
     }
     
-    func setupWeapon(){
-        sword = SKSpriteNode(imageNamed: "Sword")
-        sword.position.x = 00
-        gunArm.addChild(sword)
-    }
+//    func setupWeapon(){
+//        sword = SKSpriteNode(imageNamed: "Sword")
+//        sword.position.x = 00
+//        gunArm.addChild(sword)
+//    }
 }
 
 // MARK: Player orientation methods
@@ -353,7 +385,7 @@ extension Player {
         self.jumpValues.numberOfJumps += 1
         if self.jumpValues.numberOfJumps >= self.jumpValues.maxNumberOfJumps { self.jumpValues.canJump = false }
         self.physicsBody?.velocity.dy = 0
-        self.physicsBody?.applyForce(CGVector.up * CGFloat(700))
+        self.physicsBody?.applyForce(CGVector.up * CGFloat(900))
         self.run(.playSoundFileNamed("jump.wav", waitForCompletion: false))
     }
     
@@ -587,5 +619,14 @@ extension CGFloat {
 
 // MARK: Conforming to Updatable protocol
 extension Player: Updatable {
-    func update(currentTime: TimeInterval) {}
+    func update(currentTime: TimeInterval) {
+        if(((self.physicsBody?.velocity.dx)! >= CGFloat(100) || (self.physicsBody?.velocity.dx)! <= CGFloat(-100)) && self.animationRunning != "run"){
+            self.runRunAnimation()
+            
+        }
+        if((self.physicsBody?.velocity.dx)! <= CGFloat(100) && (self.physicsBody?.velocity.dx)! >= CGFloat(-100) && self.animationRunning != "idle"){
+            self.runIdleAnimation()
+        }
+    }
+    
 }
