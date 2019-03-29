@@ -28,7 +28,8 @@ class GameScene: SKScene {
         view.showsPhysics = true
         physicsWorld.contactDelegate = physicsDelegate
         addGravity()
-        tilemap = tilemapObject.createTileMap(tileSet: "TileSet", columns: 21, rows: 201, widthTile: 32, heightTile: 32)
+
+        tilemap = tilemapObject.createTileMap(tileSet: "TileSet", columns: 30, rows: 80, widthTile: 32, heightTile: 32)
         scene?.addChild(tilemap)
         tilemapObject.givTileMapPhysicsBody(tileMap: tilemap, viewNode: scene!)
 

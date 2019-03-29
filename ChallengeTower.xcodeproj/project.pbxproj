@@ -16,6 +16,15 @@
 		3C2D6785224CF5CE00E22C4A /* Platform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2D6760224CF5CE00E22C4A /* Platform.swift */; };
 		3C2D6786224CF5CE00E22C4A /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 3C2D6761224CF5CE00E22C4A /* GameScene.sks */; };
 		3C2D6787224CF5CE00E22C4A /* Arm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2D6762224CF5CE00E22C4A /* Arm.swift */; };
+		2BDFF2D5224E498400C0D701 /* Pool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDFF2D2224E498400C0D701 /* Pool.swift */; };
+		2BDFF2D6224E498400C0D701 /* Arm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDFF2D3224E498400C0D701 /* Arm.swift */; };
+		2BDFF2D7224E498400C0D701 /* Sword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDFF2D4224E498400C0D701 /* Sword.swift */; };
+		3C2D677C224CF5CE00E22C4A /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2D6753224CF5CE00E22C4A /* GameViewController.swift */; };
+		3C2D677D224CF5CE00E22C4A /* InputController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2D6754224CF5CE00E22C4A /* InputController.swift */; };
+		3C2D6781224CF5CE00E22C4A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2D675B224CF5CE00E22C4A /* AppDelegate.swift */; };
+		3C2D6784224CF5CE00E22C4A /* Updatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2D675F224CF5CE00E22C4A /* Updatable.swift */; };
+		3C2D6785224CF5CE00E22C4A /* Platform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2D6760224CF5CE00E22C4A /* Platform.swift */; };
+		3C2D6786224CF5CE00E22C4A /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 3C2D6761224CF5CE00E22C4A /* GameScene.sks */; };
 		3C2D6788224CF5CE00E22C4A /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2D6763224CF5CE00E22C4A /* GameScene.swift */; };
 		3C2D6789224CF5CE00E22C4A /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2D6764224CF5CE00E22C4A /* Player.swift */; };
 		3C2D678A224CF5CE00E22C4A /* TileMapTower.sks in Resources */ = {isa = PBXBuildFile; fileRef = 3C2D6766224CF5CE00E22C4A /* TileMapTower.sks */; };
@@ -55,6 +64,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2BDFF2D2224E498400C0D701 /* Pool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pool.swift; sourceTree = "<group>"; };
+		2BDFF2D3224E498400C0D701 /* Arm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Arm.swift; sourceTree = "<group>"; };
+		2BDFF2D4224E498400C0D701 /* Sword.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sword.swift; sourceTree = "<group>"; };
 		3C2D6732224CF4E400E22C4A /* ChallengeTower.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChallengeTower.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C2D6753224CF5CE00E22C4A /* GameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		3C2D6754224CF5CE00E22C4A /* InputController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputController.swift; sourceTree = "<group>"; };
@@ -66,6 +78,9 @@
 		3C2D6760224CF5CE00E22C4A /* Platform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Platform.swift; sourceTree = "<group>"; };
 		3C2D6761224CF5CE00E22C4A /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
 		3C2D6762224CF5CE00E22C4A /* Arm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Arm.swift; sourceTree = "<group>"; };
+		3C2D675F224CF5CE00E22C4A /* Updatable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Updatable.swift; sourceTree = "<group>"; };
+		3C2D6760224CF5CE00E22C4A /* Platform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Platform.swift; sourceTree = "<group>"; };
+		3C2D6761224CF5CE00E22C4A /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
 		3C2D6763224CF5CE00E22C4A /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		3C2D6764224CF5CE00E22C4A /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		3C2D6766224CF5CE00E22C4A /* TileMapTower.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = TileMapTower.sks; sourceTree = "<group>"; };
@@ -172,6 +187,15 @@
 				3C2D6763224CF5CE00E22C4A /* GameScene.swift */,
 				3C2D6764224CF5CE00E22C4A /* Player.swift */,
 				3C2D676A224CF5CE00E22C4A /* PhysicsDetection.swift */,
+				3C2D675F224CF5CE00E22C4A /* Updatable.swift */,
+				3C2D6760224CF5CE00E22C4A /* Platform.swift */,
+				3C2D6761224CF5CE00E22C4A /* GameScene.sks */,
+				3C2D6763224CF5CE00E22C4A /* GameScene.swift */,
+				3C2D6764224CF5CE00E22C4A /* Player.swift */,
+				3C2D676A224CF5CE00E22C4A /* PhysicsDetection.swift */,
+				2BDFF2D3224E498400C0D701 /* Arm.swift */,
+				2BDFF2D2224E498400C0D701 /* Pool.swift */,
+				2BDFF2D4224E498400C0D701 /* Sword.swift */,
 			);
 			path = Scene;
 			sourceTree = "<group>";
@@ -342,6 +366,12 @@
 				3C2D678D224CF5CE00E22C4A /* ProceduralMatrix.swift in Sources */,
 				3C2D68EB224D683900E22C4A /* FlyingEnemyStates.swift in Sources */,
 				3C2D6795224CF5CE00E22C4A /* MenuNode.swift in Sources */,
+				2BDFF2D6224E498400C0D701 /* Arm.swift in Sources */,
+				3C2D678C224CF5CE00E22C4A /* EnumTileMap.swift in Sources */,
+				3C2D6798224CF5CE00E22C4A /* MoveControllable.swift in Sources */,
+				3C2D6791224CF5CE00E22C4A /* CGSize+Extensions.swift in Sources */,
+				2BDFF2D7224E498400C0D701 /* Sword.swift in Sources */,
+				3C2D678D224CF5CE00E22C4A /* ProceduralMatrix.swift in Sources */,
 				3C2D6796224CF5CE00E22C4A /* RotateControllable.swift in Sources */,
 				3C2D6784224CF5CE00E22C4A /* Updatable.swift in Sources */,
 				3C2D6781224CF5CE00E22C4A /* AppDelegate.swift in Sources */,
@@ -362,6 +392,10 @@
 				3C2D6794224CF5CE00E22C4A /* SKTAudio.swift in Sources */,
 				3C2D6799224CF5CE00E22C4A /* Controllable2D.swift in Sources */,
 				3C2D6783224CF5CE00E22C4A /* Pool.swift in Sources */,
+				3C2D678B224CF5CE00E22C4A /* ProceduralTileMap.swift in Sources */,
+				3C2D6794224CF5CE00E22C4A /* SKTAudio.swift in Sources */,
+				3C2D6799224CF5CE00E22C4A /* Controllable2D.swift in Sources */,
+				2BDFF2D5224E498400C0D701 /* Pool.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -510,6 +544,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = JGG8YW8SJU;
+				DEVELOPMENT_TEAM = 6XYJN7S9JQ;
 				INFOPLIST_FILE = ChallengeTower/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -531,6 +566,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = JGG8YW8SJU;
+				DEVELOPMENT_TEAM = 6XYJN7S9JQ;
 				INFOPLIST_FILE = ChallengeTower/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

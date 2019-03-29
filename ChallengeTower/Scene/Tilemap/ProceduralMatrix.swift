@@ -22,6 +22,7 @@ class ProceduralMatriz {
         matrixTileMap = createBounds(matrixTile: matrixTileMap)
         matrixTileMap = cretatePlataforms(matrixTile: matrixTileMap)
         matrixTileMap = createGap(matrixTile: matrixTileMap)
+        matrixTileMap[4][sizeRandom(rangeMin: 3, rangerMax: column-3)] = 4
         return matrixTileMap
         
     }
@@ -75,7 +76,7 @@ class ProceduralMatriz {
             
           
             //size gap in plataforma
-            sizeGap = sizeRandom(rangeMin: 2, rangerMax: 4)
+            sizeGap = sizeRandom(rangeMin: 2, rangerMax: 5)
             if lastSize == sizeGap{
                 sizeGap = lastSize+1
             }
@@ -89,8 +90,7 @@ class ProceduralMatriz {
             if (matrix[row][3] == typeTyle.plataforms.rawValue){
                 //Evita que crie buracos na mesma posicao e mesmo tamanho em plataformas afastadas
                 if lastPlataform == gapPlataform{
-                     lastPlataform = gapPlataform
-                     matrix[row] = createGapInPlataform(rowMatrix: matrix[row], sizeGap: sizeGap + 1, initialGap: lastPlataform-1)
+                    matrix[row] = createGapInPlataform(rowMatrix: matrix[row], sizeGap: sizeGap + 1, initialGap: lastPlataform)
                     
                 }else{
                      matrix[row] = createGapInPlataform(rowMatrix: matrix[row], sizeGap: sizeGap, initialGap: gapPlataform)
@@ -108,7 +108,7 @@ class ProceduralMatriz {
         var column = initialGap
         let size = sizeGap+initialGap
         var row = rowMatrix
-        while (column < size+1) {
+        while (column < size) {
             row[column] = typeTyle.backgorund.rawValue
             column += 1
         }
@@ -119,11 +119,9 @@ class ProceduralMatriz {
         var column = 1
         var initialGap = -1
         while (column < numberColumn-2) {
-            if rowMatrix[column] == typeTyle.plataforms.rawValue{
-                if rowMatrix[column+1] == typeTyle.backgorund.rawValue{
-                    initialGap = column+1
-                    break
-                }
+            if rowMatrix[column] == typeTyle.plataforms.rawValue && rowMatrix[column+1] == typeTyle.backgorund.rawValue {
+                initialGap = column
+                break
             }
             column += 1
         }
