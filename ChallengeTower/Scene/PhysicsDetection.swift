@@ -21,6 +21,7 @@ struct ColliderType {
     static let platform: UInt32 = 0x1 << 5
     static let hazard: UInt32 = 0x1 << 6
     static let sword: UInt32 = 0x1 << 7
+    
 }
 
 class PhysicsDetection: NSObject, SKPhysicsContactDelegate {
@@ -71,9 +72,22 @@ class PhysicsDetection: NSObject, SKPhysicsContactDelegate {
         
         if collision == ColliderType.player | ColliderType.hazard {
             if let player = contact.bodyA.node as? Player {
-                player.receiveDamage(percentage: 3)
+                player.receiveDamage(percentage: 100)
             } else if let player = contact.bodyB.node as? Player{
-                player.receiveDamage(percentage: 3)
+                player.receiveDamage(percentage: 100)
+            }
+        }
+        
+        if collision == ColliderType.wall | ColliderType.hazard{
+            if let enemy =  contact.bodyA.node as? FlyingEnemy{
+                enemy.velocity *= -1
+                enemy.xScale *= -1
+                
+            }
+            else if let enemy = contact.bodyB.node as? FlyingEnemy{
+                enemy.velocity *= -1
+                enemy.xScale *= -1
+                
             }
         }
         

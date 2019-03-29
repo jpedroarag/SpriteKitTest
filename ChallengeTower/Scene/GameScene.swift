@@ -12,7 +12,7 @@ import SpriteKit
 class GameScene: SKScene {
 
     var player: Player!
-    var enemy: FlyingEnemy!
+    var enemys: [FlyingEnemy] = []
     private var updatables = [Updatable]()
     let physicsDelegate = PhysicsDetection()
     var gravityField: SKFieldNode!
@@ -33,7 +33,7 @@ class GameScene: SKScene {
         tilemapObject.givTileMapPhysicsBody(tileMap: tilemap, viewNode: scene!)
 
         player = Player(addToView: self)
-        enemy = FlyingEnemy(view: self, target: player)
+        
         player.combatValues.isDead = true
         menu = MenuNode(addTo: self)
         menu.position = .zero
@@ -49,14 +49,24 @@ class GameScene: SKScene {
 
         player.position = CGPoint(x: 5, y: 5)
         // 4
-        enemy.position = CGPoint(x: self.size.width - 50, y: 30)
+        
 
         updatables.append(inputController)
         updatables.append(player)
-        updatables.append(enemy)
+        
+        for i in 0 ... 50 {
+            enemys.append(FlyingEnemy(view: self, target: player))
+            enemys[i].position = CGPoint(x: self.size.width - 120, y: CGFloat((300 * i) + (50 - i)))
+            updatables.append(enemys[i])
+        }
+//        enemy = FlyingEnemy(view: self, target: player)
+//        enemy.position = CGPoint(x: self.size.width - 120, y: 30)
+//        updatables.append(enemy)
 
         // Toca uma música de background
         SKTAudio.sharedInstance().playBackgroundMusic("soundtrack-test.mp3")
+        
+        
 
     }
     

@@ -92,7 +92,7 @@ class ProceduralTileMap {
                         tileNode.physicsBody?.friction = 0
                         tileNode.physicsBody?.restitution = 0
                         tileNode.physicsBody?.categoryBitMask = ColliderType.wall
-                        tileNode.physicsBody?.contactTestBitMask = ColliderType.player
+                        tileNode.physicsBody?.contactTestBitMask = ColliderType.player | ColliderType.hazard
                         viewNode.addChild(tileNode)
                         tileNode.position = position
                     }

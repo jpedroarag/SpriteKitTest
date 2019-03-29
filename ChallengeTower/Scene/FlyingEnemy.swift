@@ -15,11 +15,21 @@ class FlyingEnemy: SKSpriteNode {
     var target: Player!
 
     var stateMachine: GKStateMachine!
+    var velocity : CGFloat = -40
 
     init(view: SKScene, target: Player) {
-        let texture = SKTexture(imageNamed: "skull1")
+        let texture = SKTexture(imageNamed: "demonIdle1")
+        var textures : [SKTexture] = []
+        for i in 1 ... 6{
+            textures.append(SKTexture(imageNamed: "demonIdle\(i)"))
+        }
+        
+        
+        
         super.init(texture: texture, color: .clear, size: texture.size())
 
+        self.run(SKAction.repeatForever(SKAction.animate(with: textures, timePerFrame: 0.2)))
+        
         view.addChild(self)
 
         self.target = target
@@ -33,6 +43,9 @@ class FlyingEnemy: SKSpriteNode {
 
         self.setupBody()
 
+        
+//        self.scene?.physicsWorld.contactDelegate = self
+        
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -40,7 +53,7 @@ class FlyingEnemy: SKSpriteNode {
     }
 
     func setupBody() {
-        self.physicsBody = SKPhysicsBody(rectangleOf: self.size)
+        self.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 130, height: 100))
         self.physicsBody?.allowsRotation = false
         self.physicsBody?.restitution = 0
         self.physicsBody?.friction = 0
@@ -50,10 +63,13 @@ class FlyingEnemy: SKSpriteNode {
 
         self.physicsBody?.fieldBitMask = ColliderType.none
         self.physicsBody?.categoryBitMask = ColliderType.hazard
-        self.physicsBody?.collisionBitMask = ColliderType.player | ColliderType.hazard | ColliderType.wall | ColliderType.ground | ColliderType.platform
-        self.physicsBody?.contactTestBitMask = ColliderType.player | ColliderType.hazard
+        self.physicsBody?.collisionBitMask = ColliderType.player | ColliderType.ground | ColliderType.wall
+        self.physicsBody?.contactTestBitMask = ColliderType.hazard | ColliderType.wall
+        
         
         self.name = "Enemy"
+        
+        
     }
 
     func runAnimation(with frames: [SKTexture], withKey: String) {
@@ -74,9 +90,9 @@ class FlyingEnemy: SKSpriteNode {
         let targetLocation = self.target.position
 
         // Checa na horizontal
-        if targetLocation.x > self.position.x - 100 && targetLocation.x < self.position.x + 100 {
+        if targetLocation.x > self.position.x - 200 && targetLocation.x < self.position.x + 100 {
             // Checa na vertical
-            if targetLocation.y > self.position.y - 50 && targetLocation.y < self.position.y + 50 {
+            if targetLocation.y > self.position.y - 170 && targetLocation.y < self.position.y + 50 {
                 self.stateMachine.enter(HuntingState.self)
             }
         }
@@ -87,9 +103,9 @@ class FlyingEnemy: SKSpriteNode {
 
         // Aim
         if targetLocation.x < self.position.x {
-            self.xScale = -1.0
-        } else {
             self.xScale = 1.0
+        } else {
+            self.xScale = -1.0
         }
 
         // Seek
@@ -111,14 +127,28 @@ extension FlyingEnemy: Updatable {
     func update(currentTime: TimeInterval) {
         guard let currentState = self.stateMachine.currentState else { return }
 
+
+
+//        self.physicsBody?.velocity.dx = 10
         if currentState is IdleState {
             self.waitingForTarget()
         } else if currentState is HuntingState {
             self.seekTarget()
         }
 
+        self.physicsBody?.velocity.dx = velocity
 
-        print(self.size)
+//        print(self.size)
+        
     }
+    
+//    func didBegin(_ contact: SKPhysicsContact) {
+//        if contact.bodyA.collisionBitMask == ColliderType.wall{
+//            self.physicsBody?.velocity.dx *= -1
+//        }
+//        if contact.bodyB.collisionBitMask == ColliderType.wall{
+//            self.physicsBody?.velocity.dx *= -1
+//        }
+//    }
 
 }

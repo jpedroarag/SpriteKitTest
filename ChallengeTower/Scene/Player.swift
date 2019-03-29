@@ -255,8 +255,8 @@ extension Player {
         self.physicsBody?.restitution = 0
         self.physicsBody?.categoryBitMask = ColliderType.player
         self.physicsBody?.fieldBitMask = ColliderType.gravity
-        self.physicsBody?.collisionBitMask = ColliderType.ground | ColliderType.wall | ColliderType.platform | ColliderType.hazard
-        self.physicsBody?.contactTestBitMask = ColliderType.player
+        self.physicsBody?.collisionBitMask = ColliderType.ground | ColliderType.platform | ColliderType.hazard | ColliderType.wall
+        self.physicsBody?.contactTestBitMask = ColliderType.player | ColliderType.hazard
         self.name = "Player"
         self.addChild(sprite)
     }
