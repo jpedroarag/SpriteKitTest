@@ -55,6 +55,7 @@
 		3C2D68EB224D683900E22C4A /* FlyingEnemyStates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2D68E9224D683900E22C4A /* FlyingEnemyStates.swift */; };
 		3C2D68EC224D683900E22C4A /* FlyingEnemy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2D68EA224D683900E22C4A /* FlyingEnemy.swift */; };
 		EC723C10224E62F5009FCB71 /* monogram_extended.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EC723C0F224E62EC009FCB71 /* monogram_extended.ttf */; };
+		EC723C12224E99D6009FCB71 /* 8bit Dungeon Boss.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = EC723C11224E99D6009FCB71 /* 8bit Dungeon Boss.mp3 */; };
 		FCCABD30224E37D300339335 /* skull.atlas in Resources */ = {isa = PBXBuildFile; fileRef = FCCABD2F224E37D300339335 /* skull.atlas */; };
 /* End PBXBuildFile section */
 
@@ -109,6 +110,7 @@
 		3C2D68E9224D683900E22C4A /* FlyingEnemyStates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlyingEnemyStates.swift; sourceTree = "<group>"; };
 		3C2D68EA224D683900E22C4A /* FlyingEnemy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlyingEnemy.swift; sourceTree = "<group>"; };
 		EC723C0F224E62EC009FCB71 /* monogram_extended.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = monogram_extended.ttf; path = ChallengeTower/Helpers/Fonts/monogram_extended.ttf; sourceTree = SOURCE_ROOT; };
+		EC723C11224E99D6009FCB71 /* 8bit Dungeon Boss.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "8bit Dungeon Boss.mp3"; sourceTree = "<group>"; };
 		FCCABD2F224E37D300339335 /* skull.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = skull.atlas; path = Helpers/skull.atlas; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -224,6 +226,7 @@
 			isa = PBXGroup;
 			children = (
 				3C2D67A7224D011F00E22C4A /* Cancel.mp3 */,
+				EC723C11224E99D6009FCB71 /* 8bit Dungeon Boss.mp3 */,
 				3C2D67A9224D011F00E22C4A /* damage.wav */,
 				3C2D67A5224D011F00E22C4A /* dash.mp3 */,
 				3C2D67A1224D011F00E22C4A /* die.wav */,
@@ -329,6 +332,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3C2D67B6224D046E00E22C4A /* jump.wav in Resources */,
+				EC723C12224E99D6009FCB71 /* 8bit Dungeon Boss.mp3 in Resources */,
 				3C2D6786224CF5CE00E22C4A /* GameScene.sks in Resources */,
 				3C2D67AE224D011F00E22C4A /* ready.wav in Resources */,
 				FCCABD30224E37D300339335 /* skull.atlas in Resources */,
