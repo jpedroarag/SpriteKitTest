@@ -17,21 +17,22 @@ class MenuNode: SKNode {
     init(addTo scene: SKScene) {
         super.init()
         
-        background = SKSpriteNode(texture: nil, color: .white, size: scene.view!.frame.size)
-        background.alpha = 0.9
+        background = SKSpriteNode(texture: SKTexture(imageNamed: "menuBackground"), color: .clear, size: scene.view!.frame.size)
+        background.alpha = 1
         addChild(background)
         
         let texture = SKTexture(imageNamed: "Start")
-        startButton = VirtualButton(texture: texture, color: .red, size: .from(100), position: .zero)
+        startButton = VirtualButton(texture: texture, color: .white, size: .from(100), position: .zero)
         addChild(startButton)
         
-        label = SKLabelNode(text: "Press to start the game")
-        label.fontSize = startButton.size.width/2
-        label.fontColor = .black
-        addChild(label)
+//        label = SKLabelNode(text: "Press to start the game")
+//        label.fontSize = startButton.size.width/2
+//        label.fontColor = .black
+//        label.fontName = "MonogramExtended"
+//        addChild(label)
         
         startButton.position.y -= startButton.size.height/4 + 8
-        label.position.y += startButton.size.height/4 + 8
+        //label.position.y += startButton.size.height/4 + 8
         
         scene.addChild(self)
         zPosition = 100
