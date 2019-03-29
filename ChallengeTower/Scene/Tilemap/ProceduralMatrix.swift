@@ -22,7 +22,7 @@ class ProceduralMatriz {
         matrixTileMap = createBounds(matrixTile: matrixTileMap)
         matrixTileMap = cretatePlataforms(matrixTile: matrixTileMap)
         matrixTileMap = createGap(matrixTile: matrixTileMap)
-        matrixTileMap[2][sizeRandom(rangeMin: 3, rangerMax: column-3)] = 4
+        matrixTileMap[4][sizeRandom(rangeMin: 3, rangerMax: column-3)] = 4
         return matrixTileMap
         
     }
