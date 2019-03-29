@@ -385,7 +385,7 @@ extension Player {
         self.jumpValues.numberOfJumps += 1
         if self.jumpValues.numberOfJumps >= self.jumpValues.maxNumberOfJumps { self.jumpValues.canJump = false }
         self.physicsBody?.velocity.dy = 0
-        self.physicsBody?.applyForce(CGVector.up * CGFloat(900))
+        self.physicsBody?.applyForce(CGVector.up * CGFloat(1000))
         self.run(.playSoundFileNamed("jump.wav", waitForCompletion: false))
     }
     

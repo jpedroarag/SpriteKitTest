@@ -51,6 +51,7 @@
 		3C2D68E8224D681100E22C4A /* explosion.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 3C2D68E7224D681100E22C4A /* explosion.mp3 */; };
 		3C2D68EB224D683900E22C4A /* FlyingEnemyStates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2D68E9224D683900E22C4A /* FlyingEnemyStates.swift */; };
 		3C2D68EC224D683900E22C4A /* FlyingEnemy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2D68EA224D683900E22C4A /* FlyingEnemy.swift */; };
+		FCCABD30224E37D300339335 /* skull.atlas in Resources */ = {isa = PBXBuildFile; fileRef = FCCABD2F224E37D300339335 /* skull.atlas */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -100,6 +101,7 @@
 		3C2D68E7224D681100E22C4A /* explosion.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = explosion.mp3; sourceTree = "<group>"; };
 		3C2D68E9224D683900E22C4A /* FlyingEnemyStates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlyingEnemyStates.swift; sourceTree = "<group>"; };
 		3C2D68EA224D683900E22C4A /* FlyingEnemy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlyingEnemy.swift; sourceTree = "<group>"; };
+		FCCABD2F224E37D300339335 /* skull.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = skull.atlas; path = Helpers/skull.atlas; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,6 +136,7 @@
 			children = (
 				3C2D6752224CF5CE00E22C4A /* Controller */,
 				3C2D6774224CF5CE00E22C4A /* Controls */,
+				FCCABD2F224E37D300339335 /* skull.atlas */,
 				3C2D676C224CF5CE00E22C4A /* Helpers */,
 				3C2D675C224CF5CE00E22C4A /* Scene */,
 				3C2D675B224CF5CE00E22C4A /* AppDelegate.swift */,
@@ -307,6 +310,7 @@
 				3C2D67B6224D046E00E22C4A /* jump.wav in Resources */,
 				3C2D6786224CF5CE00E22C4A /* GameScene.sks in Resources */,
 				3C2D67AE224D011F00E22C4A /* ready.wav in Resources */,
+				FCCABD30224E37D300339335 /* skull.atlas in Resources */,
 				3C2D67B2224D011F00E22C4A /* gameOver.wav in Resources */,
 				3C2D67B3224D011F00E22C4A /* damage.wav in Resources */,
 				3C2D678F224CF5CE00E22C4A /* Assets.xcassets in Resources */,
