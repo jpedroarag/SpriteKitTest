@@ -25,7 +25,7 @@ class GameScene: SKScene {
 
     override func didMove(to view: SKView) {
         anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        view.showsPhysics = true
+        //view.showsPhysics = true
         physicsWorld.contactDelegate = physicsDelegate
         addGravity()
         tilemap = tilemapObject.createTileMap(tileSet: "TileSet", columns: 21, rows: 201, widthTile: 32, heightTile: 32)
