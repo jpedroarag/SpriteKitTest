@@ -12,7 +12,7 @@ import SpriteKit
 class GameScene: SKScene {
 
     var player: Player!
-    var enemys: [FlyingEnemy] = []
+    var enemies: [FlyingEnemy] = []
     private var updatables = [Updatable]()
     let physicsDelegate = PhysicsDetection()
     var gravityField: SKFieldNode!
@@ -55,9 +55,9 @@ class GameScene: SKScene {
         updatables.append(player)
         
         for i in 0 ... 50 {
-            enemys.append(FlyingEnemy(view: self, target: player))
-            enemys[i].position = CGPoint(x: self.size.width - 120, y: CGFloat((300 * i) + (50 - i)))
-            updatables.append(enemys[i])
+            enemies.append(FlyingEnemy(view: self, target: player))
+            enemies[i].position = CGPoint(x: self.size.width - 120, y: CGFloat((300 * i) + (50 - i)))
+            updatables.append(enemies[i])
         }
 //        enemy = FlyingEnemy(view: self, target: player)
 //        enemy.position = CGPoint(x: self.size.width - 120, y: 30)
