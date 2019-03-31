@@ -15,6 +15,7 @@ class ProceduralMatriz {
     var typeTyle  = TypeTile.self
     var numberColumn = 0
     var numberRows = 0
+    var positionDoor = 1
     func createMatrix(column: Int, row: Int ) -> [[Int]] {
         self.numberColumn = column
         self.numberRows = row
@@ -22,7 +23,11 @@ class ProceduralMatriz {
         matrixTileMap = createBounds(matrixTile: matrixTileMap)
         matrixTileMap = cretatePlataforms(matrixTile: matrixTileMap)
         matrixTileMap = createGap(matrixTile: matrixTileMap)
-        matrixTileMap[4][sizeRandom(rangeMin: 3, rangerMax: column-3)] = 4
+        if matrixTileMap[positionDoor][1] == typeTyle.plataforms.rawValue{
+             matrixTileMap[positionDoor][2] = typeTyle.exit.rawValue
+        }else{
+             matrixTileMap[positionDoor][column-2] = typeTyle.exit.rawValue
+        }
         return matrixTileMap
         
     }
@@ -43,18 +48,21 @@ class ProceduralMatriz {
     
     func cretatePlataforms(matrixTile: [[Int]]) -> [[Int]] {
         var matrix = matrixTile
-       
         var distanceHeightPlataform = 0
         var column = numberColumn-2
         var row = numberRows - 4
         while(row > 2 && row < numberRows - 3 ){
             
-                distanceHeightPlataform = sizeRandom(rangeMin: 1, rangerMax: 4)
+                distanceHeightPlataform = sizeRandom(rangeMin: 1, rangerMax: 5)
                 if distanceHeightPlataform == 2 {
                     distanceHeightPlataform = sizeRandom(rangeMin: 3, rangerMax: 4)
                 }
             
                 while(column > 0 && column <= numberColumn-2){
+                    if positionDoor != 0 {
+                        positionDoor = row-1
+                        
+                    }
                     matrix[row][column] = typeTyle.plataforms.rawValue
                     column -= 1
                 }
@@ -75,25 +83,29 @@ class ProceduralMatriz {
         while(row > 2 && row < numberRows - 1 ){
             
           
-            //size gap in plataforma
-            sizeGap = sizeRandom(rangeMin: 2, rangerMax: 5)
-            if lastSize == sizeGap{
-                sizeGap = lastSize+1
-            }
+          
             
-            if checkGap(rowMatrix: matrix[row+1]) == -1 {
-                gapPlataform = sizeRandom(rangeMin: 1, rangerMax: numberColumn-sizeGap-2)
-            }else{
-                gapPlataform = checkGap(rowMatrix: matrix[row+1])
-            }
             //Verifica se a linha tem plataformas
             if (matrix[row][3] == typeTyle.plataforms.rawValue){
+                //size gap in plataforma
+                sizeGap = sizeRandom(rangeMin: 3, rangerMax: 7)
+                if lastSize == sizeGap{
+                    sizeGap = lastSize+1
+                }
+                
+                if checkGap(rowMatrix: matrix[row+1], size: sizeGap) == -1 {
+                    gapPlataform = sizeRandom(rangeMin: 7, rangerMax: numberColumn-sizeGap-2)
+                }else{
+                    gapPlataform = checkGap(rowMatrix: matrix[row+1], size: sizeGap)
+                }
+                
                 //Evita que crie buracos na mesma posicao e mesmo tamanho em plataformas afastadas
                 if lastPlataform == gapPlataform{
-                    matrix[row] = createGapInPlataform(rowMatrix: matrix[row], sizeGap: sizeGap + 1, initialGap: lastPlataform)
+                    matrix[row] = createGapInPlataform(rowMatrix: matrix[row], sizeGap: sizeGap + 2, initialGap: gapPlataform)
                     
                 }else{
                      matrix[row] = createGapInPlataform(rowMatrix: matrix[row], sizeGap: sizeGap, initialGap: gapPlataform)
+                    
                 }
                
             }
@@ -106,7 +118,7 @@ class ProceduralMatriz {
     
     func createGapInPlataform(rowMatrix: [Int], sizeGap: Int, initialGap: Int) -> [Int] {
         var column = initialGap
-        let size = sizeGap+initialGap
+        let size = (sizeGap+initialGap)-1
         var row = rowMatrix
         while (column < size) {
             row[column] = typeTyle.backgorund.rawValue
@@ -115,8 +127,8 @@ class ProceduralMatriz {
         return row
     }
     
-    func checkGap(rowMatrix: [Int]) -> Int {
-        var column = 1
+    func checkGap(rowMatrix: [Int], size: Int) -> Int {
+        var column = 0
         var initialGap = -1
         while (column < numberColumn-2) {
             if rowMatrix[column] == typeTyle.plataforms.rawValue && rowMatrix[column+1] == typeTyle.backgorund.rawValue {
@@ -124,6 +136,9 @@ class ProceduralMatriz {
                 break
             }
             column += 1
+        }
+        if (initialGap + size) > numberColumn-1{
+            initialGap = column+size
         }
        return initialGap
         

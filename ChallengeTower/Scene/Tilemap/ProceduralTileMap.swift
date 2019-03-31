@@ -18,7 +18,6 @@ class ProceduralTileMap {
         self.matrixTaleMap = proceduralManipulation.createMatrix(column: columns, row: rows)
         self.matrixTaleMap = proceduralManipulation.reverseMatriz(matrix: matrixTaleMap, rows: rows)
         let tileset = SKTileSet(named: tileSet)!
-        print(tileset.tileGroups[0].name)
         let tileTesteMap = SKTileMapNode(tileSet: tileset, columns: columns, rows: rows, tileSize: CGSize(width: widthTile, height: heightTile), tileGroupLayout: tileset.tileGroups)
         tileTesteMap.name = "TileMapBase"
         tileTesteMap.position = CGPoint(x: 20 , y: 452)
@@ -45,7 +44,6 @@ class ProceduralTileMap {
             for column in 0..<tileMap.numberOfColumns{
                 let tileSet = tileMap.tileDefinition(atColumn: column, row: row)
                 let tileArray = tileSet?.textures
-                print(tileSet)
                 let tileTexture = tileArray![0]
                // print(tileTexture)
                 
@@ -120,7 +118,19 @@ class ProceduralTileMap {
                     
                     break
                 case TileSetType.porta.rawValue:
-                    break
+                    let tileNode = SKSpriteNode(texture: nil, color: .clear, size: tileSize)
+                    tileNode.physicsBody = SKPhysicsBody(rectangleOf: tileSize)
+                    tileNode.physicsBody?.linearDamping = 0
+                    tileNode.physicsBody?.linearDamping = 0
+                    tileNode.physicsBody?.affectedByGravity = false
+                    tileNode.physicsBody?.allowsRotation = false
+                    tileNode.physicsBody?.isDynamic = false
+                    tileNode.physicsBody?.friction = 0
+                    tileNode.physicsBody?.restitution = 0
+                    tileNode.physicsBody?.categoryBitMask = ColliderType.door
+                    tileNode.physicsBody?.contactTestBitMask = ColliderType.player
+                    viewNode.addChild(tileNode)
+                    tileNode.position = CGPoint(x: x + startingLocation.x, y: y + startingLocation.y)
                 default:
                     break
                 }

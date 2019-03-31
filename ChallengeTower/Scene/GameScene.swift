@@ -18,22 +18,31 @@ class GameScene: SKScene {
     var gravityField: SKFieldNode!
     var inputController: InputController!
     var platform: Platform!
-
+    var colidion = 0
     var tilemap: SKTileMapNode!
     var tilemapObject = ProceduralTileMap.init()
     var menu: MenuNode!
-
+   
     override func didMove(to view: SKView) {
+       initialGame(view: view)
+
+    }
+    func initialGame(view: SKView) {
         anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        //view.showsPhysics = true
+        print("Primeiro")
+        print(view.scene?.children)
+        view.showsPhysics = true
         physicsWorld.contactDelegate = physicsDelegate
         addGravity()
-        tilemap = tilemapObject.createTileMap(tileSet: "TileSet", columns: 21, rows: 201, widthTile: 32, heightTile: 32)
+        tilemap = tilemapObject.createTileMap(tileSet: "TileSet", columns: 50, rows: 20, widthTile: 32, heightTile: 32)
         scene?.addChild(tilemap)
+        
         tilemapObject.givTileMapPhysicsBody(tileMap: tilemap, viewNode: scene!)
-
+        
         player = Player(addToView: self)
         enemy = FlyingEnemy(view: self, target: player)
+        print("segundo")
+        print(view.scene?.children)
         player.combatValues.isDead = true
         menu = MenuNode(addTo: self)
         menu.position = .zero
@@ -42,22 +51,24 @@ class GameScene: SKScene {
             self.player.combatValues.resetToInitialState()
         }, type: .began)
         setupCamera()
-
+        
         if view.scene != nil {
             inputController = InputController(view: view, player: player, addTo: self.camera!)
         }
-
-        player.position = CGPoint(x: 5, y: 5)
+        
+        
+        player.position = CGPoint(x: 5, y: Int(-tilemap.frame.height/2) + 472)
         // 4
         enemy.position = CGPoint(x: self.size.width - 50, y: 30)
-
+        
         updatables.append(inputController)
         updatables.append(player)
         updatables.append(enemy)
-
+        
         // Toca uma música de background
         SKTAudio.sharedInstance().playBackgroundMusic("soundtrack-test.mp3")
-
+        colidion = 0
+        
     }
     
     func showMenu() {
@@ -74,88 +85,19 @@ class GameScene: SKScene {
         gravityField.categoryBitMask = ColliderType.gravity
         addChild(gravityField)
     }
-
-    func createSandbox(view: SKView) {
-
-        let floor = SKSpriteNode(color: .blue, size: CGSize(width: view.bounds.width, height: 20))
-
-        floor.position.y = view.bounds.height/2 * -1
-        floor.position.x = 0
-        floor.physicsBody = SKPhysicsBody(rectangleOf: floor.size)
-        floor.physicsBody?.isDynamic = false
-
-        floor.physicsBody?.restitution = 0
-        floor.physicsBody?.categoryBitMask = ColliderType.ground
-        floor.physicsBody?.contactTestBitMask = ColliderType.player
-        floor.name = "Ground"
-
-        addChild(floor)
-
-        let leftWall = SKSpriteNode(color: .red, size: CGSize(width: 30, height: view.bounds.height))
-
-        leftWall.position.x = (view.bounds.width/2 * -1) - leftWall.size.width/2 + 10
-
-        leftWall.position.y = 0
-        leftWall.physicsBody = SKPhysicsBody(rectangleOf: leftWall.size)
-        leftWall.physicsBody?.isDynamic = false
-
-        leftWall.physicsBody?.restitution = 0
-        leftWall.physicsBody?.categoryBitMask = ColliderType.wall
-        leftWall.physicsBody?.contactTestBitMask = ColliderType.player
-
-        addChild(leftWall)
-
-        let rightWall = SKSpriteNode(color: .red, size: CGSize(width: 30, height: view.bounds.height))
-
-        rightWall.position.x = view.bounds.width/2 + rightWall.size.width/2 - 10
-        rightWall.position.y = 0
-        rightWall.physicsBody = SKPhysicsBody(rectangleOf: rightWall.size)
-        rightWall.physicsBody?.isDynamic = false
-
-
-        rightWall.physicsBody?.restitution = 0
-        rightWall.physicsBody?.categoryBitMask = ColliderType.wall
-        rightWall.physicsBody?.contactTestBitMask = ColliderType.player
-
-        addChild(rightWall)
-
-        let ceiling = SKSpriteNode(color: .blue, size: CGSize(width: view.bounds.width, height: 20))
-
-        ceiling.position.y = view.bounds.height/2 + ceiling.size.height/2 - 10
-        ceiling.position.x = 0
-        ceiling.physicsBody = SKPhysicsBody(rectangleOf: ceiling.size)
-        ceiling.physicsBody?.isDynamic = false
-        ceiling.physicsBody?.restitution = 0
-
-        addChild(ceiling)
-
-
-        let test1 = SKNode()
-        let test2 = SKSpriteNode(color: .black, size: CGSize(width: 20, height: 20))
-        test1.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 1, height: 1))
-        test1.physicsBody?.isDynamic = false
-        test1.physicsBody?.collisionBitMask = ColliderType.none
-        test1.physicsBody?.contactTestBitMask = ColliderType.none
-        test2.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 20, height: 20))
-        test2.position.x = 5
-        addChild(test1)
-        addChild(test2)
-
-        let joint = SKPhysicsJointPin.joint(withBodyA: (test1.physicsBody)!, bodyB: test2.physicsBody!, anchor: test1.position)
-        //joint.shouldEnableLimits = true
-        test2.physicsBody?.mass = 0.1
-
-        scene?.physicsWorld.add(joint)
-
-        let platformSize = CGSize(width: size.width/3, height: 16)
-        let platformPosition = CGPoint(x: test2.position.x + platformSize.width/2 + 48, y: 100)
-        platform = Platform(size: platformSize, position: platformPosition)
-        addChild(platform)
-
-        let pos2 = CGPoint(x: -platformPosition.x, y: -50)
-        let plat2 = Platform(size: platformSize, position: pos2)
-        addChild(plat2)
-        
+    
+    func resetPhase() {
+        if colidion == 0 {
+           
+            let camera  = scene!.childNode(withName: "camera") as! SKCameraNode
+            view?.scene?.removeAllChildren()
+            camera.position = CGPoint(x: 160.0, y: -143)
+            scene?.addChild(camera)
+            view?.ignoresSiblingOrder = false
+            initialGame(view: view!)
+            colidion = 1
+        }
+      
     }
 
     override func update(_ currentTime: TimeInterval) {

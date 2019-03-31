@@ -50,7 +50,7 @@ class FlyingEnemy: SKSpriteNode {
 
         self.physicsBody?.fieldBitMask = ColliderType.none
         self.physicsBody?.categoryBitMask = ColliderType.hazard
-        self.physicsBody?.collisionBitMask = ColliderType.player | ColliderType.hazard | ColliderType.wall | ColliderType.ground | ColliderType.platform
+        self.physicsBody?.collisionBitMask = ColliderType.player | ColliderType.hazard | ColliderType.wall | ColliderType.ground 
         self.physicsBody?.contactTestBitMask = ColliderType.player | ColliderType.hazard
         
         self.name = "Enemy"
@@ -116,9 +116,6 @@ extension FlyingEnemy: Updatable {
         } else if currentState is HuntingState {
             self.seekTarget()
         }
-
-
-        print(self.size)
     }
 
 }

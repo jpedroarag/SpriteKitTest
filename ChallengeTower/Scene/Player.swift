@@ -256,7 +256,7 @@ extension Player {
         self.physicsBody?.categoryBitMask = ColliderType.player
         self.physicsBody?.fieldBitMask = ColliderType.gravity
         self.physicsBody?.collisionBitMask = ColliderType.ground | ColliderType.wall | ColliderType.platform | ColliderType.hazard
-        self.physicsBody?.contactTestBitMask = ColliderType.player
+        self.physicsBody?.contactTestBitMask = ColliderType.player | ColliderType.door
         self.name = "Player"
         self.addChild(sprite)
     }
@@ -561,7 +561,6 @@ extension Player {
     func receiveDamage(percentage: Int) {
         if combatValues.isDead { return }
         combatValues.hp -= percentage
-        print("\(combatValues.hp)")
         if combatValues.hp == 0 { die() }
         else { self.run(.playSoundFileNamed("damage.wav", waitForCompletion: true)) }
     }
