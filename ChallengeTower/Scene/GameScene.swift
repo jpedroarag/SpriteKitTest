@@ -22,15 +22,15 @@ class GameScene: SKScene {
     var tilemap: SKTileMapNode!
     var tilemapObject = ProceduralTileMap.init()
     var menu: MenuNode!
-   
+    var cameraNew : SKCameraNode!
     override func didMove(to view: SKView) {
-       initialGame(view: view)
+        
+        initialGame(view: view)
 
     }
     func initialGame(view: SKView) {
         anchorPoint = CGPoint(x: 0.5, y: 0.5)
         print("Primeiro")
-        print(view.scene?.children)
         view.showsPhysics = true
         physicsWorld.contactDelegate = physicsDelegate
         addGravity()
@@ -41,8 +41,7 @@ class GameScene: SKScene {
         
         player = Player(addToView: self)
         enemy = FlyingEnemy(view: self, target: player)
-        print("segundo")
-        print(view.scene?.children)
+       
         player.combatValues.isDead = true
         menu = MenuNode(addTo: self)
         menu.position = .zero
@@ -88,13 +87,13 @@ class GameScene: SKScene {
     
     func resetPhase() {
         if colidion == 0 {
-           
-            let camera  = scene!.childNode(withName: "camera") as! SKCameraNode
-            view?.scene?.removeAllChildren()
-            camera.position = CGPoint(x: 160.0, y: -143)
-            scene?.addChild(camera)
-            view?.ignoresSiblingOrder = false
-            initialGame(view: view!)
+            let cameta = scene?.childNode(withName: "camera") as! SKCameraNode
+            removeAllChildren()
+            removeAllActions()
+            removeFromParent()
+            print(cameta)
+            scene?.addChild(cameta)
+            initialGame(view: self.view!)
             colidion = 1
         }
       
