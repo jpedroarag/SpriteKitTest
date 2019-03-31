@@ -101,10 +101,14 @@ class PhysicsDetection: NSObject, SKPhysicsContactDelegate {
         }
         
         if collision == ColliderType.sword | ColliderType.hazard {
-            if let enemy = contact.bodyA.node as? FlyingEnemy {
+            if let enemy = contact.bodyA.node as? FlyingEnemy,
+                let sword = contact.bodyB.node as? Sword {
                 enemy.die()
-            } else if let enemy = contact.bodyB.node as? FlyingEnemy {
+                sword.removeFromParent()
+            } else if let enemy = contact.bodyB.node as? FlyingEnemy,
+                let sword = contact.bodyA.node as? Sword {
                 enemy.die()
+                sword.removeFromParent()
             }
         }
         

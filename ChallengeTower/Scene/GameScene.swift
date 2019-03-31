@@ -30,7 +30,7 @@ class GameScene: SKScene {
     
     func initialGame(view: SKView) {
         anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        print("Primeiro")
+        
 //        view.showsPhysics = true
         physicsWorld.contactDelegate = physicsDelegate
         addGravity()
