@@ -83,9 +83,11 @@ class GameScene: SKScene {
     }
     
     func showMenu() {
+        SKTAudio.sharedInstance().playBackgroundMusic("8bit Dungeon Boss Die.mp3")
         menu.isHidden = false
-        menu.label.text = "Oh, you died... 😞"
+        menu.label.text = "Oh no! You died... 😞"
         menu.sublabel.isHidden = false
+        menu.startButton.addAction(action: { SKTAudio.sharedInstance().playBackgroundMusic("8bit Dungeon Boss.mp3") }, type: .began)
         
     }
 
