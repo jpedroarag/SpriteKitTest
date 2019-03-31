@@ -30,7 +30,7 @@ class InputController: Updatable {
         if let _ = view.scene {
             let viewSize = -view.frame.size/2
             
-            joystick = Joystick()
+            joystick = Joystick(thumbSize: .from(40), bgVisible: true)
             joystick.restriction = .horizontal
             joystick.positionType = .free
             joystick.position = CGPoint(fromSize: viewSize + size)
@@ -40,9 +40,11 @@ class InputController: Updatable {
             joystick.forceTouchAction = { _ in player.dash() }
             node.addChild(joystick)
             
-            joystickShoot = Joystick()
+            let shootTexture = SKTexture(imageNamed: "Shoot")
+            joystickShoot = Joystick(thumbNode: SKSpriteNode(texture: shootTexture), backdropNode: SKSpriteNode(texture: nil, color: .clear, size: .zero))
             joystickShoot.restriction = .vertical
             joystickShoot.positionType = .free
+            joystickShoot.canFade = false
             joystickShoot.position = joystick.position
             joystickShoot.position.x *= -1
             joystickShoot.attach(rotateControllable: player)

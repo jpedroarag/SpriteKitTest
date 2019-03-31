@@ -37,7 +37,7 @@ class Joystick: SKNode {
         return .zero
     }
     
-    let thumbSize = CGSize(width: 40, height: 40)
+    let thumbSize = CGSize(width: 160, height: 160)
     let dpadSize = CGSize(width: 160, height: 160)
     
     private(set) var moveControllable: MoveControllable?
@@ -45,27 +45,23 @@ class Joystick: SKNode {
     
     // MARK: - Initiailziers
     
-    init(thumbNode: SKSpriteNode = SKSpriteNode(imageNamed: "joystick-fg"), backdropNode: SKSpriteNode = SKSpriteNode(imageNamed: "joystick-bg"), restriction: Restriction = .none, positionType: PositionType = .fixed) {
+    init(thumbNode: SKSpriteNode = SKSpriteNode(imageNamed: "joystick-fg"), backdropNode: SKSpriteNode = SKSpriteNode(imageNamed: "joystick-bg"), restriction: Restriction = .none, positionType: PositionType = .fixed, thumbSize: CGSize? = nil, dpadSize: CGSize? = nil, bgVisible: Bool = false) {
         
         self.thumbNode = thumbNode
-        self.thumbNode.size = thumbSize
+        self.thumbNode.size = thumbSize ?? .from(160)
         self.thumbNode.zPosition = 10
-        self.thumbNode.alpha = 0.9
+        self.thumbNode.alpha = 0.7
         
         
         self.backdropNode = backdropNode
         self.backdropNode.zPosition = 5
-        self.backdropNode.size = dpadSize
-        self.backdropNode.alpha = 0.7
+        self.backdropNode.size = dpadSize ?? .from(160)
+        self.backdropNode.alpha = bgVisible ? 0.5 : 0
         
         super.init()
         
         self.addChild(self.backdropNode)
         self.addChild(self.thumbNode)
-        
-        
-        thumbNode.alpha = 0.5
-        backdropNode.alpha = 0.5
         
         self.restriction = restriction
         self.positionType = positionType
