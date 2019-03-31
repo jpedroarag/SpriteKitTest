@@ -21,14 +21,14 @@ struct ColliderType {
     static let platform: UInt32 = 0x1 << 5
     static let hazard: UInt32 = 0x1 << 6
     static let sword: UInt32 = 0x1 << 7
-    
+    static let door: UInt32 = 0x1 << 8
 }
 
 class PhysicsDetection: NSObject, SKPhysicsContactDelegate {
     //var player: CharacterNode?
     
     func didBegin(_ contact: SKPhysicsContact) {
-//        print("bodyA:", contact.bodyA.node?.name ?? "nil", "bodyB: ", contact.bodyB.node?.name ?? "nil")
+
         
         let collision: UInt32 = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
         
@@ -87,7 +87,16 @@ class PhysicsDetection: NSObject, SKPhysicsContactDelegate {
             else if let enemy = contact.bodyB.node as? FlyingEnemy{
                 enemy.velocity *= -1
                 enemy.xScale *= -1
-                
+            }
+        }
+
+        if collision == ColliderType.player | ColliderType.door {
+            if let player = contact.bodyA.node as? Player {
+                let scene = player.scene as? GameScene
+                scene?.resetPhase()
+            } else if let player = contact.bodyB.node as? Player{
+                let scene = player.scene as? GameScene
+                scene?.resetPhase()
             }
         }
         

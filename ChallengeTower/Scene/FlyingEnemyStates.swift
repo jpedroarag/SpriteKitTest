@@ -50,7 +50,7 @@ class HuntingState: GKState {
 
     override func didEnter(from previousState: GKState?) {
         self.enemy.runAnimation(with: self.animationFrames, withKey: "HuntingAnimation")
-        print(self.animationFrames)
+
     }
 
     override func willExit(to nextState: GKState) {

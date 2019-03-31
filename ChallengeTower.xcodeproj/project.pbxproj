@@ -529,6 +529,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = JGG8YW8SJU;
+				DEVELOPMENT_TEAM = 6H6ZL3JRAS;
 				INFOPLIST_FILE = ChallengeTower/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -550,6 +551,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = JGG8YW8SJU;
+				DEVELOPMENT_TEAM = 6H6ZL3JRAS;
 				INFOPLIST_FILE = ChallengeTower/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
