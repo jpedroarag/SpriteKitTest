@@ -34,15 +34,14 @@ class GameScene: SKScene {
 //        view.showsPhysics = true
         physicsWorld.contactDelegate = physicsDelegate
         addGravity()
-        tilemap = tilemapObject.createTileMap(tileSet: "TileSet", columns: 50, rows: 20, widthTile: 32, heightTile: 32)
+        tilemap = tilemapObject.createTileMap(tileSet: "TileSet", columns: 50, rows: 80, widthTile: 32, heightTile: 32)
         scene?.addChild(tilemap)
         
         tilemapObject.givTileMapPhysicsBody(tileMap: tilemap, viewNode: scene!)
         
         player = Player(addToView: self)
-        enemy = FlyingEnemy(view: self, target: player)
-       
         player.combatValues.isDead = true
+        
         menu = MenuNode(addTo: self)
         menu.position = .zero
         menu.startButton.addAction(action: {
@@ -52,6 +51,7 @@ class GameScene: SKScene {
             let y = -self.tilemap.mapSize.height/2 + self.tilemap.tileSize.height * 1
             self.player.position = CGPoint(x: x, y: y)
         }, type: .began)
+        
         setupCamera()
         
         if view.scene != nil {
@@ -60,14 +60,10 @@ class GameScene: SKScene {
         
         let x = -self.tilemap.mapSize.width/2 + self.tilemap.tileSize.width * 3
         let y = -self.tilemap.mapSize.height/2 + self.tilemap.tileSize.height * 1
-        
         player.position = CGPoint(x: x, y: y)
-        enemy.position = CGPoint(x: self.size.width - 50, y: 30)
-        
 
         updatables.append(inputController)
         updatables.append(player)
-        updatables.append(enemy)
         
         for i in 0 ... 50 {
             enemies.append(FlyingEnemy(view: self, target: player))
