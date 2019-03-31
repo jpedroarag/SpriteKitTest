@@ -77,15 +77,16 @@ class GameScene: SKScene {
 //        updatables.append(enemy)
 
         // Toca uma música de background
-        SKTAudio.sharedInstance().playBackgroundMusic("soundtrack-test.mp3")
+        SKTAudio.sharedInstance().playBackgroundMusic("8bit Dungeon Boss.mp3")
         colidion = 0
-        
+
     }
     
     func showMenu() {
         menu.isHidden = false
         menu.label.text = "Oh, you died... 😞"
-        menu.startButton.texture = SKTexture(imageNamed: "Restart")
+        menu.sublabel.isHidden = false
+        
     }
 
     func addGravity() {

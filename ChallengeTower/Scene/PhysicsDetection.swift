@@ -108,6 +108,14 @@ class PhysicsDetection: NSObject, SKPhysicsContactDelegate {
             }
         }
         
+        if (collision == ColliderType.sword | ColliderType.ground) || (collision == ColliderType.sword | ColliderType.platform) {
+            if let sword = contact.bodyA.node as? Sword {
+                sword.physicsBody?.contactTestBitMask = ColliderType.sword
+            } else if let sword = contact.bodyB.node as? Sword {
+                sword.physicsBody?.contactTestBitMask = ColliderType.sword
+            }
+        }
+        
         if collision == ColliderType.player | ColliderType.player {
             print("collision between players")
         }
