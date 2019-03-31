@@ -50,6 +50,8 @@ class GameScene: SKScene {
             let x = -self.tilemap.mapSize.width/2 + self.tilemap.tileSize.width * 3
             let y = -self.tilemap.mapSize.height/2 + self.tilemap.tileSize.height * 1
             self.player.position = CGPoint(x: x, y: y)
+//            for i in 0 ... 50 { self.enemies[i].position = CGPoint(x: self.size.width - 120, y: CGFloat((300 * i) + (50 - i))) }
+            for i in 0 ... 50 { self.enemies[i].position = CGPoint(x: CGFloat(Int.random(in: 0...10) * -i), y: CGFloat((Int.random(in: 0...40) * i) + (Int.random(in: 50...100) - i * Int.random(in: 0...50)))) }
         }, type: .began)
         
         setupCamera()
