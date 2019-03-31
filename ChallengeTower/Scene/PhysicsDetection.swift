@@ -35,8 +35,10 @@ class PhysicsDetection: NSObject, SKPhysicsContactDelegate {
         //if the collision was between player and ground
         if collision == ColliderType.player | ColliderType.ground {
             if let player = contact.bodyA.node as? Player {
+                player.endStomp()
                 player.ground()
             } else if let player = contact.bodyB.node as? Player{
+                player.endStomp()
                 player.ground()
             }
         }
@@ -58,6 +60,7 @@ class PhysicsDetection: NSObject, SKPhysicsContactDelegate {
         if collision == ColliderType.player | ColliderType.platform {
             let action = { (player: Player, platform: Platform) in
                 if player.position.y > platform.sprite.position.y {
+                    player.endStomp()
                     player.ground()
                 }
             }
@@ -112,7 +115,8 @@ class PhysicsDetection: NSObject, SKPhysicsContactDelegate {
             }
         }
         
-        if (collision == ColliderType.sword | ColliderType.ground) || (collision == ColliderType.sword | ColliderType.platform) {
+        if (collision == ColliderType.sword | ColliderType.ground)
+        || (collision == ColliderType.sword | ColliderType.platform) {
             if let sword = contact.bodyA.node as? Sword {
                 sword.physicsBody?.contactTestBitMask = ColliderType.sword
             } else if let sword = contact.bodyB.node as? Sword {

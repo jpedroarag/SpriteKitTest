@@ -49,30 +49,34 @@ class InputController: Updatable {
             joystickShoot.forceTouchAction = { _ in player.jump() }
             node.addChild(joystickShoot)
             
-            let texture = SKTexture(imageNamed: "Jump")
+            let jumpTexture = SKTexture(imageNamed: "Jump")
 //            tapJump = VirtualButton(texture: texture, size: size, addTo: scene)
-            tapJump = VirtualButton(texture: texture, size: size)
+            tapJump = VirtualButton(texture: jumpTexture, size: size)
             tapJump.addAction(action: { player.jump() }, type: .began)
             tapJump.position = joystickShoot.position
             tapJump.position.x -= joystick.dpadSize.width/2 + tapJump.size.width/2 + 16
             tapJump.position.y += tapJump.size.height/2
             tapJump.zPosition = 1
+            tapJump.alpha = 0.7
             node.addChild(tapJump)
             
-            tapStomp = VirtualButton(texture: texture, size: size)
+            let stompTexture = SKTexture(imageNamed: "Stomp")
+            tapStomp = VirtualButton(texture: stompTexture, size: size)
             tapStomp.addAction(action: { player.stomp() }, type: .began)
             tapStomp.position = tapJump.position
             tapStomp.position.y -= tapJump.size.height + 16
             tapStomp.zPosition = 1
-            tapStomp.yScale *= -1
+            tapStomp.alpha = 0.7
             node.addChild(tapStomp)
         
-            let dashTex = SKTexture(imageNamed: "Dash")
-            tapDash = VirtualButton(texture: dashTex, size: size)
+            let dashTexture = SKTexture(imageNamed: "Dash")
+            tapDash = VirtualButton(texture: dashTexture, size: size)
             tapDash.addAction(action: { player.dash() }, type: .began)
             tapDash.position = tapStomp.position
             tapDash.position.x -= tapStomp.size.width + 16
+            tapDash.xScale *= -1
             tapDash.zPosition = 1
+            tapDash.alpha = 0.7
             node.addChild(tapDash)
             
         }
