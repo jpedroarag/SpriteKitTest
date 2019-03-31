@@ -30,7 +30,7 @@ class InputController: Updatable {
         if let _ = view.scene {
             let viewSize = -view.frame.size/2
             
-            joystick = Joystick(thumbSize: .from(40), bgVisible: true)
+            joystick = Joystick(thumbSize: .from(60), bgVisible: true)
             joystick.restriction = .horizontal
             joystick.positionType = .free
             joystick.position = CGPoint(fromSize: viewSize + size)
