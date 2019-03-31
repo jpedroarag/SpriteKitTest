@@ -87,8 +87,9 @@ class GameScene: SKScene {
         menu.isHidden = false
         menu.label.text = "Oh no! You died... 😞"
         menu.sublabel.isHidden = false
-        menu.startButton.addAction(action: { SKTAudio.sharedInstance().playBackgroundMusic("8bit Dungeon Boss.mp3") }, type: .began)
-        
+        if menu.startButton.touchActions.onTouchBegan.count < 2 {
+            menu.startButton.addAction(action: { SKTAudio.sharedInstance().playBackgroundMusic("8bit Dungeon Boss.mp3") }, type: .began)            
+        }
     }
 
     func addGravity() {
