@@ -63,7 +63,8 @@ class GameScene: SKScene {
     func showMenu() {
         menu.isHidden = false
         menu.label.text = "Oh, you died... 😞"
-        menu.startButton.texture = SKTexture(imageNamed: "menuBackground")
+        menu.sublabel.isHidden = false
+        
     }
 
     func addGravity() {

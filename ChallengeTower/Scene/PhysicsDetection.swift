@@ -71,9 +71,9 @@ class PhysicsDetection: NSObject, SKPhysicsContactDelegate {
         
         if collision == ColliderType.player | ColliderType.hazard {
             if let player = contact.bodyA.node as? Player {
-                player.receiveDamage(percentage: 3)
+                player.receiveDamage(percentage: 100)
             } else if let player = contact.bodyB.node as? Player{
-                player.receiveDamage(percentage: 3)
+                player.receiveDamage(percentage: 100)
             }
         }
         
