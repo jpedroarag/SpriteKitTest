@@ -23,15 +23,15 @@ class GameScene: SKScene {
     var tilemapObject = ProceduralTileMap.init()
     var menu: MenuNode!
     var cameraNew : SKCameraNode!
+    
     override func didMove(to view: SKView) {
-        
         initialGame(view: view)
-
     }
+    
     func initialGame(view: SKView) {
         anchorPoint = CGPoint(x: 0.5, y: 0.5)
         print("Primeiro")
-        view.showsPhysics = true
+//        view.showsPhysics = true
         physicsWorld.contactDelegate = physicsDelegate
         addGravity()
         tilemap = tilemapObject.createTileMap(tileSet: "TileSet", columns: 50, rows: 20, widthTile: 32, heightTile: 32)
@@ -48,6 +48,9 @@ class GameScene: SKScene {
         menu.startButton.addAction(action: {
             self.menu.isHidden = true
             self.player.combatValues.resetToInitialState()
+            let x = -self.tilemap.mapSize.width/2 + self.tilemap.tileSize.width * 3
+            let y = -self.tilemap.mapSize.height/2 + self.tilemap.tileSize.height * 1
+            self.player.position = CGPoint(x: x, y: y)
         }, type: .began)
         setupCamera()
         
@@ -55,9 +58,10 @@ class GameScene: SKScene {
             inputController = InputController(view: view, player: player, addTo: self.camera!)
         }
         
+        let x = -self.tilemap.mapSize.width/2 + self.tilemap.tileSize.width * 3
+        let y = -self.tilemap.mapSize.height/2 + self.tilemap.tileSize.height * 1
         
-        player.position = CGPoint(x: 5, y: Int(-tilemap.frame.height/2) + 472)
-        // 4
+        player.position = CGPoint(x: x, y: y)
         enemy.position = CGPoint(x: self.size.width - 50, y: 30)
         
         updatables.append(inputController)
@@ -96,7 +100,6 @@ class GameScene: SKScene {
             initialGame(view: self.view!)
             colidion = 1
         }
-      
     }
 
     override func update(_ currentTime: TimeInterval) {

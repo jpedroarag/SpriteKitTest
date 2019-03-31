@@ -20,7 +20,7 @@ class ProceduralTileMap {
         let tileset = SKTileSet(named: tileSet)!
         let tileTesteMap = SKTileMapNode(tileSet: tileset, columns: columns, rows: rows, tileSize: CGSize(width: widthTile, height: heightTile), tileGroupLayout: tileset.tileGroups)
         tileTesteMap.name = "TileMapBase"
-        tileTesteMap.position = CGPoint(x: 20 , y: 452)
+        tileTesteMap.position = .zero
         for row in 0..<tileTesteMap.numberOfRows{
             for column in 0..<tileTesteMap.numberOfColumns{
                 let texture = matrixTaleMap[row][column]
@@ -49,6 +49,7 @@ class ProceduralTileMap {
                 
                 let x = CGFloat(column) * tileSize.width - halfWidth + (tileSize.width / 2)
                 let y = CGFloat(row) * tileSize.height - halfHeight + (tileSize.height / 2)
+                
                 switch tileSet?.name{
                 case TileSetType.background.rawValue:
                     
@@ -58,10 +59,9 @@ class ProceduralTileMap {
                     // Chão e teto
                     if (row == 0 && column == tileMap.numberOfColumns - 1)
                     || (row == tileMap.numberOfRows - 1 && column == tileMap.numberOfColumns - 1) {
-                        let size = CGSize(width: CGFloat(tileMap.numberOfColumns) * tileSize.width, height: tileSize.height)
-                        let position = CGPoint(x: x + startingLocation.x - size.width/2 + tileSize.width/2, y: y + startingLocation.y)
+                        let size = CGSize(width: CGFloat(tileMap.numberOfColumns) * tileSize.width * 2, height: tileSize.height)
                         let tileNode = SKSpriteNode(texture: nil)
-                        tileNode.position = CGPoint(x: x, y: y)
+                        tileNode.position = CGPoint(x: 0, y: y)
                         tileNode.physicsBody = SKPhysicsBody(rectangleOf: size)
                         tileNode.physicsBody?.linearDamping = 0
                         tileNode.physicsBody?.affectedByGravity = false
@@ -72,16 +72,14 @@ class ProceduralTileMap {
                         }
                         tileNode.physicsBody?.contactTestBitMask = ColliderType.player
                         viewNode.addChild(tileNode)
-                        tileNode.position = position
                     }
                     
                     // Paredes
                     if (row == tileMap.numberOfRows - 1 && column == 0)
                     || (row == tileMap.numberOfRows - 1 && column == tileMap.numberOfColumns - 1) {
-                        let size = CGSize(width: tileSize.width, height: CGFloat(tileMap.numberOfRows) * tileSize.height)
-                        let position = CGPoint(x: x + startingLocation.x, y: y + startingLocation.y - size.height/2 + tileSize.height/2)
+                        let size = CGSize(width: tileSize.width, height: CGFloat(tileMap.numberOfRows) * tileSize.height * 2)
                         let tileNode = SKSpriteNode(texture: nil)
-                        tileNode.position = CGPoint(x: x, y: y)
+                        tileNode.position = CGPoint(x: x, y: 0)
                         tileNode.physicsBody = SKPhysicsBody(rectangleOf: size)
                         tileNode.physicsBody?.linearDamping = 0
                         tileNode.physicsBody?.affectedByGravity = false
@@ -92,7 +90,6 @@ class ProceduralTileMap {
                         tileNode.physicsBody?.categoryBitMask = ColliderType.wall
                         tileNode.physicsBody?.contactTestBitMask = ColliderType.player
                         viewNode.addChild(tileNode)
-                        tileNode.position = position
                     }
                     
                 case TileSetType.plataforma.rawValue:
