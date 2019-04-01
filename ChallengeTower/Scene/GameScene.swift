@@ -34,7 +34,7 @@ class GameScene: SKScene {
 //        view.showsPhysics = true
         physicsWorld.contactDelegate = physicsDelegate
         addGravity()
-        tilemap = tilemapObject.createTileMap(tileSet: "TileSet", columns: 50, rows: 80, widthTile: 32, heightTile: 32)
+        tilemap = tilemapObject.createTileMap(tileSet: "TileSet", columns: 50, rows: 150, widthTile: 32, heightTile: 32)
         scene?.addChild(tilemap)
         
         tilemapObject.givTileMapPhysicsBody(tileMap: tilemap, viewNode: scene!)
@@ -85,7 +85,7 @@ class GameScene: SKScene {
     func showMenu() {
         SKTAudio.sharedInstance().playBackgroundMusic("8bit Dungeon Boss Die.mp3")
         menu.isHidden = false
-        menu.label.text = "Oh no! You died... 😞"
+        menu.label.text = "Oh no! You died... 💀"
         menu.sublabel.isHidden = false
         if menu.startButton.touchActions.onTouchBegan.count < 2 {
             menu.startButton.addAction(action: { SKTAudio.sharedInstance().playBackgroundMusic("8bit Dungeon Boss.mp3") }, type: .began)            
