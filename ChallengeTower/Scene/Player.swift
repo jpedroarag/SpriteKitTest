@@ -56,6 +56,8 @@ struct LandValues {
     /// Tells if the player is currently landed on the ground of the scene
     var grounded = true
     
+    var isStomping = false
+    
     /// Resets all land values to their initial value
     mutating func resetToInitialState() {
         willUnland = false
@@ -63,6 +65,7 @@ struct LandValues {
         willLand = false
         landed = false
         grounded = true
+        isStomping = false
     }
     
 }
@@ -88,36 +91,6 @@ struct JumpValues {
         isJumping = false
     }
     
-}
-
-// MARK: setup player animations
-extension Player{
-    func runRunAnimation(){
-        var textures: [SKTexture] = []
-        for i in 1 ... 8{
-            textures.append(SKTexture(imageNamed: "run\(i)"))
-            
-        }
-        
-        let run = SKAction.animate(with: textures, timePerFrame: 0.2)
-        
-        sprite.run(SKAction.repeatForever(run))
-        
-        self.animationRunning = "run"
-    }
-    
-    func runIdleAnimation(){
-        var textures: [SKTexture] = []
-        for i in 1 ... 4{
-            textures.append(SKTexture(imageNamed: "idle\(i)"))
-            
-        }
-        
-        let idle = SKAction.animate(with: textures, timePerFrame: 0.2)
-        
-        sprite.run(SKAction.repeatForever(idle))
-        self.animationRunning = "idle"
-    }
 }
 
 // MARK: Wall jump flags and constants
@@ -255,8 +228,8 @@ extension Player {
         self.physicsBody?.restitution = 0
         self.physicsBody?.categoryBitMask = ColliderType.player
         self.physicsBody?.fieldBitMask = ColliderType.gravity
-        self.physicsBody?.collisionBitMask = ColliderType.ground | ColliderType.wall | ColliderType.platform | ColliderType.hazard
-        self.physicsBody?.contactTestBitMask = ColliderType.player | ColliderType.door
+        self.physicsBody?.collisionBitMask = ColliderType.ground | ColliderType.platform | ColliderType.hazard | ColliderType.wall
+        self.physicsBody?.contactTestBitMask = ColliderType.player | ColliderType.hazard | ColliderType.door
         self.name = "Player"
         self.addChild(sprite)
     }
@@ -289,6 +262,36 @@ extension Player {
 //        sword.position.x = 00
 //        gunArm.addChild(sword)
 //    }
+}
+
+// MARK: Setup player animations
+extension Player{
+    func runRunAnimation(){
+        var textures: [SKTexture] = []
+        for i in 1 ... 8{
+            textures.append(SKTexture(imageNamed: "run\(i)"))
+            
+        }
+        
+        let run = SKAction.animate(with: textures, timePerFrame: 0.2)
+        
+        sprite.run(SKAction.repeatForever(run))
+        
+        self.animationRunning = "run"
+    }
+    
+    func runIdleAnimation(){
+        var textures: [SKTexture] = []
+        for i in 1 ... 4{
+            textures.append(SKTexture(imageNamed: "idle\(i)"))
+            
+        }
+        
+        let idle = SKAction.animate(with: textures, timePerFrame: 0.2)
+        
+        sprite.run(SKAction.repeatForever(idle))
+        self.animationRunning = "idle"
+    }
 }
 
 // MARK: Player orientation methods
@@ -512,10 +515,15 @@ extension Player {
 // MARK: Stomp action implementation
 extension Player {
     func stomp() {
-        let impulseVector = CGVector(dx: 0, dy: -700)
-        self.physicsBody?.velocity.dy = 0
-        self.physicsBody?.applyForce(impulseVector)
-        self.run(.playSoundFileNamed("stomp.wav", waitForCompletion: false))
+        self.physicsBody?.velocity.dy = -500
+        self.landValues.isStomping = true
+    }
+    
+    func endStomp() {
+        if self.landValues.isStomping {
+            self.run(.playSoundFileNamed("stomp.wav", waitForCompletion: false))
+            self.landValues.isStomping = false
+        }
     }
 }
 

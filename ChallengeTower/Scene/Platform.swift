@@ -8,7 +8,7 @@
 
 import SpriteKit
 
-class Platform: SKNode {
+class Platform: SKNode { 
     
     var sprite: SKSpriteNode!
     

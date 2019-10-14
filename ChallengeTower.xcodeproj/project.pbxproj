@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2BDFF2D5224E498400C0D701 /* Pool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDFF2D2224E498400C0D701 /* Pool.swift */; };
+		2BDFF2D6224E498400C0D701 /* Arm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDFF2D3224E498400C0D701 /* Arm.swift */; };
+		2BDFF2D7224E498400C0D701 /* Sword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDFF2D4224E498400C0D701 /* Sword.swift */; };
+		3C28342B2251207F00A5BB9C /* monogram_extended.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3C28342A2251207F00A5BB9C /* monogram_extended.ttf */; };
+		3C28342D22512F3200A5BB9C /* 8bit Dungeon Boss Die.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 3C28342C22512F3200A5BB9C /* 8bit Dungeon Boss Die.mp3 */; };
 		3C2D677C224CF5CE00E22C4A /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2D6753224CF5CE00E22C4A /* GameViewController.swift */; };
 		3C2D677D224CF5CE00E22C4A /* InputController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2D6754224CF5CE00E22C4A /* InputController.swift */; };
 		3C2D6781224CF5CE00E22C4A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2D675B224CF5CE00E22C4A /* AppDelegate.swift */; };
@@ -16,15 +21,6 @@
 		3C2D6785224CF5CE00E22C4A /* Platform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2D6760224CF5CE00E22C4A /* Platform.swift */; };
 		3C2D6786224CF5CE00E22C4A /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 3C2D6761224CF5CE00E22C4A /* GameScene.sks */; };
 		3C2D6787224CF5CE00E22C4A /* Arm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2D6762224CF5CE00E22C4A /* Arm.swift */; };
-		2BDFF2D5224E498400C0D701 /* Pool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDFF2D2224E498400C0D701 /* Pool.swift */; };
-		2BDFF2D6224E498400C0D701 /* Arm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDFF2D3224E498400C0D701 /* Arm.swift */; };
-		2BDFF2D7224E498400C0D701 /* Sword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDFF2D4224E498400C0D701 /* Sword.swift */; };
-		3C2D677C224CF5CE00E22C4A /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2D6753224CF5CE00E22C4A /* GameViewController.swift */; };
-		3C2D677D224CF5CE00E22C4A /* InputController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2D6754224CF5CE00E22C4A /* InputController.swift */; };
-		3C2D6781224CF5CE00E22C4A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2D675B224CF5CE00E22C4A /* AppDelegate.swift */; };
-		3C2D6784224CF5CE00E22C4A /* Updatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2D675F224CF5CE00E22C4A /* Updatable.swift */; };
-		3C2D6785224CF5CE00E22C4A /* Platform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2D6760224CF5CE00E22C4A /* Platform.swift */; };
-		3C2D6786224CF5CE00E22C4A /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 3C2D6761224CF5CE00E22C4A /* GameScene.sks */; };
 		3C2D6788224CF5CE00E22C4A /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2D6763224CF5CE00E22C4A /* GameScene.swift */; };
 		3C2D6789224CF5CE00E22C4A /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2D6764224CF5CE00E22C4A /* Player.swift */; };
 		3C2D678A224CF5CE00E22C4A /* TileMapTower.sks in Resources */ = {isa = PBXBuildFile; fileRef = 3C2D6766224CF5CE00E22C4A /* TileMapTower.sks */; };
@@ -60,6 +56,7 @@
 		3C2D68E8224D681100E22C4A /* explosion.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 3C2D68E7224D681100E22C4A /* explosion.mp3 */; };
 		3C2D68EB224D683900E22C4A /* FlyingEnemyStates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2D68E9224D683900E22C4A /* FlyingEnemyStates.swift */; };
 		3C2D68EC224D683900E22C4A /* FlyingEnemy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2D68EA224D683900E22C4A /* FlyingEnemy.swift */; };
+		EC723C12224E99D6009FCB71 /* 8bit Dungeon Boss.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = EC723C11224E99D6009FCB71 /* 8bit Dungeon Boss.mp3 */; };
 		FCCABD30224E37D300339335 /* skull.atlas in Resources */ = {isa = PBXBuildFile; fileRef = FCCABD2F224E37D300339335 /* skull.atlas */; };
 /* End PBXBuildFile section */
 
@@ -67,6 +64,8 @@
 		2BDFF2D2224E498400C0D701 /* Pool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pool.swift; sourceTree = "<group>"; };
 		2BDFF2D3224E498400C0D701 /* Arm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Arm.swift; sourceTree = "<group>"; };
 		2BDFF2D4224E498400C0D701 /* Sword.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sword.swift; sourceTree = "<group>"; };
+		3C28342A2251207F00A5BB9C /* monogram_extended.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = monogram_extended.ttf; sourceTree = "<group>"; };
+		3C28342C22512F3200A5BB9C /* 8bit Dungeon Boss Die.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "8bit Dungeon Boss Die.mp3"; sourceTree = "<group>"; };
 		3C2D6732224CF4E400E22C4A /* ChallengeTower.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChallengeTower.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C2D6753224CF5CE00E22C4A /* GameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		3C2D6754224CF5CE00E22C4A /* InputController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputController.swift; sourceTree = "<group>"; };
@@ -78,9 +77,6 @@
 		3C2D6760224CF5CE00E22C4A /* Platform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Platform.swift; sourceTree = "<group>"; };
 		3C2D6761224CF5CE00E22C4A /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
 		3C2D6762224CF5CE00E22C4A /* Arm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Arm.swift; sourceTree = "<group>"; };
-		3C2D675F224CF5CE00E22C4A /* Updatable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Updatable.swift; sourceTree = "<group>"; };
-		3C2D6760224CF5CE00E22C4A /* Platform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Platform.swift; sourceTree = "<group>"; };
-		3C2D6761224CF5CE00E22C4A /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
 		3C2D6763224CF5CE00E22C4A /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		3C2D6764224CF5CE00E22C4A /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		3C2D6766224CF5CE00E22C4A /* TileMapTower.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = TileMapTower.sks; sourceTree = "<group>"; };
@@ -116,6 +112,7 @@
 		3C2D68E7224D681100E22C4A /* explosion.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = explosion.mp3; sourceTree = "<group>"; };
 		3C2D68E9224D683900E22C4A /* FlyingEnemyStates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlyingEnemyStates.swift; sourceTree = "<group>"; };
 		3C2D68EA224D683900E22C4A /* FlyingEnemy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlyingEnemy.swift; sourceTree = "<group>"; };
+		EC723C11224E99D6009FCB71 /* 8bit Dungeon Boss.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "8bit Dungeon Boss.mp3"; sourceTree = "<group>"; };
 		FCCABD2F224E37D300339335 /* skull.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = skull.atlas; path = Helpers/skull.atlas; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -130,6 +127,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3C2834292251207F00A5BB9C /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				3C28342A2251207F00A5BB9C /* monogram_extended.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		3C2D6729224CF4E400E22C4A = {
 			isa = PBXGroup;
 			children = (
@@ -180,13 +185,7 @@
 				3C2D675E224CF5CE00E22C4A /* Pool.swift */,
 				3C2D68EA224D683900E22C4A /* FlyingEnemy.swift */,
 				3C2D68E9224D683900E22C4A /* FlyingEnemyStates.swift */,
-				3C2D675F224CF5CE00E22C4A /* Updatable.swift */,
-				3C2D6760224CF5CE00E22C4A /* Platform.swift */,
-				3C2D6761224CF5CE00E22C4A /* GameScene.sks */,
 				3C2D6762224CF5CE00E22C4A /* Arm.swift */,
-				3C2D6763224CF5CE00E22C4A /* GameScene.swift */,
-				3C2D6764224CF5CE00E22C4A /* Player.swift */,
-				3C2D676A224CF5CE00E22C4A /* PhysicsDetection.swift */,
 				3C2D675F224CF5CE00E22C4A /* Updatable.swift */,
 				3C2D6760224CF5CE00E22C4A /* Platform.swift */,
 				3C2D6761224CF5CE00E22C4A /* GameScene.sks */,
@@ -214,6 +213,7 @@
 		3C2D676C224CF5CE00E22C4A /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				3C2834292251207F00A5BB9C /* Fonts */,
 				3C2D676D224CF5CE00E22C4A /* Extensions */,
 				3C2D6772224CF5CE00E22C4A /* Sounds */,
 				3C2D6773224CF5CE00E22C4A /* SKTAudio.swift */,
@@ -235,7 +235,9 @@
 		3C2D6772224CF5CE00E22C4A /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
+				3C28342C22512F3200A5BB9C /* 8bit Dungeon Boss Die.mp3 */,
 				3C2D67A7224D011F00E22C4A /* Cancel.mp3 */,
+				EC723C11224E99D6009FCB71 /* 8bit Dungeon Boss.mp3 */,
 				3C2D67A9224D011F00E22C4A /* damage.wav */,
 				3C2D67A5224D011F00E22C4A /* dash.mp3 */,
 				3C2D67A1224D011F00E22C4A /* die.wav */,
@@ -332,7 +334,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				3C2D67B6224D046E00E22C4A /* jump.wav in Resources */,
+				EC723C12224E99D6009FCB71 /* 8bit Dungeon Boss.mp3 in Resources */,
 				3C2D6786224CF5CE00E22C4A /* GameScene.sks in Resources */,
+				3C28342D22512F3200A5BB9C /* 8bit Dungeon Boss Die.mp3 in Resources */,
 				3C2D67AE224D011F00E22C4A /* ready.wav in Resources */,
 				FCCABD30224E37D300339335 /* skull.atlas in Resources */,
 				3C2D67B2224D011F00E22C4A /* gameOver.wav in Resources */,
@@ -343,6 +347,7 @@
 				3C2D67B4224D011F00E22C4A /* Select.wav in Resources */,
 				3C2D67AB224D011F00E22C4A /* die.wav in Resources */,
 				3C2D67B0224D011F00E22C4A /* stomp.wav in Resources */,
+				3C28342B2251207F00A5BB9C /* monogram_extended.ttf in Resources */,
 				3C2D67AF224D011F00E22C4A /* dash.mp3 in Resources */,
 				3C2D68E6224D67F300E22C4A /* soundtrack-test.mp3 in Resources */,
 				3C2D67A0224CFEFD00E22C4A /* LaunchScreen.storyboard in Resources */,
@@ -543,8 +548,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = JGG8YW8SJU;
-				DEVELOPMENT_TEAM = 6XYJN7S9JQ;
+				DEVELOPMENT_TEAM = 6H6ZL3JRAS;
 				INFOPLIST_FILE = ChallengeTower/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -565,8 +569,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = JGG8YW8SJU;
-				DEVELOPMENT_TEAM = 6XYJN7S9JQ;
+				DEVELOPMENT_TEAM = 6H6ZL3JRAS;
 				INFOPLIST_FILE = ChallengeTower/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

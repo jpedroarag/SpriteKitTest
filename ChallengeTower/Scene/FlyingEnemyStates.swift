@@ -9,13 +9,21 @@
 import SpriteKit
 import GameplayKit
 
-class IdleState: GKState {
+class IdleState: GKState, SKPhysicsContactDelegate {
     var enemy: FlyingEnemy
 
     init(enemyNode: FlyingEnemy) {
         self.enemy = enemyNode
+//        enemy.physicsBody?.velocity.dx = -10
+        
+        
     }
 
+//    func didBegin(_ contact: SKPhysicsContact) {
+//        if contact.bodyA.contactTestBitMask == ColliderType.wall{
+//            enemy.physicsBody?.velocity.dx = (enemy.physicsBody?.velocity.dx)! * -1
+//        }
+//    }
     override func didEnter(from previousState: GKState?) {
         // trocar para animacao parado
     }
@@ -31,9 +39,9 @@ class HuntingState: GKState {
 
         let atlas = SKTextureAtlas(named: "skull")
         var frames = [SKTexture]()
-
+//
         for i in 1...atlas.textureNames.count {
-            let textureName = "skull\(i)"
+            let textureName = "demonIdle\(i)"
             frames.append(atlas.textureNamed(textureName))
         }
 

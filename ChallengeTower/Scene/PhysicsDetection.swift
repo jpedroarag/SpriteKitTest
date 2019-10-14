@@ -35,8 +35,10 @@ class PhysicsDetection: NSObject, SKPhysicsContactDelegate {
         //if the collision was between player and ground
         if collision == ColliderType.player | ColliderType.ground {
             if let player = contact.bodyA.node as? Player {
+                player.endStomp()
                 player.ground()
             } else if let player = contact.bodyB.node as? Player{
+                player.endStomp()
                 player.ground()
             }
         }
@@ -58,6 +60,7 @@ class PhysicsDetection: NSObject, SKPhysicsContactDelegate {
         if collision == ColliderType.player | ColliderType.platform {
             let action = { (player: Player, platform: Platform) in
                 if player.position.y > platform.sprite.position.y {
+                    player.endStomp()
                     player.ground()
                 }
             }
@@ -78,6 +81,18 @@ class PhysicsDetection: NSObject, SKPhysicsContactDelegate {
             }
         }
         
+        if collision == ColliderType.wall | ColliderType.hazard{
+            if let enemy =  contact.bodyA.node as? FlyingEnemy{
+                enemy.velocity *= -1
+                enemy.xScale *= -1
+                
+            }
+            else if let enemy = contact.bodyB.node as? FlyingEnemy{
+                enemy.velocity *= -1
+                enemy.xScale *= -1
+            }
+        }
+
         if collision == ColliderType.player | ColliderType.door {
             if let player = contact.bodyA.node as? Player {
                 let scene = player.scene as? GameScene
@@ -89,10 +104,23 @@ class PhysicsDetection: NSObject, SKPhysicsContactDelegate {
         }
         
         if collision == ColliderType.sword | ColliderType.hazard {
-            if let enemy = contact.bodyA.node as? FlyingEnemy {
+            if let enemy = contact.bodyA.node as? FlyingEnemy,
+                let sword = contact.bodyB.node as? Sword {
                 enemy.die()
-            } else if let enemy = contact.bodyB.node as? FlyingEnemy {
+                sword.removeFromParent()
+            } else if let enemy = contact.bodyB.node as? FlyingEnemy,
+                let sword = contact.bodyA.node as? Sword {
                 enemy.die()
+                sword.removeFromParent()
+            }
+        }
+        
+        if (collision == ColliderType.sword | ColliderType.ground)
+        || (collision == ColliderType.sword | ColliderType.platform) {
+            if let sword = contact.bodyA.node as? Sword {
+                sword.physicsBody?.contactTestBitMask = ColliderType.sword
+            } else if let sword = contact.bodyB.node as? Sword {
+                sword.physicsBody?.contactTestBitMask = ColliderType.sword
             }
         }
         

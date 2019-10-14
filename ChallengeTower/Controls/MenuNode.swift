@@ -11,27 +11,39 @@ import SpriteKit
 class MenuNode: SKNode {
     
     var label: SKLabelNode!
+    var sublabel: SKLabelNode!
     var startButton: VirtualButton!
     var background: SKSpriteNode!
     
     init(addTo scene: SKScene) {
         super.init()
         
-        background = SKSpriteNode(texture: nil, color: .white, size: scene.view!.frame.size)
-        background.alpha = 0.9
+        background = SKSpriteNode(texture: SKTexture(imageNamed: "menuBackground"), color: .clear, size: scene.view!.frame.size)
+        background.position = .zero
         addChild(background)
+        background.zPosition = 1
         
-        let texture = SKTexture(imageNamed: "Start")
-        startButton = VirtualButton(texture: texture, color: .red, size: .from(100), position: .zero)
+        startButton = VirtualButton(texture: nil, color: .black, size: background.size, position: background.position)
+        startButton.alpha = 0.5
         addChild(startButton)
+        startButton.zPosition = 2
         
-        label = SKLabelNode(text: "Press to start the game")
-        label.fontSize = startButton.size.width/2
-        label.fontColor = .black
+        label = SKLabelNode(text: "Press anywhere to start")
+        label.fontSize = 50
+        label.fontColor = .white
+        label.fontName = "MonogramExtended"
+        label.verticalAlignmentMode = .center
         addChild(label)
+        label.zPosition = 3
         
-        startButton.position.y -= startButton.size.height/4 + 8
-        label.position.y += startButton.size.height/4 + 8
+        sublabel = SKLabelNode(fontNamed: "MonogramExtended")
+        sublabel.fontSize = 40
+        sublabel.text = "Press anywhere to try again"
+        sublabel.fontColor = .white
+        sublabel.verticalAlignmentMode = .center
+        label.addChild(sublabel)
+        sublabel.position.y -= label.fontSize
+        sublabel.isHidden = true
         
         scene.addChild(self)
         zPosition = 100

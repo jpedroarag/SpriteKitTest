@@ -12,7 +12,7 @@ import SpriteKit
 class GameScene: SKScene {
 
     var player: Player!
-    var enemy: FlyingEnemy!
+    var enemies: [FlyingEnemy] = []
     private var updatables = [Updatable]()
     let physicsDelegate = PhysicsDetection()
     var gravityField: SKFieldNode!
@@ -23,57 +23,73 @@ class GameScene: SKScene {
     var tilemapObject = ProceduralTileMap.init()
     var menu: MenuNode!
     var cameraNew : SKCameraNode!
+    
     override func didMove(to view: SKView) {
-        
         initialGame(view: view)
-
     }
+    
     func initialGame(view: SKView) {
         anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        print("Primeiro")
-        view.showsPhysics = true
+        
+//        view.showsPhysics = true
         physicsWorld.contactDelegate = physicsDelegate
         addGravity()
-        tilemap = tilemapObject.createTileMap(tileSet: "TileSet", columns: 50, rows: 20, widthTile: 32, heightTile: 32)
+        tilemap = tilemapObject.createTileMap(tileSet: "TileSet", columns: 50, rows: 150, widthTile: 32, heightTile: 32)
         scene?.addChild(tilemap)
         
         tilemapObject.givTileMapPhysicsBody(tileMap: tilemap, viewNode: scene!)
         
         player = Player(addToView: self)
-        enemy = FlyingEnemy(view: self, target: player)
-       
         player.combatValues.isDead = true
+        
         menu = MenuNode(addTo: self)
         menu.position = .zero
         menu.startButton.addAction(action: {
             self.menu.isHidden = true
             self.player.combatValues.resetToInitialState()
+            let x = -self.tilemap.mapSize.width/2 + self.tilemap.tileSize.width * 3
+            let y = -self.tilemap.mapSize.height/2 + self.tilemap.tileSize.height * 1
+            self.player.position = CGPoint(x: x, y: y)
+//            for i in 0 ... 50 { self.enemies[i].position = CGPoint(x: self.size.width - 120, y: CGFloat((300 * i) + (50 - i))) }
+            for i in 0 ... 50 { self.enemies[i].position = CGPoint(x: CGFloat(Int.random(in: 0...10) * -i), y: CGFloat((Int.random(in: 0...40) * i) + (Int.random(in: 50...100) - i * Int.random(in: 0...50)))) }
         }, type: .began)
+        
         setupCamera()
         
         if view.scene != nil {
             inputController = InputController(view: view, player: player, addTo: self.camera!)
         }
         
-        
-        player.position = CGPoint(x: 5, y: Int(-tilemap.frame.height/2) + 472)
-        // 4
-        enemy.position = CGPoint(x: self.size.width - 50, y: 30)
-        
+        let x = -self.tilemap.mapSize.width/2 + self.tilemap.tileSize.width * 3
+        let y = -self.tilemap.mapSize.height/2 + self.tilemap.tileSize.height * 1
+        player.position = CGPoint(x: x, y: y)
+
         updatables.append(inputController)
         updatables.append(player)
-        updatables.append(enemy)
         
+        for i in 0 ... 50 {
+            enemies.append(FlyingEnemy(view: self, target: player))
+            enemies[i].position = CGPoint(x: self.size.width - 120, y: CGFloat((300 * i) + (50 - i)))
+            updatables.append(enemies[i])
+        }
+//        enemy = FlyingEnemy(view: self, target: player)
+//        enemy.position = CGPoint(x: self.size.width - 120, y: 30)
+//        updatables.append(enemy)
+
         // Toca uma música de background
-        SKTAudio.sharedInstance().playBackgroundMusic("soundtrack-test.mp3")
+        SKTAudio.sharedInstance().playBackgroundMusic("8bit Dungeon Boss.mp3")
         colidion = 0
-        
+
     }
     
     func showMenu() {
+        SKTAudio.sharedInstance().playBackgroundMusic("8bit Dungeon Boss Die.mp3")
         menu.isHidden = false
-        menu.label.text = "Oh, you died... 😞"
-        menu.startButton.texture = SKTexture(imageNamed: "Restart")
+        menu.label.text = "Oh no! You died... 💀"
+        menu.sublabel.isHidden = false
+        if menu.startButton.touchActions.onTouchBegan.count < 2 {
+            menu.startButton.addAction(action: { SKTAudio.sharedInstance().playBackgroundMusic("8bit Dungeon Boss.mp3") }, type: .began)            
+        }
     }
 
     func addGravity() {
@@ -96,7 +112,6 @@ class GameScene: SKScene {
             initialGame(view: self.view!)
             colidion = 1
         }
-      
     }
 
     override func update(_ currentTime: TimeInterval) {
